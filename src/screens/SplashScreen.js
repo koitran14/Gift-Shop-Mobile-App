@@ -14,7 +14,6 @@ export default function SplashScreen() {
     return <AppLoading/>
   }
 
-
   return (
     <View style={styles.container}>
       <StatusBar 
