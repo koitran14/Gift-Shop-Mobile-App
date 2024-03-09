@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Colors, Images, Fonts } from '../contants';
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading';
+import { Display } from '../utils';
 
 export default function SplashScreen() {
   let [fontsLoaded] = useFonts({
@@ -39,8 +40,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.DEFAULT_GREEN,
   },
   image: {
-    height: 150,
-    width: 150,
+    height: Display.setHeight(30),
+    width: Display.setWidth(60),
   },
   titleText: {
     color: Colors.DEFAULT_WHITE,
