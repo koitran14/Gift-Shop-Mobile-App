@@ -1,27 +1,36 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Colors, Images, Fonts } from '../contants';
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading';
+import { Display } from '../utils';
 
-export default function SplashScreen() {
-  let [fontsLoaded] = useFonts({
-    'Poppins-Thin': require('../../assets/fonts/Poppins-Thin.ttf')
-  })
+const SplashScreen = ({ navigation }) => {
+  // let [fontsLoaded] = useFonts({
+  //   'Poppins-Thin': require('../../assets/fonts/Poppins-Thin.ttf')
+  // })
 
-  if (!fontsLoaded) {
-    return <AppLoading/>
-  }
+  // if (!fontsLoaded) {
+  //   return <AppLoading/>
+  // }
+
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.navigate('Welcome');
+    }, 1500)
+
+  }, []);
+
 
   return (
     <View style={styles.container}>
-      <StatusBar 
+      <StatusBar
         barStyle='light-content'
         backgroundColor={Colors.DEFAULT_GREEN}
         translucent
       />
-      <Image 
+      <Image
         source={Images.GIFT}
         resizeMode='contain'
         style={styles.image}
@@ -39,8 +48,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.DEFAULT_GREEN,
   },
   image: {
-    height: 150,
-    width: 150,
+    height: Display.setHeight(30),
+    width: Display.setWidth(60),
   },
   titleText: {
     color: Colors.DEFAULT_WHITE,
@@ -48,3 +57,6 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.POPPINS_THIN,
   }
 });
+
+
+export default SplashScreen;
