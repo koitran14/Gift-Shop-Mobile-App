@@ -31,7 +31,7 @@ const Pagination = ({ index }) => {
   );
 };
 
-const WelcomeScreen = () => {
+const WelcomeScreen = ({navigation}) => {
   const [welcomeListIndex, setWelcomeListIndex] = useState(0);
   const welcomeList = useRef();
   const onViewRef = useRef(({ changed }) => {
@@ -56,7 +56,7 @@ const WelcomeScreen = () => {
       <Separator height={Display.setHeight(8)} />
       <View style={styles.welcomeListContainer}>
         <FlatList
-          ref={welcomeList}
+          r ef={welcomeList}
           data={General.WELCOME_CONTENTS}
           keyExtractor={item => item.title}
           horizontal
@@ -76,7 +76,7 @@ const WelcomeScreen = () => {
         <TouchableOpacity
           style={styles.gettingStartedButton}
           activeOpacity={0.8}
-          onPress={() => navigate()}>
+          onPress={() => navigation.navigate('Signin')}>
           <Text style={styles.gettingStartedButtonText}>Get Started</Text>
         </TouchableOpacity>
       ) : (
