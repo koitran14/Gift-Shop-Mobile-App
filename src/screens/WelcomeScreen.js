@@ -56,7 +56,7 @@ const WelcomeScreen = ({navigation}) => {
       <Separator height={Display.setHeight(8)} />
       <View style={styles.welcomeListContainer}>
         <FlatList
-          r ef={welcomeList}
+          ref={welcomeList}
           data={General.WELCOME_CONTENTS}
           keyExtractor={item => item.title}
           horizontal
