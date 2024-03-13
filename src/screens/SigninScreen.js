@@ -10,19 +10,21 @@ import {Display} from '../utils';
 const SigninScreen = ({navigation}) => {
   const [isPasswordShow, setIsPasswordShow] =  useState(false);
   return (
-    <View style={styles.container} >
-  <StatusBar BarStyle="dark-content" backgroundColor={Colors.DEFAULT_WHITE}
-    translucent
-    />    
-  <Separator height={StatusBar.currentHeight} />
+    <View style={styles.container}>
+    <StatusBar
+      barStyle="dark-content"
+      backgroundColor={Colors.DEFAULT_WHITE}
+      translucent
+    />
+    <Separator height={StatusBar.currentHeight} />
     <View style={styles.headerContainer}>
-    <Ionicons 
-      name="chevron-back-outline" 
-        size={30} 
-        onPress={() => navigation.goBack()} 
-        />
-    <Text style={styles.headerTitle}>Sign in</Text>
-        </View>
+      <Ionicons
+        name="chevron-back-outline"
+        size={30}
+        onPress={() => navigation.goBack()}
+      />
+    <Text style={styles.headerTitle}>Sign In</Text>
+    </View>
           <Text style={styles.title}>Welcome</Text>
           <Text style={styles.content}>Enter your username and password, enjoy choosing your gifts</Text>
           <View style={styles.inputContainer}>
@@ -116,16 +118,16 @@ const SigninScreen = ({navigation}) => {
 
 const styles = StyleSheet.create(
 {
-    container:{
-        flex:1 ,
+      container: {
+        flex: 1,
         backgroundColor: Colors.DEFAULT_WHITE,
-    },
-    headerContainer: {
-        flexDirection: 'rows',
+      },
+      headerContainer: {
+        flexDirection: 'row',
         alignItems: 'center',
-        paddingVeritcal:10,
-        paddingHorizontal:20,
-    },
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+      },
     headerTitle: {
         fontSize:20,
         lineHeight: 20*1.4,
