@@ -90,7 +90,7 @@ return (
       </View>
     </View>
   
-    <TouchableOpacity style={styles.signinButton} >
+    <TouchableOpacity style={styles.signinButton} onPress={() => navigation.navigate("RegisterPhone")}>
     
         <Text style={styles.signinButtonText}>Create Account</Text>
     
