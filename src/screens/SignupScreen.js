@@ -78,7 +78,7 @@ return (
           placeholderTextColor={Colors.DEFAULT_GREY}
           selectionColor={Colors.DEFAULT_GREY}
           style={styles.inputText}
-          onChangeText={text => setPassword(text)}
+          
         />
         <Feather
           name={isPasswordShow ? 'eye' : 'eye-off'}
@@ -101,7 +101,7 @@ return (
         <View style={styles.signinButtonLogoContainer}>
           <Image source={Images.FACEBOOK} style={styles.signinButtonLogo} />
         </View>
-        <Text style={styles.socialSigninButtonText}>Connect with Facebookn</Text>
+        <Text style={styles.socialSigninButtonText}>Connect with Facebook</Text>
       </View>
     </TouchableOpacity>
     <TouchableOpacity style={styles.googleButton}>
