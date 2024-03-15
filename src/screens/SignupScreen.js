@@ -1,119 +1,146 @@
-import React, {useState} from 'react';
-import { View, Text, StyleSheet, StatusBar, TextInput, TouchableOpacity, Image,} from 'react-native';
-import {Colors, Fonts, Images} from '../contants';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, StatusBar, TextInput, TouchableOpacity, Image, } from 'react-native';
+import { Colors, Fonts, Images } from '../contants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Separator} from '../components';
-import {Display} from '../utils';
+import { Separator } from '../components';
+import { Display } from '../utils';
 import Feather from 'react-native-vector-icons/Feather';
+import { AuthenticationService } from '../services';
 
 
-const SignupScreen = ({navigation}) => {
-const [isPasswordShow, setIsPasswordShow] = useState(false);
+const SignupScreen = ({ navigation }) => {
+  const [isPasswordShow, setIsPasswordShow] = useState(false);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessages, setErrorMessages] = useState('');
 
-return (
-  <View style={styles.container}>
-    <StatusBar
-      barStyle="dark-content"
-      backgroundColor={Colors.DEFAULT_WHITE}
-      translucent
-    />
-    <Separator height={StatusBar.currentHeight} />
-    <View style={styles.headerContainer}>
-      <Ionicons
-        name="chevron-back-outline"
-        size={30}
-        onPress={() => navigation.goBack()}
+  const register = () => {
+    let user = {
+      username: username,
+      email: email,
+      password: password,
+    };
+    console.log(user);
+    AuthenticationService.register(user)
+      .then((response) => {
+        console.log(response);
+        if(!response?.status){
+          setErrorMessages(response?.message);
+        }
+      });
+    // navigation.navigate("RegisterPhone");
+  };
+
+  return (
+    <View style={styles.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={Colors.DEFAULT_WHITE}
+        translucent
       />
-      <Text style={styles.headerTitle}>Sign Up</Text>
-    </View>
-    <Text style={styles.title}>Create Account</Text>
-    <Text style={styles.content}>
-      Enter your email, choose a username and password
-    </Text>
-    <View style={styles.inputContainer}>
-      <View style={styles.inputSubContainer}>
-        <Feather
-          name="user"
-          size={22}
-          color={Colors.DEFAULT_GREY}
-          style={{marginRight: 10}}
+      <Separator height={StatusBar.currentHeight} />
+      <View style={styles.headerContainer}>
+        <Ionicons
+          name="chevron-back-outline"
+          size={30}
+          onPress={() => navigation.goBack()}
         />
-        <TextInput
-          placeholder="Username"
-          placeholderTextColor={Colors.DEFAULT_GREY}
-          selectionColor={Colors.DEFAULT_GREY}
-          style={styles.inputText}
-        />
+        <Text style={styles.headerTitle}>Sign Up</Text>
       </View>
-    </View>
-    
-    <View style={styles.inputContainer}>
-      <View style={styles.inputSubContainer}>
-        <Feather
-          name="mail"
-          size={22}
-          color={Colors.DEFAULT_GREY}
-          style={{marginRight: 10}}
-        />
-        <TextInput
-          placeholder="Email"
-          placeholderTextColor={Colors.DEFAULT_GREY}
-          selectionColor={Colors.DEFAULT_GREY}
-          style={styles.inputText}
-        />
+      <Text style={styles.title}>Create Account</Text>
+      <Text style={styles.content}>
+        Enter your email, choose a username and password
+      </Text>
+      <View style={styles.inputContainer}>
+        <View style={styles.inputSubContainer}>
+          <Feather
+            name="user"
+            size={22}
+            color={Colors.DEFAULT_GREY}
+            style={{ marginRight: 10 }}
+          />
+          <TextInput
+            placeholder="Username"
+            placeholderTextColor={Colors.DEFAULT_GREY}
+            selectionColor={Colors.DEFAULT_GREY}
+            style={styles.inputText}
+            onChangeText={(text) => setUsername(text)}
+          />
+        </View>
       </View>
-    </View>
-  
-    <View style={styles.inputContainer}>
-      <View style={styles.inputSubContainer}>
-        <Feather
-          name="lock"
-          size={22}
-          color={Colors.DEFAULT_GREY}
-          style={{marginRight: 10}}
-        />
-        <TextInput
-          secureTextEntry={isPasswordShow?false : true}
-          placeholder="Password"
-          placeholderTextColor={Colors.DEFAULT_GREY}
-          selectionColor={Colors.DEFAULT_GREY}
-          style={styles.inputText}
-          
-        />
-        <Feather
-          name={isPasswordShow ? 'eye' : 'eye-off'}
-          size={22}
-          color={Colors.DEFAULT_GREY}
-          style={{marginRight: 10}}
-          onPress={() => setIsPasswordShow(!isPasswordShow)}
-        />
+
+      <View style={styles.inputContainer}>
+        <View style={styles.inputSubContainer}>
+          <Feather
+            name="mail"
+            size={22}
+            color={Colors.DEFAULT_GREY}
+            style={{ marginRight: 10 }}
+          />
+          <TextInput
+            placeholder="Email"
+            placeholderTextColor={Colors.DEFAULT_GREY}
+            selectionColor={Colors.DEFAULT_GREY}
+            style={styles.inputText}
+            onChangeText={(text) => setEmail(text)}
+          />
+        </View>
       </View>
-    </View>
-  
-    <TouchableOpacity style={styles.signinButton} onPress={() => navigation.navigate("RegisterPhone")}>
-    
+
+      <View style={styles.inputContainer}>
+        <View style={styles.inputSubContainer}>
+          <Feather
+            name="lock"
+            size={22}
+            color={Colors.DEFAULT_GREY}
+            style={{ marginRight: 10 }}
+          />
+          <TextInput
+            secureTextEntry={isPasswordShow ? false : true}
+            placeholder="Password"
+            placeholderTextColor={Colors.DEFAULT_GREY}
+            selectionColor={Colors.DEFAULT_GREY}
+            style={styles.inputText}
+            onChangeText={(text) => setPassword(text)}
+
+          />
+          <Feather
+            name={isPasswordShow ? 'eye' : 'eye-off'}
+            size={22}
+            color={Colors.DEFAULT_GREY}
+            style={{ marginRight: 10 }}
+            onPress={() => setIsPasswordShow(!isPasswordShow)}
+          />
+        </View>
+      </View>
+
+      <Text style={styles.errorMessages}>{errorMessages}</Text>
+
+      <TouchableOpacity style={styles.signinButton} onPress={() => register()}>
+
         <Text style={styles.signinButtonText}>Create Account</Text>
-    
-    </TouchableOpacity>
-    <Text style={styles.orText}>OR</Text>
-    <TouchableOpacity style={styles.facebookButton}>
-      <View style={styles.socialButtonsContainer}>
-        <View style={styles.signinButtonLogoContainer}>
-          <Image source={Images.FACEBOOK} style={styles.signinButtonLogo} />
+
+      </TouchableOpacity>
+      <Text style={styles.orText}>OR</Text>
+      <TouchableOpacity style={styles.facebookButton}>
+        <View style={styles.socialButtonsContainer}>
+          <View style={styles.signinButtonLogoContainer}>
+            <Image source={Images.FACEBOOK} style={styles.signinButtonLogo} />
+          </View>
+          <Text style={styles.socialSigninButtonText}>Connect with Facebook</Text>
         </View>
-        <Text style={styles.socialSigninButtonText}>Connect with Facebook</Text>
-      </View>
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.googleButton}>
-      <View style={styles.socialButtonsContainer}>
-        <View style={styles.signinButtonLogoContainer}>
-          <Image source={Images.GOOGLE} style={styles.signinButtonLogo} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.googleButton}>
+        <View style={styles.socialButtonsContainer}>
+          <View style={styles.signinButtonLogoContainer}>
+            <Image source={Images.GOOGLE} style={styles.signinButtonLogo} />
+          </View>
+          <Text style={styles.socialSigninButtonText}>Connect with Google</Text>
         </View>
-        <Text style={styles.socialSigninButtonText}>Connect with Google</Text>
-      </View>
-    </TouchableOpacity>
-  </View>
-);
+      </TouchableOpacity>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -234,7 +261,14 @@ const styles = StyleSheet.create({
     height: 18,
     width: 18,
   },
-
+  errorMessages: {
+    marginTop: 10,
+    color: Colors.DEFAULT_RED,
+    fontSize: 15,
+    lineHeight: 15 * 1.4,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+    marginHorizontal: 20,
+  },
 });
 
 export default SignupScreen;
