@@ -27,7 +27,7 @@ const register = async (user) => {
         console.log(error);
         return {
             status: false,
-            message: "Something Went Wrong"
+            message: error
         };
     }
 }
