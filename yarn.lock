@@ -3633,7 +3633,7 @@ expo-status-bar@~1.11.1:
   resolved "https://registry.npmjs.org/expo-status-bar/-/expo-status-bar-1.11.1.tgz"
   integrity sha512-ddQEtCOgYHTLlFUe/yH67dDBIoct5VIULthyT3LRJbEwdpzAgueKsX2FYK02ldh440V87PWKCamh7R9evk1rrg==
 
-expo@~50.0.13:
+expo@^50.0.13:
   version "50.0.13"
   resolved "https://registry.yarnpkg.com/expo/-/expo-50.0.13.tgz#fac1ba0dd002598bc90bda3657b69aea55119f94"
   integrity sha512-p0FYrhUJZe92YOwOXx6GZ/WaxF6YtsLXtWkql9pFIIocYBN6iQ3OMGsbQCRSu0ao8rlxsk7HgQDEWK4D+y9tAg==
