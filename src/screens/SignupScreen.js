@@ -17,13 +17,13 @@ const SignupScreen = ({ navigation }) => {
 
   const register = () => {
     let user = {
-      username: username,
-      email: email,
-      password: password,
+      username,
+      email,
+      password,
     };
     console.log(user);
     AuthenticationService.register(user)
-      .then((response) => {
+      .then(response => {
         console.log(response);
         if(!response?.status){
           setErrorMessages(response?.message);
