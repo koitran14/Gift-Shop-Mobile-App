@@ -10,6 +10,7 @@ import {Display} from '../utils';
 const SigninScreen = ({navigation}) => {
   const [isPasswordShow, setIsPasswordShow] =  useState(false);
   return (
+    
     <View style={styles.container}>
     <StatusBar
       barStyle="dark-content"
@@ -25,7 +26,7 @@ const SigninScreen = ({navigation}) => {
       />
     <Text style={styles.headerTitle}>Sign In</Text>
     </View>
-    
+
 
           <Text style={styles.title}>Welcome</Text>
           <Text style={styles.content}>Enter your email and password</Text>
@@ -78,7 +79,7 @@ const SigninScreen = ({navigation}) => {
           </View>
 
 
-          
+        
           <Text></Text>
           <View style={styles.forgotPasswordContainer}>
 
@@ -109,28 +110,26 @@ const SigninScreen = ({navigation}) => {
         
 
 
-
-
-
-          <Text  style={styles.orText}>OR</Text>
-
-          <TouchableOpacity  style={styles.facebookButton}>
-              <View  style={styles.socialButtonsContainer}>
-                  <View style={styles.signinButtonLogoContainer}> 
-                    <Image source={Images.FACEBOOK} style={styles.signinButtonLogo}   />
-                  </View>
-                  <Text>Connect with Facebook</Text>
-              </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.googleButton} >
-              <View style={styles.socialButtonsContainer}>
-                  <View style={styles.signinButtonLogoContainer}> 
-                      <Image source={Images.GOOGLE} style={styles.signinButtonLogo}/>
-                  </View>
-                  <Text>Connect with Google</Text>
-              </View>
-          </TouchableOpacity>
-  </View>
+    
+          <Text style={styles.orText}>OR</Text>
+      <TouchableOpacity style={styles.facebookButton}>
+        <View style={styles.socialButtonsContainer}>
+          <View style={styles.signinButtonLogoContainer}>
+            <Image source={Images.FACEBOOK} style={styles.signinButtonLogo} />
+          </View>
+          <Text style={styles.socialSigninButtonText}>Connect with Facebook</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.googleButton}>
+        <View style={styles.socialButtonsContainer}>
+          <View style={styles.signinButtonLogoContainer}>
+            <Image source={Images.GOOGLE} style={styles.signinButtonLogo} />
+          </View>
+          <Text style={styles.socialSigninButtonText}>Connect with Google</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+    
   );
   };
 
@@ -200,7 +199,6 @@ logIn: {
   fontSize: 40,
   width: 350,
   height:60,
-  fontFamily: "Roboto-Bold",
   fontWeight: "700",
 
   },
@@ -281,13 +279,13 @@ logIn: {
         marginLeft: 5,
       },
     orText: {
-        fontSize: 15,
-        lineHeight: 15 * 1.4,
-        color: Colors.DEFAULT_BLACK,
-        fontFamily: Fonts.POPPINS_MEDIUM,
-        marginVertical: 10,
-        marginLeft: 5,
-        alignSelf: 'center',
+      fontSize: 15,
+      lineHeight: 15 * 1.4,
+      color: Colors.DEFAULT_BLACK,
+      fontFamily: Fonts.POPPINS_MEDIUM,
+      marginLeft: 5,
+      alignSelf: 'center',
+      marginTop: 20,
       },
     facebookButton: {
         backgroundColor: '#749AFA', 
@@ -324,10 +322,10 @@ logIn: {
         width: '100%',
       },
     socialSigninButtonText: {
-        color: Colors.DEFAULT_WHITE,
-        fontSize: 13,
-        lineHeight: 13 * 1.4,
-        fontFamily: Fonts.POPPINS_MEDIUM,
+      color: Colors.DEFAULT_BLACK,
+      fontSize: 13,
+      lineHeight: 13 * 1.4,
+      fontFamily: Fonts.POPPINS_MEDIUM,
       },
     toggleContainer: {
         flexDirection: 'row',
@@ -342,6 +340,9 @@ logIn: {
         marginTop: 3,
         marginBottom: 10,
       },    
+
+  
+
 }
 );
 

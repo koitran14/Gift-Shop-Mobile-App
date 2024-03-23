@@ -48,10 +48,16 @@ const SignupScreen = ({ navigation }) => {
         />
         <Text style={styles.headerTitle}>Sign Up</Text>
       </View>
-      <Text style={styles.title}>Create Account</Text>
+    
       <Text style={styles.content}>
-        Enter your email, choose a username and password
+        Enter your email, choose a password
       </Text>
+
+      <View style={styles.frameParent}>
+<View style={styles.frameGroup}>
+<Text style={[styles.logIn, styles.logInFlexBox]}>{` Sign up`}</Text>
+          
+
       <View style={styles.inputContainer}>
         <View style={styles.inputSubContainer}>
           <Feather
@@ -61,7 +67,7 @@ const SignupScreen = ({ navigation }) => {
             style={{ marginRight: 10 }}
           />
           <TextInput
-            placeholder="Username"
+            placeholder="Email address"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
@@ -69,6 +75,7 @@ const SignupScreen = ({ navigation }) => {
           />
         </View>
       </View>
+      <Separator height={15} />
 
       <View style={styles.inputContainer}>
         <View style={styles.inputSubContainer}>
@@ -79,7 +86,7 @@ const SignupScreen = ({ navigation }) => {
             style={{ marginRight: 10 }}
           />
           <TextInput
-            placeholder="Email"
+            placeholder="Password"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
@@ -87,6 +94,7 @@ const SignupScreen = ({ navigation }) => {
           />
         </View>
       </View>
+      <Separator height={15} />
 
       <View style={styles.inputContainer}>
         <View style={styles.inputSubContainer}>
@@ -98,7 +106,7 @@ const SignupScreen = ({ navigation }) => {
           />
           <TextInput
             secureTextEntry={isPasswordShow ? false : true}
-            placeholder="Password"
+            placeholder="Confirm Password"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
@@ -118,10 +126,20 @@ const SignupScreen = ({ navigation }) => {
       <Text style={styles.errorMessages}>{errorMessages}</Text>
 
       <TouchableOpacity style={styles.signinButton} onPress={() => register()}>
-
         <Text style={styles.signinButtonText}>Create Account</Text>
-
       </TouchableOpacity>
+
+      <View style={styles.signupContainer}>
+              <Text style={styles.accountText}>Already have an account?</Text>
+              <Text  
+              style={styles.signupText}
+              onPress={() => navigation.navigate('Signin')}
+              >
+                Sign in</Text>
+                </View>
+      </View>
+          </View>
+
       <Text style={styles.orText}>OR</Text>
       <TouchableOpacity style={styles.facebookButton}>
         <View style={styles.socialButtonsContainer}>
@@ -146,13 +164,44 @@ const SignupScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.DEFAULT_WHITE,
+    backgroundColor: 'linear-gradient(90deg, rgba(231, 192, 248, 0.70) 0%, rgba(188, 204, 243, 0.70) 100%)',
   },
+
+  frameParent: {
+    backgroundColor: "#fff",
+    width: 359,
+    height: 380,
+    marginLeft:28,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    },
+
+
+    frameGroup: {
+      height: 320,
+      borderRadius: 30
+      },
+  
+  logInFlexBox: {
+    textAlign: "left",
+    lineHeight: 40,
+    marginLeft: 15,
+    color: "#000",
+    },
+    
+    logIn: {
+      fontSize: 40,
+      width: 350,
+      height: 60,
+      fontWeight: "700",
+      },
+
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 30,
+    paddingHorizontal: 10,
   },
   headerTitle: {
     fontSize: 20,
@@ -181,7 +230,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginHorizontal: 20,
     borderRadius: 8,
-    borderWidth: 0.5,
+    borderWidth: 0.3,
     borderColor: Colors.LIGHT_GREY2,
     justifyContent: 'center',
   },
@@ -198,18 +247,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   signinButton: {
-    backgroundColor: Colors.DEFAULT_GREEN,
-    borderRadius: 8,
+    backgroundColor: 'linear-gradient(90deg, rgba(231, 192, 248, 0.70) 0%, rgba(188, 204, 243, 0.70) 100%)',
+    borderRadius: 30,
     marginHorizontal: 20,
     height: Display.setHeight(6),
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: -5,
   },
   signinButtonText: {
     fontSize: 18,
     lineHeight: 18 * 1.4,
-    color: Colors.DEFAULT_WHITE,
+    color: Colors.DEFAULT_BLACK,
     fontFamily: Fonts.POPPINS_MEDIUM,
   },
   orText: {
@@ -222,16 +271,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   facebookButton: {
-    backgroundColor: Colors.FABEBOOK_BLUE,
+    backgroundColor: '#749AFA', 
     paddingVertical: 15,
     marginHorizontal: 20,
-    borderRadius: 8,
+    borderRadius: 10,
     marginVertical: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
   googleButton: {
-    backgroundColor: Colors.GOOGLE_BLUE,
+    backgroundColor: '#EF8686',
     paddingVertical: 15,
     marginHorizontal: 20,
     borderRadius: 8,
@@ -245,7 +294,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   socialSigninButtonText: {
-    color: Colors.DEFAULT_WHITE,
+    color: Colors.DEFAULT_BLACK,
     fontSize: 13,
     lineHeight: 13 * 1.4,
     fontFamily: Fonts.POPPINS_MEDIUM,
@@ -269,6 +318,28 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.POPPINS_MEDIUM,
     marginHorizontal: 20,
   },
+
+  signupContainer: {
+    marginHorizontal: 20,
+    justifyContent: 'center',
+    paddingVertical: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  accountText: {
+    fontSize: 13,
+    lineHeight: 13 * 1.4,
+    color: Colors.DEFAULT_BLACK,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+  },
+  signupText: {
+    fontSize: 13,
+    lineHeight: 13 * 1.4,
+    color: Colors.DEFAULT_GREEN,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+    marginLeft: 5,
+  },
+
 });
 
 export default SignupScreen;
