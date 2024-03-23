@@ -25,8 +25,15 @@ const SigninScreen = ({navigation}) => {
       />
     <Text style={styles.headerTitle}>Sign In</Text>
     </View>
+    
+
           <Text style={styles.title}>Welcome</Text>
-          <Text style={styles.content}>Enter your username and password, enjoy choosing your gifts</Text>
+          <Text style={styles.content}>Enter your email and password</Text>
+
+          <View style={styles.frameParent}>
+<View style={styles.frameGroup}>
+<Text style={[styles.logIn, styles.logInFlexBox]}>{` Login`}</Text>
+          
           <View style={styles.inputContainer}>
               <View style={styles.inputSubContainer}>
                   <Feather 
@@ -69,6 +76,9 @@ const SigninScreen = ({navigation}) => {
                   
               </View>
           </View>
+
+
+          
           <Text></Text>
           <View style={styles.forgotPasswordContainer}>
 
@@ -92,10 +102,18 @@ const SigninScreen = ({navigation}) => {
               style={styles.signupText}
               onPress={() => navigation.navigate('Signup')}
               >
-
                 Sign up</Text>
           </View>
+          </View>
+          </View>
+        
+
+
+
+
+
           <Text  style={styles.orText}>OR</Text>
+
           <TouchableOpacity  style={styles.facebookButton}>
               <View  style={styles.socialButtonsContainer}>
                   <View style={styles.signinButtonLogoContainer}> 
@@ -120,13 +138,13 @@ const styles = StyleSheet.create(
 {
       container: {
         flex: 1,
-        backgroundColor: Colors.DEFAULT_WHITE,
+        backgroundColor: 'linear-gradient(90deg, rgba(231, 192, 248, 0.70) 0%, rgba(188, 204, 243, 0.70) 100%)', 
       },
       headerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingVertical: 30,
+        paddingHorizontal: 10,
       },
     headerTitle: {
         fontSize:20,
@@ -134,23 +152,59 @@ const styles = StyleSheet.create(
         fontFamily: Fonts.POPPINS_MEDIUM,
         width: Display.setWidth(80),
         textAlign:'center',
+
         
     },
     title: {
-        fontSize:20,
-        lineHeight: 20*1.4,
+        fontSize:25,
+        lineHeight: 25*1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
-        marginTop:50,
+        marginTop:0,
         marginBottom:10,
         marginHorizontal:20,
     },
     content: {
         fontSize: 20,
         fontFamily: Fonts.POPPINS_MEDIUM,
-        marginTop: 10,
-        marginBottom: 20,
+        marginTop: 0,
+        marginBottom: 10,
         marginHorizontal: 20,
       },
+
+
+    frameParent: {
+    backgroundColor: "#fff",
+  
+    width: 359,
+    height: 360,
+    marginLeft:28,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    },
+
+
+    frameGroup: {
+      height: 290,
+      borderRadius: 30
+      },
+
+logInFlexBox: {
+textAlign: "left",
+lineHeight: 40,
+marginLeft: 15,
+color: "#000",
+},
+
+logIn: {
+  fontSize: 40,
+  width: 350,
+  height:60,
+  fontFamily: "Roboto-Bold",
+  fontWeight: "700",
+
+  },
+
     inputContainer: {
         backgroundColor: Colors.LIGHT_GREY,
         paddingHorizontal: 10,
@@ -192,8 +246,8 @@ const styles = StyleSheet.create(
         fontFamily: Fonts.POPPINS_BOLD,
       },
     signinButton: {
-        backgroundColor: Colors.DEFAULT_GREEN,
-        borderRadius: 8,
+        backgroundColor: 'linear-gradient(90deg, rgba(231, 192, 248, 0.70) 0%, rgba(188, 204, 243, 0.70) 100%)',
+        borderRadius: 30,
         marginHorizontal: 20,
         height: Display.setHeight(6),
         justifyContent: 'center',
@@ -203,7 +257,7 @@ const styles = StyleSheet.create(
     signinButtonText: {
         fontSize: 18,
         lineHeight: 18 * 1.4,
-        color: Colors.DEFAULT_WHITE,
+        color: Colors.DEFAULT_BLACK,
         fontFamily: Fonts.POPPINS_MEDIUM,
       },
     signupContainer: {
@@ -231,23 +285,24 @@ const styles = StyleSheet.create(
         lineHeight: 15 * 1.4,
         color: Colors.DEFAULT_BLACK,
         fontFamily: Fonts.POPPINS_MEDIUM,
+        marginVertical: 10,
         marginLeft: 5,
         alignSelf: 'center',
       },
     facebookButton: {
-        backgroundColor: Colors.FABEBOOK_BLUE,
+        backgroundColor: '#749AFA', 
         paddingVertical: 15,
         marginHorizontal: 20,
-        borderRadius: 8,
+        borderRadius: 10,
         marginVertical: 20,
         justifyContent: 'center',
         alignItems: 'center',
       },
     googleButton: {
-        backgroundColor: Colors.GOOGLE_BLUE,
+        backgroundColor: '#EF8686',
         paddingVertical: 15,
         marginHorizontal: 20,
-        borderRadius: 8,
+        borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
       },
