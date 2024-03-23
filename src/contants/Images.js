@@ -5,4 +5,6 @@ export default {
     FAVORITE: require("../../assets/images/favorite.png"),
     FACEBOOK: require("../../assets/images/facebook.png"),
     GOOGLE: require("../../assets/images/google.png"),
+    CAKE: require("../../assets/images/cake.png"),
+    STAR: require("../../assets/images/star.png"),
 };

@@ -18,6 +18,8 @@ const SigninScreen = ({navigation}) => {
       translucent
     />
     <Separator height={StatusBar.currentHeight} />
+    <Image source={Images.CAKE} style={styles.banhKem11} resizeMode="cover" />
+    <Image source={Images.STAR} style={styles.gift51} resizeMode="cover" />
     <View style={styles.headerContainer}>
       <Ionicons
         name="chevron-back-outline"
@@ -26,15 +28,17 @@ const SigninScreen = ({navigation}) => {
       />
     <Text style={styles.headerTitle}>Sign In</Text>
     </View>
+    
 
+    <Text style={styles.title}>Welcome</Text>
+    <Text style={styles.content}>Enter your email and password</Text>
+    
 
-          <Text style={styles.title}>Welcome</Text>
-          <Text style={styles.content}>Enter your email and password</Text>
+    
 
-          <View style={styles.frameParent}>
-<View style={styles.frameGroup}>
-<Text style={[styles.logIn, styles.logInFlexBox]}>{` Login`}</Text>
-          
+      <View style={styles.frameParent}>
+      <View style={styles.frameGroup}>
+      <Text style={[styles.logIn, styles.logInFlexBox]}>{` Login`}</Text>
           <View style={styles.inputContainer}>
               <View style={styles.inputSubContainer}>
                   <Feather 
@@ -341,8 +345,24 @@ logIn: {
         marginBottom: 10,
       },    
 
-  
+      banhKem11: {
+        height: "43.31%",
+        width: "80%",
+        top: "4.46%",
+        right: "-31.81%",
+        bottom: "52.23%",
+        left: "35%",
+        position: "absolute",
+        overflow: "hidden"
+        },
 
+      gift51: {
+        top: 450,
+        left: -34,
+        width: 200,
+        height: 200,
+        position: "absolute"
+        },
 }
 );
 
