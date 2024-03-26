@@ -10,6 +10,7 @@ export default function App() {
     'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
     'Poppins-Light': require('./assets/fonts/Poppins-Light.ttf'),
     'Poppins-Medium': require('./assets/fonts/Poppins-Medium.ttf'),
+    'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
     // Thêm các font khác ở đây
   });
 

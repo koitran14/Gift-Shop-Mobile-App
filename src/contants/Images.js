@@ -7,4 +7,8 @@ export default {
     GOOGLE: require("../../assets/images/google.png"),
     CAKE: require("../../assets/images/cake.png"),
     STAR: require("../../assets/images/star.png"),
+    GIFT2: require("../../assets/images/gift2.png"),
+    GIFT3: require("../../assets/images/gift3.png"),
+
+    
 };

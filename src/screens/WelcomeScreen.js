@@ -10,6 +10,7 @@ import {
 import { Colors, Fonts, General } from '../contants';
 import { WelcomeCard, Separator } from '../components';
 import { Display } from '../utils';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const pageStyle = isActive =>
   isActive
@@ -31,7 +32,7 @@ const Pagination = ({ index }) => {
   );
 };
 
-const WelcomeScreen = ({navigation}) => {
+const WelcomeScreen = ({ navigation }) => {
   const [welcomeListIndex, setWelcomeListIndex] = useState(0);
   const welcomeList = useRef();
   const onViewRef = useRef(({ changed }) => {
@@ -46,56 +47,63 @@ const WelcomeScreen = ({navigation}) => {
     })
   }
   return (
-    <View style={styles.container}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={Colors.DEFAULT_WHITE}
-        translucent
-      />
-      <Separator height={StatusBar.currentHeight} />
-      <Separator height={Display.setHeight(8)} />
-      <View style={styles.welcomeListContainer}>
-        <FlatList
-          ref={welcomeList}
-          data={General.WELCOME_CONTENTS}
-          keyExtractor={item => item.title}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          pagingEnabled
-          overScrollMode='never'
-          viewabilityConfig={viewConfigRef.current}
-          onViewableItemsChanged={onViewRef.current}
-          renderItem={({ item }) => <WelcomeCard {...item} />}
+    <LinearGradient
+      colors={['rgba(231, 192, 248, 0.7)', 'rgba(188, 204, 243, 0.7)']}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+      style={{ flex: 1 }}
+    >
+      <View style={styles.container}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={Colors.DEFAULT_WHITE}
+          translucent
         />
-      </View>
-      <Separator height={Display.setHeight(8)} />
-      <Pagination index={welcomeListIndex} />
-      <Separator height={Display.setHeight(8)} />
-
-      {welcomeListIndex === 2 ? (
-        <TouchableOpacity
-          style={styles.gettingStartedButton}
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate('Signin')}>
-          <Text style={styles.gettingStartedButtonText}>Get Started</Text>
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{ marginLeft: 10 }}
-            onPress={() => welcomeList.current.scrollToEnd()}>
-            <Text style={styles.buttonText}>SKIP</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            activeOpacity={0.8}
-            onPress={() => pageScroll()}>
-            <Text style={styles.buttonText}>NEXT</Text>
-          </TouchableOpacity>
+        <Separator height={StatusBar.currentHeight} />
+        <Separator height={Display.setHeight(8)} />
+        <View style={styles.welcomeListContainer}>
+          <FlatList
+            ref={welcomeList}
+            data={General.WELCOME_CONTENTS}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
+            overScrollMode='never'
+            viewabilityConfig={viewConfigRef.current}
+            onViewableItemsChanged={onViewRef.current}
+            renderItem={({ item }) => <WelcomeCard {...item} />}
+          />
         </View>
-      )}
-    </View>
+        {/* <Separator height={Display.setHeight(8)} /> */}
+        {/* <Pagination index={welcomeListIndex} /> */}
+        {/* <Separator height={Display.setHeight(8)} /> */}
+
+        <View style={styles.footerContainer}>
+          {welcomeListIndex !== General.WELCOME_CONTENTS.length - 1 ? (
+            <>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={() => welcomeList.current.scrollToEnd()}>
+                  <Text style={styles.buttonText}>SKIP</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={pageScroll}>
+                  <Text style={styles.buttonText}>NEXT</Text>
+                </TouchableOpacity>
+              </View>
+              <Pagination index={welcomeListIndex} />
+            </>
+          ) : (
+
+            <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
+              <Text style={styles.gettingStartedButton}
+                onPress={() => navigation.navigate('Signin')}>Get Started</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+    </LinearGradient>
+
+
   );
 };
 
@@ -103,26 +111,49 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: Colors.DEFAULT_WHITE,
+    justifyContent: 'center',
+  },
+  footerContainer: {
+    justifyContent: 'flex-end',
+    flex: 1,
+    width: '100%',
+    paddingBottom: 20,
+    alignItems: 'center',
   },
   welcomeListContainer: {
     height: Display.setHeight(60),
   },
+  navigationContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    paddingBottom: 20,
+  },
   pageContainer: {
+    position: 'absolute',
+    bottom: 20,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
+    justifyContent: 'center',
+
   },
   page: {
-    height: 8,
-    width: 15,
-    backgroundColor: Colors.DEFAULT_GREEN,
-    borderRadius: 32,
-    marginHorizontal: 5,
+    height: 10,  // Kích thước của hình tròn
+    width: 10,   // Kích thước của hình tròn
+    borderRadius: 5,  // borderRadius bằng một nửa kích thước để tạo hình tròn
+    marginHorizontal: 8, // Khoảng cách giữa các hình tròn
+    backgroundColor: Colors.DEFAULT_BLACK, // Màu sắc khi active
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: Display.setWidth(90),
-    alignItems: 'center',
+    width: '100%', // Điều chỉnh chiều rộng này nếu cần
+    paddingHorizontal: 20, // Điều chỉnh padding ngang để tăng/khuyết khoảng cách
+    position: 'absolute',
+    bottom: 20,
   },
   buttonText: {
     fontSize: 16,
@@ -143,6 +174,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 2,
+    bottom: 100,
   },
   gettingStartedButtonText: {
     fontSize: 20,
@@ -150,6 +182,7 @@ const styles = StyleSheet.create({
     lineHeight: 20 * 1.4,
     fontFamily: Fonts.POPPINS_MEDIUM,
   },
+
 
 });
 

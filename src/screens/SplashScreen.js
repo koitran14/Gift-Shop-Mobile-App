@@ -5,6 +5,7 @@ import { Colors, Images, Fonts } from '../contants';
 import { useFonts } from 'expo-font'
 import AppLoading from 'expo-app-loading';
 import { Display } from '../utils';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const SplashScreen = ({ navigation }) => {
   // let [fontsLoaded] = useFonts({
@@ -24,19 +25,26 @@ const SplashScreen = ({ navigation }) => {
 
 
   return (
-    <View style={styles.container}>
-      <StatusBar
-        barStyle='light-content'
-        backgroundColor={Colors.DEFAULT_GREEN}
-        translucent
-      />
-      <Image
-        source={Images.GIFT}
-        resizeMode='contain'
-        style={styles.image}
-      />
-      <Text style={styles.titleText}>GiftShop</Text>
-    </View>
+    <LinearGradient
+      colors={['rgba(231, 192, 248, 0.7)', 'rgba(188, 204, 243, 0.7)']}
+      start={{ x: 0.0, y: 0.0 }}
+      end={{ x: 1.0, y: 1.0 }}
+      style={styles.container}
+    >
+      <View style={styles.container}>
+        <StatusBar
+          barStyle='light-content'
+          translucent
+        />
+        <Image
+          source={Images.GIFT}
+          resizeMode='contain'
+          style={styles.image}
+        />
+        <Text style={styles.titleText}>GiftShop</Text>
+      </View>
+    </LinearGradient>
+
   );
 }
 
@@ -45,16 +53,16 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.DEFAULT_GREEN,
+    // backgroundColor: Colors.DEFAULT_GREEN,
   },
   image: {
-    height: Display.setHeight(30),
-    width: Display.setWidth(60),
+    height: Display.setHeight(40),
+    width: Display.setWidth(80),
   },
   titleText: {
-    color: Colors.DEFAULT_WHITE,
-    fontSize: 28,
-    fontFamily: Fonts.POPPINS_THIN,
+    color: Colors.DEFAULT_BLACK,
+    fontSize: 30,
+    fontFamily: Fonts.POPPINS_BOLD,
   }
 });
 
