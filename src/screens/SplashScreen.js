@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    height: Display.setHeight(30),
-    width: Display.setWidth(60),
+    height: Display.setHeight(40),
+    width: Display.setWidth(80),
   },
   titleText: {
     color: Colors.DEFAULT_WHITE,
