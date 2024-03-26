@@ -94,17 +94,6 @@ const WelcomeScreen = ({ navigation }) => {
             </>
           ) : (
 
-            //       {welcomeListIndex === General.WELCOME_CONTENTS.length - 1 && (
-            //         <TouchableOpacity
-            //           style={styles.gettingStartedButton}
-            //           onPress={() => navigation.navigate('Signin')}
-            //         >
-            //           <Text style={styles.gettingStartedButtonText}>Get Started</Text>
-            //         </TouchableOpacity>
-            //       )}
-            //     </View>
-            //   </View>
-            // </LinearGradient>
             <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
               <Text style={styles.gettingStartedButton}
                 onPress={() => navigation.navigate('Signin')}>Get Started</Text>
@@ -123,33 +112,32 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: Colors.DEFAULT_GREY,
   },
   footerContainer: {
     justifyContent: 'flex-end',
     flex: 1,
     width: '100%',
-    paddingBottom: 20, // Đảm bảo có khoảng cách với cạnh dưới của màn hình
+    paddingBottom: 20,
     alignItems: 'center',
   },
   welcomeListContainer: {
     height: Display.setHeight(60),
   },
   navigationContainer: {
-    position: 'absolute',  // Đặt nội dung này xuống dưới cùng của View cha
-    bottom: 0,  // Khoảng cách từ dưới cùng
+    position: 'absolute',
+    bottom: 0,
     left: 0,
     right: 0,
     alignItems: 'center',
-    paddingBottom: 20,  // Padding dưới để tránh nội dung bị chặn bởi các thanh điều hướng
+    paddingBottom: 20,
   },
   pageContainer: {
-    position: 'absolute',  // Đặt pagination xuống dưới cùng của View cha
-    bottom: 20,  // Khoảng cách từ dưới cùng
-    left: 0,  // Căn trái cho container
-    right: 0, // Căn phải cho container
+    position: 'absolute',
+    bottom: 20,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
-    justifyContent: 'center', // Căn giữa các hình tròn
+    justifyContent: 'center',
 
   },
   page: {
