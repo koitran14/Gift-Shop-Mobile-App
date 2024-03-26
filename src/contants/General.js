@@ -1,21 +1,21 @@
 const WELCOME_CONTENTS = [
     {
-      image: 'DISCOVER',
-      title: 'Discover places near you',
+      image: 'GIFT',
+      title: 'THE GIFT SHOP',
       content:
-        'We make it simple to find your favorite food. Enter your address and let us do the rest.',
+        'The greatest place to choose a gift',
     },
     {
-      image: 'FAVORITE',
-      title: 'Order your favorite',
+      image: 'GIFT2',
+      title: 'THE GIFT SHOP',
       content:
-        'We will store your favorite foods based on your search and orders.',
+        'Discover a world of thoughtful gestures',
     },
     {
-      image: 'DELIVER',
-      title: 'Fastest Delivery',
+      image: 'GIFT3',
+      title: 'THE GIFT SHOP',
       content:
-        'We make food ordering fast, easy and free. No matter you paid online or cash.',
+        "Your journey to the perfect gift start here",
     },
   ];
   
