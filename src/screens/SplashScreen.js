@@ -1,28 +1,25 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Animated, Image, StyleSheet, Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Colors, Images, Fonts } from '../contants';
-import { useFonts } from 'expo-font'
-import AppLoading from 'expo-app-loading';
-import { Display } from '../utils';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Colors, Images, Fonts } from '../contants';
+import { Display } from '../utils';
 
 const SplashScreen = ({ navigation }) => {
-  // let [fontsLoaded] = useFonts({
-  //   'Poppins-Thin': require('../../assets/fonts/Poppins-Thin.ttf')
-  // })
-
-  // if (!fontsLoaded) {
-  //   return <AppLoading/>
-  // }
+  const [fadeAnim] = useState(new Animated.Value(0)); // Initial opacity is 0
 
   useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1, // Fade in to full opacity
+      duration: 3000, // Duration of the animation
+      useNativeDriver: true, // Use native driver for better performance
+    }).start();
+
+    // Navigate after a delay to mimic loading
     setTimeout(() => {
       navigation.navigate('Welcome');
-    }, 1500)
-
+    }, 3000);
   }, []);
-
 
   return (
     <LinearGradient
@@ -31,40 +28,34 @@ const SplashScreen = ({ navigation }) => {
       end={{ x: 1.0, y: 1.0 }}
       style={styles.container}
     >
-      <View style={styles.container}>
-        <StatusBar
-          barStyle='light-content'
-          translucent
-        />
-        <Image
-          source={Images.GIFT}
-          resizeMode='contain'
-          style={styles.image}
-        />
+      <StatusBar barStyle='light-content' backgroundColor={Colors.DEFAULT_GREEN} translucent />
+      <Animated.View style={{ ...styles.content, opacity: fadeAnim }}>
+        <Image source={Images.GIFT} resizeMode='contain' style={styles.image} />
         <Text style={styles.titleText}>GiftShop</Text>
-      </View>
+      </Animated.View>
     </LinearGradient>
-
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: Colors.DEFAULT_GREEN,
+  },
+  content: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     height: Display.setHeight(40),
     width: Display.setWidth(80),
   },
   titleText: {
-    color: Colors.DEFAULT_BLACK,
-    fontSize: 30,
-    fontFamily: Fonts.POPPINS_BOLD,
-  }
+    color: Colors.DEFAULT_WHITE,
+    fontSize: 28,
+    fontFamily: Fonts.POPPINS_THIN, // Ensure font is loaded or use a fallback
+  },
 });
-
 
 export default SplashScreen;
