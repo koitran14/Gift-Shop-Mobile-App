@@ -44,11 +44,11 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar
+      {/* <StatusBar
         barStyle="light-content"
         backgroundColor={Colors.DEFAULT_GREEN}
         translucent
-      />
+      /> */}
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.backgroundCurvedContainer} />
       <View style={styles.headerContainer}>

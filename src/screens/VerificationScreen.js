@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -16,20 +16,36 @@ const VerificationScreen = ({
   route: {
     params: {phoneNumber},
   },
+  navigation
 }) => {
   const firstInput = useRef();
   const secondInput = useRef();
   const thirdInput = useRef();
   const fourthInput = useRef();
   const [otp, setOtp] = useState({1: '', 2: '', 3: '', 4: ''});
+  const [validOtp, setValidOtp] = useState(false);
+
+  useEffect(() => {
+    const valid = {1: '1', 2: '2', 3: '3', 4: '4'};
+    const isValid = Object.keys(valid).every(key => valid[key] === otp[key]);
+    setValidOtp(isValid)
+  }, [otp])
+
+
+  const submit = () => {
+    if (validOtp) {
+      console.log("Valid OTP.")
+      navigation.navigate('Signin');
+    }
+  }
 
   return (
     <View style={styles.container}>
-      <StatusBar
+      {/* <StatusBar
         barStyle="dark-content"
         backgroundColor={Colors.DEFAULT_WHITE}
         translucent
-      />
+      /> */}
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.headerContainer}>
         <Ionicons
@@ -96,7 +112,8 @@ const VerificationScreen = ({
       </View>
       <TouchableOpacity
         style={styles.signinButton}
-        onPress={() => console.log(otp)}>
+        onPress={submit}
+        disabled={!validOtp}>
         <Text style={styles.signinButtonText}>Verify</Text>
       </TouchableOpacity>
     </View>

@@ -11,6 +11,7 @@ const BACKEND_API = {
   BASE_API_URL: `${BACKEND_BASE_URL}/api`,
   REGISTER: '/register',
   LOGIN: '/login',
+  USER_EXIST: '/user-exist'
 };
 
 export default { COUNTRY_FLAG, BACKEND_API };

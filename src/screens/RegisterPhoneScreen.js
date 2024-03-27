@@ -45,11 +45,11 @@ const RegisterPhoneScreen = ({navigation}) => {
       onStartShouldSetResponder={({nativeEvent: {pageX, pageY}}) =>
         closeDropdown(pageX, pageY)
       }>
-      <StatusBar
+      {/* <StatusBar
         barStyle="dark-content"
         backgroundColor={Colors.DEFAULT_WHITE}
         translucent
-      />
+      /> */}
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.headerContainer}>
         <Ionicons
@@ -100,7 +100,7 @@ const RegisterPhoneScreen = ({navigation}) => {
         style={styles.signinButton}
         activeOpacity={0.8}
         onPress={() => navigation.navigate('Verification', {phoneNumber})}>
-        <Text style={styles.signinButtonText}>Contiue</Text>
+        <Text style={styles.signinButtonText}>Continue</Text>
       </TouchableOpacity>
       {isDropdownOpen && (
         <View
