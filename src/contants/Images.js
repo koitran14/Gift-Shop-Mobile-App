@@ -10,4 +10,4 @@ export default {
     GIFT2: require("../../assets/images/gift2.png"),
     GIFT3: require("../../assets/images/gift3.png"),
     LOADING: require("../../assets/images/loading.json"),
-};
+}
