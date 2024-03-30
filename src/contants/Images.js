@@ -19,3 +19,4 @@ export default {
     NOODLES: require('../../assets/images/noodles.png'),
     DRINKS: require('../../assets/images/drinks.png'),
 };
+
