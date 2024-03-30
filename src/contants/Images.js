@@ -10,4 +10,12 @@ export default {
     GIFT2: require("../../assets/images/gift2.png"),
     GIFT3: require("../../assets/images/gift3.png"),
     LOADING: require("../../assets/images/loading.json"),
+    DELIVERY_TIME: require('../../assets/images/delivery_time.png'),
+    DELIVERY_CHARGE: require('../../assets/images/delivery_charge.png'),
+    FRIED_CHICKEN: require('../../assets/images/fried_chicken.png'),
+    BURGER: require('../../assets/images/burger.png'),
+    PIZZA: require('../../assets/images/pizza.png'),
+    DESSERT: require('../../assets/images/dessert.png'),
+    NOODLES: require('../../assets/images/noodles.png'),
+    DRINKS: require('../../assets/images/drinks.png'),
 };

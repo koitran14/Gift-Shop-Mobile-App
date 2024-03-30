@@ -124,7 +124,7 @@ const SigninScreen = ({navigation, setToken}) => {
             onPress={() => signIn()}
             activeOpacity={0.8}>
             {isLoading ? 
-              (<LottieView source={Images.LOADING} autoPlay/>)
+              (<LottieView source={Images.LOADING} autoPlay style={{ width: "100%", height: "100%"}}/>)
             :(
               <Text style={styles.signinButtonText}>Sign In</Text>
             )}         
@@ -196,8 +196,7 @@ const styles = StyleSheet.create(
         fontFamily: Fonts.POPPINS_MEDIUM,
         marginBottom: 10,
         marginHorizontal: 20,
-      },
-
+    },
 
     frameParent: {
       backgroundColor: "#fff",
@@ -210,7 +209,6 @@ const styles = StyleSheet.create(
       display: 'flex',
       paddingHorizontal: 8,
     },
-
 
     frameGroup: {
       height: 290,

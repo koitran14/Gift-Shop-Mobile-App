@@ -7,6 +7,7 @@ import {
   ScrollView,
   FlatList,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import {
   CategoryMenuItem,
@@ -28,19 +29,50 @@ const sortStyle = isActive =>
 
 const HomeScreen = ({navigation}) => {
   const [activeCategory, setActiveCategory] = useState();
-  const [restaurants, setRestaurants] = useState(null);
+  const [restaurants, setRestaurants] = useState(mockRestaurants); // set fake data
   const [activeSortItem, setActiveSortItem] = useState('recent');
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      RestaurantService.getRestaurants().then(response => {
-        if (response?.status) {
-          setRestaurants(response?.data);
-        }
-      });
-    });
-    return unsubscribe;
-  }, []);
+  //fake data
+  const mockRestaurants = [
+    {
+      id: '1',
+      name: 'Restaurant A',
+      description: 'Delicious food at affordable prices.',
+      rating: 4.5,
+      imageUrl: 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F62%2FBarbieri_-_ViaSophia25668.jpg%2F640px-Barbieri_-_ViaSophia25668.jpg&tbnid=cTtqtZLwD_SHiM&vet=12ahUKEwj-7Jv6mJyFAxVioa8BHW3BC-8QMygAegQIARBy..i&imgrefurl=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FRestaurant&docid=GJpv6Vju4A3OkM&w=640&h=552&q=restaurant&ved=2ahUKEwj-7Jv6mJyFAxVioa8BHW3BC-8QMygAegQIARBy',
+      category: 'Italian',
+    },
+    {
+      id: '2',
+      name: 'Restaurant B',
+      description: 'Authentic cuisine from around the world.',
+      rating: 4.2,
+      imageUrl: 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F62%2FBarbieri_-_ViaSophia25668.jpg%2F640px-Barbieri_-_ViaSophia25668.jpg&tbnid=cTtqtZLwD_SHiM&vet=12ahUKEwj-7Jv6mJyFAxVioa8BHW3BC-8QMygAegQIARBy..i&imgrefurl=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FRestaurant&docid=GJpv6Vju4A3OkM&w=640&h=552&q=restaurant&ved=2ahUKEwj-7Jv6mJyFAxVioa8BHW3BC-8QMygAegQIARBy',
+      category: 'Asian',
+    },
+    {
+      id: '3',
+      name: 'Restaurant C',
+      description: 'Healthy and organic dishes for everyone.',
+      rating: 4.8,
+      imageUrl: 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F62%2FBarbieri_-_ViaSophia25668.jpg%2F640px-Barbieri_-_ViaSophia25668.jpg&tbnid=cTtqtZLwD_SHiM&vet=12ahUKEwj-7Jv6mJyFAxVioa8BHW3BC-8QMygAegQIARBy..i&imgrefurl=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FRestaurant&docid=GJpv6Vju4A3OkM&w=640&h=552&q=restaurant&ved=2ahUKEwj-7Jv6mJyFAxVioa8BHW3BC-8QMygAegQIARBy',
+      category: 'Vegetarian',
+    },
+    // Add more mock restaurants as needed
+  ];
+  
+    
+
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     RestaurantService.getRestaurants().then(response => {
+  //       if (response?.status) {
+  //         setRestaurants(response?.data);
+  //       }
+  //     });
+  //   });
+  //   return unsubscribe;
+  // }, []);
 
   return (
     <View style={styles.container}>
@@ -48,7 +80,8 @@ const HomeScreen = ({navigation}) => {
         barStyle="light-content"
         backgroundColor={Colors.DEFAULT_GREEN}
         translucent
-      /> */}
+      /> */} 
+      {/* Bỏ hẵn StatusBar ra luôn để không có cái lằng trắng xuất hiện, về sau code không cần nữa */}
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.backgroundCurvedContainer} />
       <View style={styles.headerContainer}>
@@ -82,7 +115,7 @@ const HomeScreen = ({navigation}) => {
               size={25}
               color={Colors.DEFAULT_GREY}
             />
-            <Text style={styles.searchText}>Search..</Text>
+            <TextInput style={styles.searchText} placeholder='Search...'/>
           </View>
           <Feather
             name="sliders"
