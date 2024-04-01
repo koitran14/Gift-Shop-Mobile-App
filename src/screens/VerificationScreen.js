@@ -6,10 +6,11 @@ import {
   StatusBar,
   TextInput,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import {Separator} from '../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Colors, Fonts} from '../contants';
+import {Colors, Fonts, Images} from '../contants';
 import {Display} from '../utils';
 
 const VerificationScreen = ({
@@ -46,6 +47,8 @@ const VerificationScreen = ({
         backgroundColor={Colors.DEFAULT_WHITE}
         translucent
       /> */}
+      <Image source={Images.CAKE} style={styles.banhKem11} resizeMode="cover" />
+      <Image source={Images.STAR} style={styles.gift51} resizeMode="cover" />
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.headerContainer}>
         <Ionicons
@@ -55,12 +58,14 @@ const VerificationScreen = ({
         />
         <Text style={styles.headerTitle}>OTP Verification</Text>
       </View>
-      <Text style={styles.title}>OTP Verification</Text>
-      <Text style={styles.content}>
-        Enter the OTP number just sent you at{' '}
+
+      <View style={styles.frameParent}>
+        <Text style={styles.topic}>Enter OTP</Text>
+        <Text style={styles.halfOpaqueText}>
+        Enter the OTP code we just sent to your phone number{' '}
         <Text style={styles.phoneNumberText}>{phoneNumber}</Text>
-      </Text>
-      <View style={styles.otpContainer}>
+        </Text>
+        <View style={styles.otpContainer}>
         <View style={styles.otpBox}>
           <TextInput
             style={styles.otpText}
@@ -110,6 +115,7 @@ const VerificationScreen = ({
           />
         </View>
       </View>
+      </View>
       <TouchableOpacity
         style={styles.signinButton}
         onPress={submit}
@@ -123,7 +129,7 @@ const VerificationScreen = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.DEFAULT_WHITE,
+    backgroundColor: 'linear-gradient(90deg, rgba(231, 192, 248, 0.70) 0%, rgba(188, 204, 243, 0.70) 100%)',
   },
   headerContainer: {
     flexDirection: 'row',
@@ -145,6 +151,14 @@ const styles = StyleSheet.create({
     marginTop: 50,
     marginBottom: 10,
     marginHorizontal: 20,
+  },
+  topic: {
+    fontSize: 25,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+    lineHeight: 20 * 1.4,
+    marginTop: 20,
+    marginBottom: 10,
+    marginHorizontal: 34,
   },
   content: {
     fontSize: 20,
@@ -168,8 +182,9 @@ const styles = StyleSheet.create({
   },
   otpBox: {
     borderRadius: 5,
-    borderColor: Colors.DEFAULT_GREEN,
+    borderColor: Colors.DEFA,
     borderWidth: 0.5,
+    marginTop: 10,
   },
   otpText: {
     fontSize: 25,
@@ -180,7 +195,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   signinButton: {
-    backgroundColor: Colors.DEFAULT_GREEN,
+    backgroundColor: 'rgba(222, 128, 237, 100)',
     borderRadius: 8,
     marginHorizontal: 20,
     height: Display.setHeight(6),
@@ -193,6 +208,43 @@ const styles = StyleSheet.create({
     lineHeight: 18 * 1.4,
     color: Colors.DEFAULT_WHITE,
     fontFamily: Fonts.POPPINS_MEDIUM,
+  },
+  banhKem11: {
+    height: "43.31%",
+    width: "80%",
+    top: "4.46%",
+    right: "-31.81%",
+    bottom: "52.23%",
+    left: "35%",
+    position: "absolute",
+    overflow: "hidden"
+  },
+
+  gift51: {
+    top: 450,
+    left: -34,
+    width: 200,
+    height: 200,
+    position: "absolute"
+  },
+  frameParent: {
+    backgroundColor: "#fff",
+    width: 359,
+    height: 230,
+    justifyContent: "center",
+    alignSelf: "center",
+    borderRadius: 50,
+    display: 'flex',
+    paddingHorizontal: 8,
+    marginTop: 50,
+  },
+  halfOpaqueText: {
+    color: 'rgba(0, 0, 0, 0.5)',
+    fontSize: 9,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+    marginTop: 30,
+    marginBottom: 0,
+    marginHorizontal: 35,
   },
 });
 
