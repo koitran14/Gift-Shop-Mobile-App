@@ -1,10 +1,10 @@
 const CATEGORIES = [
-    {name: 'Chicken', logo: 'FRIED_CHICKEN'},
-    {name: 'Burgers', logo: 'BURGER'},
-    {name: 'Pizza', logo: 'PIZZA'},
-    {name: 'Desserts', logo: 'DESSERT'},
-    {name: 'Drinks', logo: 'DRINKS'},
-    {name: 'Noodles', logo: 'NOODLES'},
+    {name: '14-2', logo: 'FRIED_CHICKEN'},
+    {name: '8-3', logo: 'BURGER'},
+    {name: '1-4', logo: 'PIZZA'},
+    {name: '1-5', logo: 'DESSERT'},
+    {name: '20-10', logo: 'DRINKS'},
+    {name: '20-11', logo: 'NOODLES'},
 ];
   
   export default {CATEGORIES};
