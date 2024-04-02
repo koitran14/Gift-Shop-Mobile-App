@@ -9,11 +9,11 @@ import {Display} from '../utils';
 const ForgotPasswordScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <StatusBar
+      {/* <StatusBar
         barStyle="dark-content"
         backgroundColor={Colors.DEFAULT_WHITE}
         translucent
-      />
+      /> */}
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.headerContainer}>
         <Ionicons

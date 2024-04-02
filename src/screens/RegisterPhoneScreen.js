@@ -9,7 +9,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import {Colors, Fonts, CountryCode} from '../contants';
+import {Colors, Fonts, CountryCode, Images} from '../contants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {FlagItem, Separator} from '../components';
 import {Display} from '../utils';
@@ -45,11 +45,13 @@ const RegisterPhoneScreen = ({navigation}) => {
       onStartShouldSetResponder={({nativeEvent: {pageX, pageY}}) =>
         closeDropdown(pageX, pageY)
       }>
-      <StatusBar
+      {/* <StatusBar
         barStyle="dark-content"
         backgroundColor={Colors.DEFAULT_WHITE}
         translucent
-      />
+      /> */}
+      <Image source={Images.CAKE} style={styles.banhKem11} resizeMode="cover" />
+      <Image source={Images.STAR} style={styles.gift51} resizeMode="cover" />
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.headerContainer}>
         <Ionicons
@@ -57,13 +59,18 @@ const RegisterPhoneScreen = ({navigation}) => {
           size={30}
           onPress={() => navigation.goBack()}
         />
-        <Text style={styles.headerTitle}>Register Phone</Text>
+        <Text style={styles.headerTitle}>Phone Number Registration</Text>
       </View>
-      <Text style={styles.title}>Register Phone</Text>
-      <Text style={styles.content}>
-        Enter your registered phone number to login.
-      </Text>
-      <View
+
+      <View style={styles.frameParent}>
+        <View style={styles.content}>
+          <Text style={styles.content}>
+          Enter your registered phone number to log in
+          </Text>
+          <Text style={styles.halfOpaqueText}>
+          Phone Number
+          </Text>
+          <View
         style={styles.inputsContainer}
         onLayout={({
           nativeEvent: {
@@ -96,11 +103,14 @@ const RegisterPhoneScreen = ({navigation}) => {
           />
         </View>
       </View>
+        </View>
+      </View>
+      
       <TouchableOpacity
         style={styles.signinButton}
         activeOpacity={0.8}
         onPress={() => navigation.navigate('Verification', {phoneNumber})}>
-        <Text style={styles.signinButtonText}>Contiue</Text>
+        <Text style={styles.signinButtonText}>Continue</Text>
       </TouchableOpacity>
       {isDropdownOpen && (
         <View
@@ -132,13 +142,22 @@ const RegisterPhoneScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.DEFAULT_WHITE,
+    backgroundColor: 'linear-gradient(90deg, rgba(231, 192, 248, 0.70) 0%, rgba(188, 204, 243, 0.70) 100%)',
   },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 20,
+  },
+  halfOpaqueText: {
+    color: 'rgba(0, 0, 0, 0.5)',
+    fontSize: 12,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+    marginTop: 50,
+    marginLeft: 19,
+    marginBottom: 0,
+    marginHorizontal: '20%',
   },
   headerTitle: {
     fontSize: 20,
@@ -158,8 +177,8 @@ const styles = StyleSheet.create({
   content: {
     fontSize: 20,
     fontFamily: Fonts.POPPINS_MEDIUM,
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: 30,
+    marginBottom: 0,
     marginHorizontal: 20,
   },
   inputsContainer: {
@@ -172,12 +191,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.LIGHT_GREY,
     width: Display.setWidth(22),
     marginRight: 10,
+    marginTop: -50,
     borderRadius: 8,
     height: Display.setHeight(6),
     justifyContent: 'space-evenly',
     alignItems: 'center',
     borderWidth: 0.5,
-    borderColor: Colors.LIGHT_GREY2,
+    borderColor: Colors.DEFAULT_BLACK,
     flexDirection: 'row',
   },
   phoneInputContainer: {
@@ -185,9 +205,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 8,
     borderWidth: 0.5,
-    borderColor: Colors.LIGHT_GREY2,
+    borderColor: Colors.DEFAULT_BLACK,
     justifyContent: 'center',
     flex: 1,
+    marginTop: -50,
   },
   flatIcon: {
     height: 20,
@@ -218,18 +239,48 @@ const styles = StyleSheet.create({
     zIndex: 3,
   },
   signinButton: {
-    backgroundColor: Colors.DEFAULT_GREEN,
+    backgroundColor: 'rgba(222, 128, 237, 100)',
     borderRadius: 8,
     marginHorizontal: 20,
     height: Display.setHeight(6),
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 20,
   },
   signinButtonText: {
     fontSize: 18,
     lineHeight: 18 * 1.4,
     color: Colors.DEFAULT_WHITE,
     fontFamily: Fonts.POPPINS_MEDIUM,
+  },
+  banhKem11: {
+    height: "43.31%",
+    width: "80%",
+    top: "4.46%",
+    right: "-31.81%",
+    bottom: "52.23%",
+    left: "35%",
+    position: "absolute",
+    overflow: "hidden"
+  },
+
+  gift51: {
+    top: 450,
+    left: -34,
+    width: 200,
+    height: 200,
+    position: "absolute"
+  },
+  frameParent: {
+    backgroundColor: "#fff",
+    width: 359,
+    height: 230,
+    justifyContent: "center",
+    alignSelf: "center",
+    borderRadius: 20,
+    display: 'flex',
+    paddingHorizontal: 8,
+    marginTop: 50,
   },
 });
 

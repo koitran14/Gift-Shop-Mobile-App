@@ -5,53 +5,74 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
 import {Colors,Fonts, Images} from '../contants';
 import {Display} from '../utils';
+import LottieView from 'lottie-react-native';
+import { connect } from 'react-redux';
+import { GeneralAction } from '../actions';
+import { AuthenticationService } from '../services';
 
-
-const SigninScreen = ({navigation}) => {
+const SigninScreen = ({navigation, setToken}) => {
   const [isPasswordShow, setIsPasswordShow] =  useState(false);
+  const [username, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const signIn = async() => {
+    setIsLoading(true);
+    let user = { 
+      username: username, 
+      password: password 
+    }; 
+    AuthenticationService.login(user).then(response => {
+      setIsLoading(false);
+      setToken(`${response.data}`);
+      console.log("Token from login: " + response.data)
+      // navigation.navigate('Home')
+      if (!response?.status){
+        setErrorMessage(response?.message);
+      }
+    })
+  }
+
   return (
-    
     <View style={styles.container}>
-    <StatusBar
+    {/* <StatusBar
       barStyle="dark-content"
       backgroundColor={Colors.DEFAULT_WHITE}
       translucent
-    />
-    <Separator height={StatusBar.currentHeight} />
-    <Image source={Images.CAKE} style={styles.banhKem11} resizeMode="cover" />
-    <Image source={Images.STAR} style={styles.gift51} resizeMode="cover" />
-    <View style={styles.headerContainer}>
-      <Ionicons
-        name="chevron-back-outline"
-        size={30}
-        onPress={() => navigation.goBack()}
-      />
-    <Text style={styles.headerTitle}>Sign In</Text>
-    </View>
+    /> */}
+      <Separator height={StatusBar.currentHeight} />
+      <Image source={Images.CAKE} style={styles.banhKem11} resizeMode="cover" />
+      <Image source={Images.STAR} style={styles.gift51} resizeMode="cover" />
+      <View style={styles.headerContainer}>
+        <Ionicons
+          name="chevron-back-outline"
+          size={30}
+          onPress={() => navigation.goBack()}
+        />
+      <Text style={styles.headerTitle}>Sign In</Text>
+      </View>
     
-
-    <Text style={styles.title}>Welcome</Text>
-    <Text style={styles.content}>Enter your email and password</Text>
-    
-
-    
-
+      <Text style={styles.title}>Welcome</Text>
+      <Text style={styles.content}>Enter your email and password</Text>
+  
       <View style={styles.frameParent}>
       <View style={styles.frameGroup}>
       <Text style={[styles.logIn, styles.logInFlexBox]}>{` Login`}</Text>
           <View style={styles.inputContainer}>
               <View style={styles.inputSubContainer}>
                   <Feather 
-                  name="user"
-                  size={22}
-                  color={Colors.DEFAULT_GREY}
-                  style={{marginRight: 10}}
+                    name="user"
+                    size={22}
+                    color={Colors.DEFAULT_GREY}
+                    style={{marginRight: 10}}
                   />
                   <TextInput 
-                  placeholder ="Username"
-                  placeholderTextColor={Colors.DEFAULT_GREY}
-                  selectionColor={Colors.DEFAULT_GREY}
-                  style={styles.inputText}
+                    placeholder ="Username"
+                    placeholderTextColor={Colors.DEFAULT_GREY}
+                    selectionColor={Colors.DEFAULT_GREY}
+                    style={styles.inputText}
+                    onChangeText={(text) => setUserName(text)}
                   />
               </View>
           </View>
@@ -59,31 +80,29 @@ const SigninScreen = ({navigation}) => {
           <View style={styles.inputContainer} >
               <View style={styles.inputSubContainer}>
                   <Feather
-                  name="lock"
-                  size={22}
-                  color={Colors.DEFAULT_GREY}
-                  style={{marginRight: 10}}
+                    name="lock"
+                    size={22}
+                    color={Colors.DEFAULT_GREY}
+                    style={{marginRight: 10}}
                   />
                   <TextInput
-                  secureTextEntry={isPasswordShow ? false : true}
-                  placeholder ="Password"
-                  placeholderTextColor={Colors.DEFAULT_GREY}
-                  selectionColor={Colors.DEFAULT_GREY}
-                  style={styles.inputText}
+                    secureTextEntry={isPasswordShow ? false : true}
+                    placeholder ="Password"
+                    placeholderTextColor={Colors.DEFAULT_GREY}
+                    selectionColor={Colors.DEFAULT_GREY}
+                    style={styles.inputText}
+                    onChangeText={text => setPassword(text)}
                   />
                   <Feather
-                  name= {isPasswordShow ? "eye" : "eye-off"}
-                  size={22}
-                  color={Colors.DEFAULT_GREY}
-                  style={{marginRight: 10}}
-                  onPress={() => setIsPasswordShow(!isPasswordShow) }
+                    name= {isPasswordShow ? "eye" : "eye-off"}
+                    size={22}
+                    color={Colors.DEFAULT_GREY}
+                    style={{marginRight: 10}}
+                    onPress={() => setIsPasswordShow(!isPasswordShow) }
                   />
-                  
               </View>
           </View>
 
-
-        
           <Text></Text>
           <View style={styles.forgotPasswordContainer}>
 
@@ -94,12 +113,21 @@ const SigninScreen = ({navigation}) => {
                       Remember me
                   </Text>
               </View>
-              <Text style={styles.forgotPasswordText} 
-              onPress={() => navigation.navigate('ForgotPassword')}>
-                Forgot password</Text>
+              <Text 
+                style={styles.forgotPasswordText} 
+                onPress={() => navigation.navigate('ForgotPassword')}
+              > Forgot password</Text>
           </View>
-          <TouchableOpacity style={styles.signinButton}>
-              <Text style={styles.signinButtonText}>Sign in</Text>
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+          <TouchableOpacity 
+            style={styles.signinButton}
+            onPress={() => signIn()}
+            activeOpacity={0.8}>
+            {isLoading ? 
+              (<LottieView source={Images.LOADING} autoPlay style={{ width: "100%", height: "100%"}}/>)
+            :(
+              <Text style={styles.signinButtonText}>Sign In</Text>
+            )}         
           </TouchableOpacity>
           <View style={styles.signupContainer}>
               <Text style={styles.accountText}>Don't have an account?</Text>
@@ -107,13 +135,11 @@ const SigninScreen = ({navigation}) => {
               style={styles.signupText}
               onPress={() => navigation.navigate('Signup')}
               >
-                Sign up</Text>
+                Sign up
+                </Text>
           </View>
           </View>
           </View>
-        
-
-
     
           <Text style={styles.orText}>OR</Text>
       <TouchableOpacity style={styles.facebookButton}>
@@ -146,7 +172,9 @@ const styles = StyleSheet.create(
       headerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 30,
+        // paddingVertical: 30,
+        // paddingTop: 10,
+        paddingBottom: 30,
         paddingHorizontal: 10,
       },
     headerTitle: {
@@ -155,49 +183,44 @@ const styles = StyleSheet.create(
         fontFamily: Fonts.POPPINS_MEDIUM,
         width: Display.setWidth(80),
         textAlign:'center',
-
-        
     },
     title: {
         fontSize:25,
         lineHeight: 25*1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
-        marginTop:0,
         marginBottom:10,
         marginHorizontal:20,
     },
     content: {
         fontSize: 20,
         fontFamily: Fonts.POPPINS_MEDIUM,
-        marginTop: 0,
         marginBottom: 10,
         marginHorizontal: 20,
-      },
-
-
-    frameParent: {
-    backgroundColor: "#fff",
-  
-    width: 359,
-    height: 360,
-    marginLeft:28,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
     },
 
+    frameParent: {
+      backgroundColor: "#fff",
+      width: 359,
+      height: 360,
+      // marginLeft:28,
+      justifyContent: "center",
+      alignSelf: "center", // thay cho 'alignItems: center'
+      borderRadius: 50,
+      display: 'flex',
+      paddingHorizontal: 8,
+    },
 
     frameGroup: {
       height: 290,
-      borderRadius: 30
+      borderRadius: 30,
       },
 
-logInFlexBox: {
-textAlign: "left",
-lineHeight: 40,
-marginLeft: 15,
-color: "#000",
-},
+    logInFlexBox: {
+    textAlign: "left",
+    lineHeight: 40,
+    marginLeft: 15,
+    color: "#000",
+    },
 
 logIn: {
   fontSize: 40,
@@ -254,7 +277,6 @@ logIn: {
         height: Display.setHeight(6),
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
       },
     signinButtonText: {
         fontSize: 18,
@@ -366,4 +388,10 @@ logIn: {
 }
 );
 
-export default SigninScreen;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setToken: token => dispatch(GeneralAction.setToken(token))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SigninScreen);

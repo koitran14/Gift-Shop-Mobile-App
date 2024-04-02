@@ -54,11 +54,11 @@ const WelcomeScreen = ({ navigation }) => {
       style={{ flex: 1 }}
     >
       <View style={styles.container}>
-        <StatusBar
+        {/* <StatusBar
           barStyle="dark-content"
           backgroundColor={Colors.DEFAULT_WHITE}
-          translucent
-        />
+          translucent={false}
+        /> */}
         <Separator height={StatusBar.currentHeight} />
         <Separator height={Display.setHeight(8)} />
         <View style={styles.welcomeListContainer}>
@@ -94,8 +94,8 @@ const WelcomeScreen = ({ navigation }) => {
             </>
           ) : (
 
-            <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
-              <Text style={styles.gettingStartedButton}
+            <TouchableOpacity onPress={() => navigation.navigate('Signin')} style={styles.gettingStartedButton}>
+              <Text style={styles.gettingStartedButtonText}
                 onPress={() => navigation.navigate('Signin')}>Get Started</Text>
             </TouchableOpacity>
           )}
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   welcomeListContainer: {
-    height: Display.setHeight(60),
+    height: '70%',
   },
   navigationContainer: {
     position: 'absolute',
@@ -168,19 +168,20 @@ const styles = StyleSheet.create({
   },
   gettingStartedButton: {
     backgroundColor: Colors.DEFAULT_GREEN,
-    paddingVertical: 5,
-    paddingHorizontal: 40,
+    paddingVertical: 10,
+    paddingHorizontal: 32,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 2,
-    bottom: 100,
+    bottom: 90,
   },
   gettingStartedButtonText: {
     fontSize: 20,
-    color: Colors.DEFAULT_WHITE,
+    color: '#FFFFFF',
     lineHeight: 20 * 1.4,
     fontFamily: Fonts.POPPINS_MEDIUM,
+    fontWeight: '400',
   },
 
 

@@ -28,7 +28,6 @@ const SplashScreen = ({ navigation }) => {
       end={{ x: 1.0, y: 1.0 }}
       style={styles.container}
     >
-      <StatusBar barStyle='light-content' backgroundColor={Colors.DEFAULT_GREEN} translucent />
       <Animated.View style={{ ...styles.content, opacity: fadeAnim }}>
         <Image source={Images.GIFT} resizeMode='contain' style={styles.image} />
         <Text style={styles.titleText}>GiftShop</Text>
