@@ -107,7 +107,7 @@ const HomeScreen = ({ navigation }) => {
                         <Text style={styles.alertBadgeText}>12</Text>
                     </View>
                 </View>
-                
+
                 <View style={styles.searchContainer}>
                     {/* search bar */}
                     <View style={styles.searchSection}>
@@ -129,17 +129,29 @@ const HomeScreen = ({ navigation }) => {
                     />
                 </View>
 
-                <View style={styles.categoriesContainer}>   
-                {/* special day */}
-                    {Mock.CATEGORIES.map(({ name, logo }) => (
-                        <CategoryMenuItem
-                            key={name}
-                            name={name}
-                            logo={logo}
-                            activeCategory={activeCategory}
-                            setActiveCategory={setActiveCategory}
-                        />
-                    ))}
+                <View style={styles.specialDaySection}>
+                    {/* special day */}
+                    <Text style={styles.specialDayTitle}>Special Day</Text>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                        {Mock.CATEGORIES.map(({ name, logo }) => (
+                            <CategoryMenuItem
+                                key={name}
+                                name={name}
+                                logo={logo}
+                                activeCategory={activeCategory}
+                                setActiveCategory={setActiveCategory}
+                                special={name === '14-2' ||
+                                    name === '8-3' ||
+                                    name === '1-4' ||
+                                    name === '1-5' ||
+                                    name === '20-10' ||
+                                    name === '20-11'
+                                }
+                                backgroundColor={Colors[`SPECIAL_DATE_${name.replace('-', '_')}`]}
+                            />
+                        ))}
+                    </ScrollView>
+
                 </View>
             </View>
 
@@ -312,7 +324,7 @@ const styles = StyleSheet.create({
     },
     horizontalListContainer: {
         marginTop: 80,
-        
+
     },
     listHeader: {
         flexDirection: "row",
@@ -323,7 +335,7 @@ const styles = StyleSheet.create({
     },
 
 
-    
+
     listHeaderTitle: {
         color: Colors.DEFAULT_BLACK,
         fontSize: 16,
@@ -375,6 +387,16 @@ const styles = StyleSheet.create({
         width: "50%",
         height: 100,
     },
+    specialDayTitle: {
+        fontSize: 16,
+        fontFamily: Fonts.POPPINS_MEDIUM,
+        color: Colors.DEFAULT_BLACK,
+        marginLeft: 20, // Hoặc một giá trị phù hợp để căn lề trái
+        marginBottom: 10, // Khoảng cách giữa tiêu đề và ScrollView
+    },
+    specialDaySection: {
+        marginTop:18,
+    }
 });
 
 export default HomeScreen;
