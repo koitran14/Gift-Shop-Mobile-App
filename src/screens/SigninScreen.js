@@ -25,7 +25,7 @@ const SigninScreen = ({navigation, setToken}) => {
     }; 
     AuthenticationService.login(user).then(response => {
       setIsLoading(false);
-      setToken(`${response.data}`);
+      if (response.data) setToken(`${response.data}`);
       console.log("Token from login: " + response.data)
       // navigation.navigate('Home')
       if (!response?.status){
@@ -102,8 +102,7 @@ const SigninScreen = ({navigation, setToken}) => {
                   />
               </View>
           </View>
-
-          <Text></Text>
+          {errorMessage && <Text style={styles.errorMessage}>{errorMessage}</Text>}
           <View style={styles.forgotPasswordContainer}>
 
               <View style={styles.toggleContainer}>
@@ -118,7 +117,6 @@ const SigninScreen = ({navigation, setToken}) => {
                 onPress={() => navigation.navigate('ForgotPassword')}
               > Forgot password</Text>
           </View>
-          <Text style={styles.errorMessage}>{errorMessage}</Text>
           <TouchableOpacity 
             style={styles.signinButton}
             onPress={() => signIn()}
@@ -234,6 +232,7 @@ logIn: {
         backgroundColor: Colors.LIGHT_GREY,
         paddingHorizontal: 10,
         marginHorizontal: 20,
+        marginBottom: 5,
         borderRadius: 8,
         borderWidth: 0.5,
         borderColor: Colors.LIGHT_GREY2,
@@ -253,6 +252,7 @@ logIn: {
       },
     forgotPasswordContainer: {
         marginHorizontal: 20,
+        marginVertical: 10,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -363,8 +363,7 @@ logIn: {
         color: Colors.DEFAULT_RED,
         fontFamily: Fonts.POPPINS_MEDIUM,
         marginHorizontal: 20,
-        marginTop: 3,
-        marginBottom: 10,
+        marginTop: 10,
       },    
 
       banhKem11: {
