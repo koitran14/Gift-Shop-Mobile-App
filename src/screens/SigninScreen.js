@@ -232,6 +232,7 @@ logIn: {
         backgroundColor: Colors.LIGHT_GREY,
         paddingHorizontal: 10,
         marginHorizontal: 20,
+        marginBottom: 5,
         borderRadius: 8,
         borderWidth: 0.5,
         borderColor: Colors.LIGHT_GREY2,
