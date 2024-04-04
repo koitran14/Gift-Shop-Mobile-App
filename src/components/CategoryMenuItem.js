@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   categoryContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 5,
+    marginVertical: 20,
     alignSelf: 'flex-start', // Align self is used to align the component itself according to the flex direction of the parent
   },
   categoryIcon: {

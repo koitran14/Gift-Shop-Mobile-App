@@ -19,5 +19,10 @@ export default {
     NOODLES: require('../../assets/images/noodles.png'),
     DRINKS: require('../../assets/images/drinks.png'),
     FLOWER: require('../../assets/images/flower.png'),
+    HOME: require('../../assets/images/Home_bar.png'),
+    LOVE: require('../../assets/images/love_bar.png'),
+    USER: require('../../assets/images/User_bar.png'),
+    CART: require('../../assets/images/cart_bar.png'),
+
 };
 

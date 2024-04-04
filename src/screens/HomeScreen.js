@@ -91,11 +91,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.headerContainer}>
                     <View style={styles.locationContainer}>
                         {/* Welcome  */}
-                        <Ionicons
-                            name="location-outline"
-                            size={15}
-                            color={Colors.DEFAULT_WHITE}
-                        />
+                        <Image source={Images.USER}  />
 
                         <Text style={styles.locationText}>
                             Welcome Koi Tran
@@ -180,7 +176,7 @@ const HomeScreen = ({ navigation }) => {
                     <View  style={styles.horizontalListContainer}>
                         <View style={styles.listHeader}>
                             <Text style={styles.listHeaderTitle}>
-                                Top Rated
+                                Categories
                             </Text>
                             <Text style={styles.listHeaderSubtitle}>
                                 See All
@@ -267,9 +263,19 @@ const HomeScreen = ({ navigation }) => {
                     <Text style={styles.flower_text2}>Having 5 flower</Text>
                     <Text style={styles.flower_text3}>$20</Text>
                 </View>
-
-           
             </View>
+
+            <View style={styles.flex4}> 
+            <Image source={Images.HOME}  />
+            <Image source={Images.LOVE}  />
+            <Image source={Images.USER}  />
+            <Image source={Images.CART}  />
+            
+
+
+            </View>
+
+
         </View>
         </LinearGradient>
     );
@@ -329,9 +335,11 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginHorizontal: 20,
         marginTop: 20,
+        marginBottom: 20,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+
     },
     searchSection: {
         flexDirection: "row",
@@ -364,6 +372,7 @@ const styles = StyleSheet.create({
     },
 
     listHeaderTitle: {
+        textDecorationLine: 'underline',
         color: Colors.DEFAULT_BLACK,
         fontSize: 16,
         lineHeight: 16 * 1.4,
@@ -376,6 +385,7 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.POPPINS_MEDIUM,
     },
     sortListContainer: {
+        backgroundColor: 'linear-gradient(90deg, rgba(210, 192, 248, 0.70) 0%, rgba(188, 204, 243, 0.70) 100%)',
         flexDirection: "row",
         justifyContent: "space-evenly",
         alignItems: "center",
@@ -394,6 +404,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         lineHeight: 13 * 1.4,
         fontFamily: Fonts.POPPINS_SEMI_BOLD,
+        fontWeight: "700",
     },
 
     // flex 3
@@ -402,7 +413,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         backgroundColor: "#fffdfd",
         width: "30%",
-        height: "50%",
+        height: "70%",
         color: Colors.DEFAULT_BLACK,
         alightItems: "center",
         justifyContent: "center",
@@ -434,6 +445,7 @@ const styles = StyleSheet.create({
     },
 
     specialDayTitle: {
+        textDecorationLine: 'underline',
         fontSize: 16,
         fontFamily: Fonts.POPPINS_MEDIUM,
         color: Colors.DEFAULT_BLACK,
@@ -446,13 +458,15 @@ const styles = StyleSheet.create({
     },
 
     flex1: {
-        flex: 0.3,
+        flex: 0.4,
         //backgroundColor: "red",
+        flexDirection: "column",
+        justifyContent: "flex-end", 
     },
 
     flex2: {
         //backgroundColor: "blue",
-        flex: 0.2,
+        flex: 0.15,
         flexDirection: "column",
         justifyContent: "flex-end", 
 
@@ -460,7 +474,15 @@ const styles = StyleSheet.create({
 
     flex3: {
         //backgroundColor: "green",
-        flex: 0.5,
+        flex: 0.4,
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+    },
+
+    flex4: {
+        backgroundColor: 'linear-gradient(90deg, rgba(231, 192, 248, 0.70) 0%, rgba(188, 204, 243, 0.70) 100%)',
+        flex: 0.1,
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
