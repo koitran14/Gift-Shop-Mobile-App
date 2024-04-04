@@ -20,7 +20,7 @@ const Navigators = ({ token }) => {
     return (
         <NavigationContainer>
               <Stack.Navigator screenOptions={{ headerShown: false }}>
-                { token !== undefined ? (
+                { !token ? (
                     <>
                         <Stack.Screen name="Splash" component={SplashScreen} />
                         <Stack.Screen name="Welcome" component={WelcomeScreen} />
