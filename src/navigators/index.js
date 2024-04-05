@@ -29,6 +29,7 @@ const Navigators = ({ token }) => {
                         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
                         <Stack.Screen name="RegisterPhone" component={RegisterPhoneScreen} />
                         <Stack.Screen name="Verification" component={VerificationScreen} />
+                        <Stack.Screen name="Homescreen" component={HomeScreen} />
                         {/* <Stack.Screen name="Home" component={HomeTest} /> */}
                     </>
                 ) : (

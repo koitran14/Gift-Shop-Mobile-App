@@ -27,7 +27,7 @@ const SigninScreen = ({navigation, setToken}) => {
       setIsLoading(false);
       if (response.data) setToken(`${response.data}`);
       console.log("Token from login: " + response.data)
-      // navigation.navigate('Home')
+      navigation.navigate('Homescreen')
       if (!response?.status){
         setErrorMessage(response?.message);
       }

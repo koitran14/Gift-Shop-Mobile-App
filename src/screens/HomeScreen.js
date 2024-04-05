@@ -173,7 +173,7 @@ const HomeScreen = ({ navigation }) => {
             {/* flex2 */}
             <View style={styles.flex2}>
                 {/* <ScrollView style={styles.listContainer}> */}
-                    <View  style={styles.horizontalListContainer}>
+                    <ScrollView   style={styles.horizontalListContainer}>
                         <View style={styles.listHeader}>
                             <Text style={styles.listHeaderTitle}>
                                 Categories
@@ -202,7 +202,7 @@ const HomeScreen = ({ navigation }) => {
                                 />
                             )}
                         />
-                    </View>
+                    
                     <View style={styles.sortListContainer}>
                         <TouchableOpacity
                             style={sortStyle(activeSortItem === "recent")}
@@ -245,6 +245,7 @@ const HomeScreen = ({ navigation }) => {
                     {restaurants?.map((item) => (
                         <RestaurantMediumCard {...item} key={item?.id} />
                     ))}
+                    </ScrollView>
                 {/* </ScrollView> */}
             </View>
 
