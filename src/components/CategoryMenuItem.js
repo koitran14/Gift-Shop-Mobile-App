@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.DEFAULT_WHITE,
     paddingHorizontal: 15,
     paddingVertical: 10,
-    borderRadius: 20,
+    borderRadius: 10,
     marginLeft: 15, // Add left margin to create space for the absolutely positioned icon
     minHeight: 50, // Adjust the height to ensure it looks good with the icon
     justifyContent: 'center',

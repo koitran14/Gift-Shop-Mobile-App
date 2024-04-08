@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     TextInput,
     Image,
+    TouchableWithoutFeedback
 } from "react-native";
 import {
     CategoryMenuItem,
@@ -77,6 +78,7 @@ const HomeScreen = ({ navigation }) => {
     //   return unsubscribe;
     // }, []);
 
+    //products
     const products = [
         { id: 1, name: 'Gifts', price: '$10', description: 'A beautiful gift', image: require('../../assets/images/gift.png') },
         { id: 2, name: 'Cake', price: '$20', description: 'A delicious cake', image: require('../../assets/images/cake.png') },
@@ -85,6 +87,8 @@ const HomeScreen = ({ navigation }) => {
        
       ];
 
+    
+// Recent bar
     const [selectedChoice, setSelectedChoice] = useState('Recent');
 
     const choices = ['Recent', 'Favorite', 'Flowers', 'Gifts', 'Cakes'];
@@ -93,6 +97,22 @@ const HomeScreen = ({ navigation }) => {
     setSelectedChoice(choice);
     };
 
+    //special day
+    const images = [
+        { date: '14/2', image: require('../../assets/images/83.png') },
+        { date: '8/3', image: require('../../assets/images/142.png') },
+        { date: '20/11', image: require('../../assets/images/2011.png') },
+        { date: '14/2', image: require('../../assets/images/83.png') },
+      ];
+    
+      const handleImagePress = (date) => {
+        if (date === '14/2') {
+          navigation.navigate('Signin');
+        }
+      };
+    
+
+    
     return (
         <LinearGradient
         colors={['rgba(231, 192, 248, 0.7)', 'rgba(188, 204, 243, 0.7)']}
@@ -152,7 +172,7 @@ const HomeScreen = ({ navigation }) => {
                     <View style={styles.specialDaySection}>
                         {/* special day */}
                         <Text style={styles.specialDayTitle}>Special Day</Text>
-                        <ScrollView
+                        {/* <ScrollView
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
                         >
@@ -181,7 +201,24 @@ const HomeScreen = ({ navigation }) => {
                                     }
                                 />
                             ))}
+                        </ScrollView> old*/}
+                        
+                        <ScrollView horizontal contentContainerStyle={{ flexDirection: 'row' }}
+                        showsHorizontalScrollIndicator={false}
+                        >
+                        {images.map(({ date, image }, index) => (
+                            <TouchableOpacity key={index} onPress={() => handleImagePress(date)}>
+                            <View style={{ marginHorizontal: 10 }}>
+                                <Image
+                                source={image}
+                                style={{ width: 120, height: 80, borderRadius: 10 }}
+                                />
+                            </View>
+                            </TouchableOpacity>
+                        ))}
                         </ScrollView>
+
+
                     </View>
                 </View>
             </View>
@@ -197,6 +234,7 @@ const HomeScreen = ({ navigation }) => {
                     See All
                 </Text>
                 </View>
+
                 <ScrollView horizontal contentContainerStyle={styles.container3}>
                 {choices.map((choice, index) => (
                     <TouchableOpacity
@@ -208,6 +246,7 @@ const HomeScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 ))}
                 </ScrollView>
+                
             </View>
             </View>
             
@@ -347,7 +386,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         marginHorizontal: "5%",
-        marginBottom: "5%",
+
     },
 
     listHeaderTitle: {
@@ -363,28 +402,29 @@ const styles = StyleSheet.create({
         lineHeight: 13 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
     },
-    sortListContainer: {
-        backgroundColor: 'linear-gradient(90deg, rgba(210, 192, 248, 0.70) 0%, rgba(188, 204, 243, 0.70) 100%)',
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        alignItems: "center",
-        marginTop: "5%",
-        elevation: 1,
-    },
-    sortListItem: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        borderBottomColor: Colors.DEFAULT_YELLOW,
-        height: 40,
-    },
-    sortListItemText: {
+
+    container3: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: '2%',
+      },
+      choice: {
+        padding: "4%",
+        margin: 5,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'white',
+      },
+      text: {
         color: 'purple',
-        fontSize: 13,
-        lineHeight: 13 * 1.4,
-        fontFamily: Fonts.POPPINS_SEMI_BOLD,
-        fontWeight: "700",
-    },
+      },
+      selectedText: {
+        color: 'white',
+      },
+      selectedChoice: {
+        backgroundColor: 'purple',
+      },
+
 
     // flex 3
     
@@ -434,7 +474,7 @@ const styles = StyleSheet.create({
         //backgroundColor: "blue",
         flex: 0.15,
         flexDirection: "column", 
-        justifyContent: "flex-start", 
+        justifyContent: "center", 
 
     },
 
@@ -455,28 +495,10 @@ const styles = StyleSheet.create({
     },
 
     //bar recent
-    container3: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: '2%',
-      },
-      choice: {
-        padding: "4%",
-        margin: 5,
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: 'white',
-      },
-      text: {
-        color: 'purple',
-      },
-      selectedText: {
-        color: 'white',
-      },
-      selectedChoice: {
-        backgroundColor: 'purple',
-      },
+    
  
+
+
 });
 
 export default HomeScreen;

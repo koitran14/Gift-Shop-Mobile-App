@@ -25,11 +25,11 @@ export default {
 
 
     //
-    SPECIAL_DATE_14_2: '#1A75FD', // Màu xanh 
+    SPECIAL_DATE_4_2: '#1A75FD', // Màu xanh 
     SPECIAL_DATE_8_3: '#F34D4D', // Màu đỏ
     SPECIAL_DATE_1_4: '#F8D100', // Màu vàng
     SPECIAL_DATE_1_5: '#FFDEAD', // Màu be 
-    SPECIAL_DATE_20_10: '#CD5C5C', // Màu đỏ 
+    SPECIAL_DATE_1_6: '#CD5C5C', // Màu đỏ 
     SPECIAL_DATE_20_11: '#F08080', // Hồng cánh sen :v
 
 };
