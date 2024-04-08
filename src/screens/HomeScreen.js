@@ -277,21 +277,14 @@ const styles = StyleSheet.create({
     locationContainer: {
         flexDirection: "row",
         alignItems: "center",
-        marginTop: 20,
-        marginHorizontal: 20,
+        marginTop: '12%',
+        marginHorizontal: "5%",
     },
     locationText: {
         color: Colors.DEFAULT_BLACK,
-        marginLeft: 5,
+        marginLeft: '2%',
         fontSize: 13,
         lineHeight: 13 * 1.4,
-        fontFamily: Fonts.POPPINS_MEDIUM,
-    },
-    selectedLocationText: {
-        color: Colors.DEFAULT_YELLOW,
-        marginLeft: 5,
-        fontSize: 14,
-        lineHeight: 14 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
     },
     alertBadge: {
@@ -313,11 +306,11 @@ const styles = StyleSheet.create({
     },
     searchContainer: {
         backgroundColor: Colors.DEFAULT_WHITE,
-        height: 45,
+        height: "19%",
         borderRadius: 8,
-        marginHorizontal: 20,
-        marginTop: 20,
-        marginBottom: 20,
+        marginHorizontal: "5%",
+        marginTop: "5%",
+        marginBottom: "5%",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
@@ -326,29 +319,23 @@ const styles = StyleSheet.create({
     searchSection: {
         flexDirection: "row",
         alignItems: "center",
-        marginLeft: 10,
+        marginLeft: '3%',
     },
     searchText: {
         color: Colors.DEFAULT_BLACK,
         fontSize: 16,
         lineHeight: 16 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
-        marginLeft: 10,
+        marginLeft: '5%',
     },
-    categoriesContainer: {
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        color: Colors.DEFAULT_BLACK,
-        marginTop: 30,
-    },
-    
+   
     specialDayTitle: {
         textDecorationLine: 'underline',
         fontSize: 16,
         fontFamily: Fonts.POPPINS_MEDIUM,
         color: Colors.DEFAULT_BLACK,
-        marginLeft: 20, // Hoặc một giá trị phù hợp để căn lề trái
-        marginBottom: 5, // Khoảng cách giữa tiêu đề và ScrollView
+        marginLeft: '5%', // Hoặc một giá trị phù hợp để căn lề trái
+        marginBottom: '2%', // Khoảng cách giữa tiêu đề và ScrollView
     },
     
   
@@ -359,8 +346,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginHorizontal: 20,
-        marginBottom: 15,
+        marginHorizontal: "5%",
+        marginBottom: "5%",
     },
 
     listHeaderTitle: {
@@ -381,7 +368,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-evenly",
         alignItems: "center",
-        marginTop: 8,
+        marginTop: "5%",
         elevation: 1,
     },
     sortListItem: {
@@ -413,14 +400,14 @@ const styles = StyleSheet.create({
         width: '40%',
         borderRadius: 40,
         borderColor: 'white',
-        padding: 15,
-        margin: 15,
+        padding: "5%",
+        margin: "5%",
         
       },
       image: {
         width: '100%',
         height: 100,
-        marginBottom: 10,
+        marginBottom: "5%",
       },
       name: {
         fontWeight: 'bold',
@@ -435,10 +422,6 @@ const styles = StyleSheet.create({
         color: 'purple',
         textAlign: "center",
       },
-
-   
-
-
 
     flex1: {
         flex: 0.35,
@@ -475,10 +458,10 @@ const styles = StyleSheet.create({
     container3: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 10,
+        marginLeft: '2%',
       },
       choice: {
-        padding: 10,
+        padding: "4%",
         margin: 5,
         borderRadius: 10,
         borderWidth: 1,
@@ -494,8 +477,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'purple',
       },
  
-
-    
 });
 
 export default HomeScreen;
