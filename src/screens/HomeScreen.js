@@ -77,6 +77,22 @@ const HomeScreen = ({ navigation }) => {
     //   return unsubscribe;
     // }, []);
 
+    const products = [
+        { id: 1, name: 'Gifts', price: '$10', description: 'A beautiful gift', image: require('../../assets/images/gift.png') },
+        { id: 2, name: 'Cake', price: '$20', description: 'A delicious cake', image: require('../../assets/images/cake.png') },
+        { id: 3, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/star.png') },
+        { id:4, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/flower.png') },
+       
+      ];
+
+    const [selectedChoice, setSelectedChoice] = useState('Recent');
+
+    const choices = ['Recent', 'Favorite', 'Flowers', 'Gifts', 'Cakes'];
+
+    const handleChoiceSelect = (choice) => {
+    setSelectedChoice(choice);
+    };
+
     return (
         <LinearGradient
         colors={['rgba(231, 192, 248, 0.7)', 'rgba(188, 204, 243, 0.7)']}
@@ -172,86 +188,35 @@ const HomeScreen = ({ navigation }) => {
 
             {/* flex2 */}
             <View style={styles.flex2}>
-                {/* <ScrollView style={styles.listContainer}> */}
-                    <ScrollView   style={styles.horizontalListContainer}>
-                        <View style={styles.listHeader}>
-                            <Text style={styles.listHeaderTitle}>
-                                Categories
-                            </Text>
-                            <Text style={styles.listHeaderSubtitle}>
-                                See All
-                            </Text>
-                        </View>
-                        <FlatList
-                            data={restaurants}
-                            keyExtractor={(item) => item?.id}
-                            horizontal
-                            ListHeaderComponent={() => <Separator width={20} />}
-                            ListFooterComponent={() => <Separator width={20} />}
-                            ItemSeparatorComponent={() => (
-                                <Separator width={10} />
-                            )}
-                            renderItem={({ item }) => (
-                                <RestaurantCard
-                                    {...item}
-                                    navigate={(restaurantId) =>
-                                        navigation.navigate("Restaurant", {
-                                            restaurantId,
-                                        })
-                                    }
-                                />
-                            )}
-                        />
-                    
-                    <View style={styles.sortListContainer}>
-                        <TouchableOpacity
-                            style={sortStyle(activeSortItem === "recent")}
-                            activeOpacity={0.8}
-                            onPress={() => setActiveSortItem("recent")}
-                        >
-                            <Text style={styles.sortListItemText}>Recent</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={sortStyle(activeSortItem === "favorite")}
-                            activeOpacity={0.8}
-                            onPress={() => setActiveSortItem("favorite")}
-                        >
-                            <Text style={styles.sortListItemText}>
-                                Favorite
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={sortStyle(activeSortItem === "rating")}
-                            activeOpacity={0.8}
-                            onPress={() => setActiveSortItem("rating")}
-                        >
-                            <Text style={styles.sortListItemText}>Flowers</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={sortStyle(activeSortItem === "popular")}
-                            activeOpacity={0.8}
-                            onPress={() => setActiveSortItem("popular")}
-                        >
-                            <Text style={styles.sortListItemText}>Gifts</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={sortStyle(activeSortItem === "trending")}
-                            activeOpacity={0.8}
-                            onPress={() => setActiveSortItem("trending")}
-                        >
-                            <Text style={styles.sortListItemText}>Cakes</Text>
-                        </TouchableOpacity>
-                    </View>
-                    {restaurants?.map((item) => (
-                        <RestaurantMediumCard {...item} key={item?.id} />
-                    ))}
-                    </ScrollView>
-                {/* </ScrollView> */}
+            <View style={styles.horizontalListContainer}>
+                <View style={styles.listHeader}>
+                <Text style={styles.listHeaderTitle}>
+                    Categories
+                </Text>
+                <Text style={styles.listHeaderSubtitle}>
+                    See All
+                </Text>
+                </View>
+                <ScrollView horizontal contentContainerStyle={styles.container3}>
+                {choices.map((choice, index) => (
+                    <TouchableOpacity
+                    key={index}
+                    style={[styles.choice, selectedChoice === choice ? styles.selectedChoice : null]}
+                    onPress={() => handleChoiceSelect(choice)}
+                    >
+                    <Text style={selectedChoice === choice ? styles.selectedText : styles.text}>{choice}</Text>
+                    </TouchableOpacity>
+                ))}
+                </ScrollView>
             </View>
+            </View>
+            
 
+            {/* flex3 */}
+            
             <View style={styles.flex3}>
            
-                <View style={styles.rectangleView}>
+                {/* <View style={styles.rectangleView}>
                     <Image source={Images.FLOWER} style={styles.flower} />
                     <Text style={styles.flower_text1}>Bouquet</Text>
                     <Text style={styles.flower_text2}>Having 5 flower</Text>
@@ -263,19 +228,36 @@ const HomeScreen = ({ navigation }) => {
                      <Text style={styles.flower_text1}>Bouquet</Text>
                     <Text style={styles.flower_text2}>Having 5 flower</Text>
                     <Text style={styles.flower_text3}>$20</Text>
-                </View>
+                    </View> */}
+                    
+                <ScrollView contentContainerStyle={styles.container2}>
+                {products.map((product) => (
+                    <TouchableOpacity key={product.id} style={styles.productContainer}>
+                    <Image source={product.image} style={styles.image} />
+                    <Text style={styles.name}>{product.name}</Text>
+                    <Text style={styles.price}>{product.price}</Text>
+                    <Text style={styles.description}>{product.description}</Text>
+                </TouchableOpacity>
+                ))}
+                </ScrollView>
             </View>
 
+                {/* flex4 */}
+
             <View style={styles.flex4}> 
-            <Image source={Images.HOME}  />
+
+            <TouchableOpacity onPress={() => navigation.navigate('Signin')}> 
+            <Image source={Images.HOME} />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
             <Image source={Images.LOVE}  />
+            </TouchableOpacity>
+            
             <Image source={Images.USER}  />
             <Image source={Images.CART}  />
             
-
-
             </View>
-
 
         </View>
         </LinearGradient>
@@ -285,7 +267,6 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 30,
     },
 
     // flex1
@@ -360,7 +341,17 @@ const styles = StyleSheet.create({
         color: Colors.DEFAULT_BLACK,
         marginTop: 30,
     },
-
+    
+    specialDayTitle: {
+        textDecorationLine: 'underline',
+        fontSize: 16,
+        fontFamily: Fonts.POPPINS_MEDIUM,
+        color: Colors.DEFAULT_BLACK,
+        marginLeft: 20, // Hoặc một giá trị phù hợp để căn lề trái
+        marginBottom: 5, // Khoảng cách giữa tiêu đề và ScrollView
+    },
+    
+  
 
     // flex2
    
@@ -369,7 +360,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         marginHorizontal: 20,
-        marginBottom: 5,
+        marginBottom: 15,
     },
 
     listHeaderTitle: {
@@ -410,66 +401,57 @@ const styles = StyleSheet.create({
 
     // flex 3
     
-    rectangleView: {
-        borderRadius: 30,
+    container2: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+      },
+      productContainer: {
         backgroundColor: "#fffdfd",
-        width: "30%",
-        height: "70%",
-        color: Colors.DEFAULT_BLACK,
-        alightItems: "center",
-        justifyContent: "center",
-    },
-
-    flower: {
-        width: "100%",
-        height: "50%",
-    },
-
-    flower_text1: {
-        fontSize: 18,
-        textAlign: "center",
-        fontWeight: "700",
-        lineHeight: 28,
-    },
-
-    flower_text2: {
-        fontSize: 12,
-        textAlign: "center",
-    },
-
-    flower_text3: {
-        fontSize: 18,
-        textAlign: "center",
-        fontWeight: "700",
-        lineHeight: 25,
-        color: "#b505e1",
-    },
-
-    specialDayTitle: {
-        textDecorationLine: 'underline',
+        width: '40%',
+        borderRadius: 40,
+        borderColor: 'white',
+        padding: 15,
+        margin: 15,
+        
+      },
+      image: {
+        width: '100%',
+        height: 100,
+        marginBottom: 10,
+      },
+      name: {
+        fontWeight: 'bold',
         fontSize: 16,
-        fontFamily: Fonts.POPPINS_MEDIUM,
-        color: Colors.DEFAULT_BLACK,
-        marginLeft: 20, // Hoặc một giá trị phù hợp để căn lề trái
-        marginBottom: 5, // Khoảng cách giữa tiêu đề và ScrollView
-    },
-    
-    specialDaySection: {
-        marginTop: 12,
-    },
+        textAlign: "center",
+      },
+      price: {
+        fontSize: 14,
+        textAlign: "center",
+      },
+      description: {
+        color: 'purple',
+        textAlign: "center",
+      },
+
+   
+
+
 
     flex1: {
-        flex: 0.4,
+        flex: 0.35,
         //backgroundColor: "red",
         flexDirection: "column",
-        justifyContent: "flex-end", 
+        justifyContent: "flex-end", //make all content center
     },
 
     flex2: {
         //backgroundColor: "blue",
         flex: 0.15,
-        flexDirection: "column",
-        justifyContent: "flex-end", 
+        flexDirection: "column", 
+        justifyContent: "flex-start", 
 
     },
 
@@ -488,6 +470,32 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         alignItems: "center",
     },
+
+    //bar recent
+    container3: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 10,
+      },
+      choice: {
+        padding: 10,
+        margin: 5,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'white',
+      },
+      text: {
+        color: 'purple',
+      },
+      selectedText: {
+        color: 'white',
+      },
+      selectedChoice: {
+        backgroundColor: 'purple',
+      },
+ 
+
+    
 });
 
 export default HomeScreen;
