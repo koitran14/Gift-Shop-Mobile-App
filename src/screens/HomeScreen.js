@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     TextInput,
     Image,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
 } from "react-native";
 import {
     CategoryMenuItem,
@@ -23,7 +23,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather";
 import { RestaurantService } from "../services";
 import { Display } from "../utils";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 
 const sortStyle = (isActive) =>
     isActive
@@ -80,99 +80,120 @@ const HomeScreen = ({ navigation }) => {
 
     //products
     const products = [
-        { id: 1, name: 'Gifts', price: '$10', description: 'A beautiful gift', image: require('../../assets/images/gift.png') },
-        { id: 2, name: 'Cake', price: '$20', description: 'A delicious cake', image: require('../../assets/images/cake.png') },
-        { id: 3, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/star.png') },
-        { id:4, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/flower.png') },
-       
-      ];
+        {
+            id: 1,
+            name: "Gifts",
+            price: "$10",
+            description: "A beautiful gift",
+            image: require("../../assets/images/gift.png"),
+        },
+        {
+            id: 2,
+            name: "Cake",
+            price: "$20",
+            description: "A delicious cake",
+            image: require("../../assets/images/cake.png"),
+        },
+        {
+            id: 3,
+            name: "Product 3",
+            price: "$30",
+            description: "Description 3",
+            image: require("../../assets/images/star.png"),
+        },
+        {
+            id: 4,
+            name: "Product 3",
+            price: "$30",
+            description: "Description 3",
+            image: require("../../assets/images/flower.png"),
+        },
+    ];
 
-    
-// Recent bar
-    const [selectedChoice, setSelectedChoice] = useState('Recent');
+    // Recent bar
+    const [selectedChoice, setSelectedChoice] = useState("Recent");
 
-    const choices = ['Recent', 'Favorite', 'Flowers', 'Gifts', 'Cakes'];
+    const choices = ["Recent", "Favorite", "Flowers", "Gifts", "Cakes"];
 
     const handleChoiceSelect = (choice) => {
-    setSelectedChoice(choice);
+        setSelectedChoice(choice);
     };
 
     //special day
     const images = [
-        { date: '14/2', image: require('../../assets/images/83.png') },
-        { date: '8/3', image: require('../../assets/images/142.png') },
-        { date: '20/11', image: require('../../assets/images/2011.png') },
-        { date: '14/2', image: require('../../assets/images/83.png') },
-      ];
-    
-      const handleImagePress = (date) => {
-        if (date === '14/2') {
-          navigation.navigate('Signin');
-        }
-      };
-    
+        { date: "14/2", image: require("../../assets/images/83.png") },
+        { date: "8/3", image: require("../../assets/images/142.png") },
+        { date: "20/11", image: require("../../assets/images/2011.png") },
+        { date: "14/2", image: require("../../assets/images/83.png") },
+    ];
 
-    
+    const handleImagePress = (date) => {
+        if (date === "14/2") {
+            navigation.navigate("Signin");
+        }
+    };
+
     return (
         <LinearGradient
-        colors={['rgba(231, 192, 248, 0.7)', 'rgba(188, 204, 243, 0.7)']}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={{ flex: 1 }}
-      >
-        <View style={styles.container}>
+            colors={["rgba(231, 192, 248, 0.7)", "rgba(188, 204, 243, 0.7)"]}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={{ flex: 1 }}
+        >
+            <View style={styles.container}>
+                {/* flex1 */}
+                <View style={styles.flex1}>
+                    <View style={styles.headerContainer}>
+                        <View style={styles.locationContainer}>
+                            {/* Welcome  */}
+                            <Image source={Images.USER} />
 
-            {/* flex1 */}
-            <View style={styles.flex1}> 
-                <View style={styles.headerContainer}>
-                    <View style={styles.locationContainer}>
-                        {/* Welcome  */}
-                        <Image source={Images.USER}  />
-
-                        <Text style={styles.locationText}>
-                            Welcome Koi Tran
-                        </Text>
-                        <MaterialIcons
-                            name="keyboard-arrow-down"
-                            size={16}
-                            color={Colors.DEFAULT_YELLOW}
-                        />
-                        <Feather
-                            name="bell"
-                            size={24}
-                            color={Colors.DEFAULT_WHITE}
-                            style={{ position: "absolute", right: 0 }}
-                        />
-                        <View style={styles.alertBadge}>
-                            <Text style={styles.alertBadgeText}>12</Text>
-                        </View>
-                    </View>
-
-                    <View style={styles.searchContainer}>
-                        {/* search bar */}
-                        <View style={styles.searchSection}>
-                            <Ionicons
-                                name="search-outline"
-                                size={25}
-                                color={Colors.DEFAULT_GREY}
+                            <Text style={styles.locationText}>
+                                Welcome Koi Tran
+                            </Text>
+                            <MaterialIcons
+                                name="keyboard-arrow-down"
+                                size={16}
+                                color={Colors.DEFAULT_YELLOW}
                             />
-                            <TextInput
-                                style={styles.searchText}
-                                placeholder="Search..."
+                            <Feather
+                                name="bell"
+                                size={24}
+                                color={Colors.DEFAULT_WHITE}
+                                style={{ position: "absolute", right: 0 }}
+                            />
+                            <View style={styles.alertBadge}>
+                                <Text style={styles.alertBadgeText}>12</Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.searchContainer}>
+                            {/* search bar */}
+                            <View style={styles.searchSection}>
+                                <Ionicons
+                                    name="search-outline"
+                                    size={25}
+                                    color={Colors.DEFAULT_GREY}
+                                />
+                                <TextInput
+                                    style={styles.searchText}
+                                    placeholder="Search..."
+                                />
+                            </View>
+                            <Feather
+                                name="sliders"
+                                size={20}
+                                color={Colors.DEFAULT_YELLOW}
+                                style={{ marginRight: 10 }}
                             />
                         </View>
-                        <Feather
-                            name="sliders"
-                            size={20}
-                            color={Colors.DEFAULT_YELLOW}
-                            style={{ marginRight: 10 }}
-                        />
-                    </View>
 
-                    <View style={styles.specialDaySection}>
-                        {/* special day */}
-                        <Text style={styles.specialDayTitle}>Special Day</Text>
-                        {/* <ScrollView
+                        <View style={styles.specialDaySection}>
+                            {/* special day */}
+                            <Text style={styles.specialDayTitle}>
+                                Special Day
+                            </Text>
+                            {/* <ScrollView
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
                         >
@@ -202,60 +223,80 @@ const HomeScreen = ({ navigation }) => {
                                 />
                             ))}
                         </ScrollView> old*/}
-                        
-                        <ScrollView horizontal contentContainerStyle={{ flexDirection: 'row' }}
-                        showsHorizontalScrollIndicator={false}
-                        >
-                        {images.map(({ date, image }, index) => (
-                            <TouchableOpacity key={index} onPress={() => handleImagePress(date)}>
-                            <View style={{ marginHorizontal: 10 }}>
-                                <Image
-                                source={image}
-                                style={{ width: 120, height: 80, borderRadius: 10 }}
-                                />
-                            </View>
-                            </TouchableOpacity>
-                        ))}
-                        </ScrollView>
 
-
+                            <ScrollView
+                                horizontal
+                                contentContainerStyle={{ flexDirection: "row" }}
+                                showsHorizontalScrollIndicator={false}
+                            >
+                                {images.map(({ date, image }, index) => (
+                                    <TouchableOpacity
+                                        key={index}
+                                        onPress={() => handleImagePress(date)}
+                                    >
+                                        <View style={{ marginHorizontal: 10 }}>
+                                            <Image
+                                                source={image}
+                                                style={{
+                                                    width: 120,
+                                                    height: 80,
+                                                    borderRadius: 10,
+                                                }}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </ScrollView>
+                        </View>
                     </View>
                 </View>
-            </View>
 
-            {/* flex2 */}
-            <View style={styles.flex2}>
-            <View style={styles.horizontalListContainer}>
-                <View style={styles.listHeader}>
-                <Text style={styles.listHeaderTitle}>
-                    Categories
-                </Text>
-                <Text style={styles.listHeaderSubtitle}>
-                    See All
-                </Text>
+                {/* flex2 */}
+                <View style={styles.flex2}>
+                    <View style={styles.horizontalListContainer}>
+                        <View style={styles.listHeader}>
+                            <Text style={styles.listHeaderTitle}>
+                                Categories
+                            </Text>
+                            <Text style={styles.listHeaderSubtitle}>
+                                See All
+                            </Text>
+                        </View>
+
+                        <ScrollView
+                            horizontal
+                            contentContainerStyle={styles.container3}
+                        >
+                            {choices.map((choice, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    style={[
+                                        styles.choice,
+                                        selectedChoice === choice
+                                            ? styles.selectedChoice
+                                            : null,
+                                    ]}
+                                    onPress={() => handleChoiceSelect(choice)}
+                                >
+                                    <Text
+                                        style={
+                                            selectedChoice === choice
+                                                ? styles.selectedText
+                                                : styles.text
+                                        }
+                                    >
+                                        {choice}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+                    </View>
                 </View>
 
-                <ScrollView horizontal contentContainerStyle={styles.container3}>
-                {choices.map((choice, index) => (
-                    <TouchableOpacity
-                    key={index}
-                    style={[styles.choice, selectedChoice === choice ? styles.selectedChoice : null]}
-                    onPress={() => handleChoiceSelect(choice)}
-                    >
-                    <Text style={selectedChoice === choice ? styles.selectedText : styles.text}>{choice}</Text>
-                    </TouchableOpacity>
-                ))}
-                </ScrollView>
-                
-            </View>
-            </View>
-            
+                {/* flex3 */}
 
-            {/* flex3 */}
-            
-            <View style={styles.flex3}>
-           
-                {/* <View style={styles.rectangleView}>
+                <View style={styles.flex3}>
+                    {/* <View style={styles.rectangleView}>
                     <Image source={Images.FLOWER} style={styles.flower} />
                     <Text style={styles.flower_text1}>Bouquet</Text>
                     <Text style={styles.flower_text2}>Having 5 flower</Text>
@@ -268,37 +309,48 @@ const HomeScreen = ({ navigation }) => {
                     <Text style={styles.flower_text2}>Having 5 flower</Text>
                     <Text style={styles.flower_text3}>$20</Text>
                     </View> */}
-                    
-                <ScrollView contentContainerStyle={styles.container2}>
-                {products.map((product) => (
-                    <TouchableOpacity key={product.id} style={styles.productContainer}>
-                    <Image source={product.image} style={styles.image} />
-                    <Text style={styles.name}>{product.name}</Text>
-                    <Text style={styles.price}>{product.price}</Text>
-                    <Text style={styles.description}>{product.description}</Text>
-                </TouchableOpacity>
-                ))}
-                </ScrollView>
-            </View>
+
+                    <ScrollView contentContainerStyle={styles.container2}>
+                        {products.map((product) => (
+                            <TouchableOpacity
+                                key={product.id}
+                                style={styles.productContainer}
+                            >
+                                <Image
+                                    source={product.image}
+                                    style={styles.image}
+                                />
+                                <Text style={styles.name}>{product.name}</Text>
+                                <Text style={styles.price}>
+                                    {product.price}
+                                </Text>
+                                <Text style={styles.description}>
+                                    {product.description}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </ScrollView>
+                </View>
 
                 {/* flex4 */}
 
-            <View style={styles.flex4}> 
+                <View style={styles.flex4}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Signin")}
+                    >
+                        <Image source={Images.HOME} />
+                    </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Signin')}> 
-            <Image source={Images.HOME} />
-            </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Signup")}
+                    >
+                        <Image source={Images.LOVE} />
+                    </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-            <Image source={Images.LOVE}  />
-            </TouchableOpacity>
-            
-            <Image source={Images.USER}  />
-            <Image source={Images.CART}  />
-            
+                    <Image source={Images.USER} />
+                    <Image source={Images.CART} />
+                </View>
             </View>
-
-        </View>
         </LinearGradient>
     );
 };
@@ -309,19 +361,19 @@ const styles = StyleSheet.create({
     },
 
     // flex1
-  
+
     headerContainer: {
         justifyContent: "space-evenly",
     },
     locationContainer: {
         flexDirection: "row",
         alignItems: "center",
-        marginTop: '12%',
+        marginTop: "12%",
         marginHorizontal: "5%",
     },
     locationText: {
         color: Colors.DEFAULT_BLACK,
-        marginLeft: '2%',
+        marginLeft: "2%",
         fontSize: 13,
         lineHeight: 13 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
@@ -353,115 +405,111 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-
     },
     searchSection: {
         flexDirection: "row",
         alignItems: "center",
-        marginLeft: '3%',
+        marginLeft: "3%",
     },
     searchText: {
         color: Colors.DEFAULT_BLACK,
         fontSize: 16,
         lineHeight: 16 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
-        marginLeft: '5%',
+        marginLeft: "5%",
     },
-   
+
     specialDayTitle: {
-        textDecorationLine: 'underline',
+        textDecorationLine: "underline",
         fontSize: 16,
         fontFamily: Fonts.POPPINS_MEDIUM,
+        marginHorizontal: "5%",
         color: Colors.DEFAULT_BLACK,
-        marginLeft: '5%', // Hoặc một giá trị phù hợp để căn lề trái
-        marginBottom: '2%', // Khoảng cách giữa tiêu đề và ScrollView
+        // Hoặc một giá trị phù hợp để căn lề trái
+        marginBottom: "2%", // Khoảng cách giữa tiêu đề và ScrollView
     },
-    
-  
 
     // flex2
-   
+
     listHeader: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginHorizontal: "5%",
-
     },
 
     listHeaderTitle: {
-        textDecorationLine: 'underline',
+        textDecorationLine: "underline",
         color: Colors.DEFAULT_BLACK,
         fontSize: 16,
         lineHeight: 16 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
+        marginHorizontal: "5%",
     },
     listHeaderSubtitle: {
         color: Colors.DEFAULT_YELLOW,
         fontSize: 13,
         lineHeight: 13 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
+        marginHorizontal: "5%",
     },
 
     container3: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: '2%',
-      },
-      choice: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginLeft: "2%",
+    },
+    choice: {
         padding: "4%",
         margin: 5,
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: 'white',
-      },
-      text: {
-        color: 'purple',
-      },
-      selectedText: {
-        color: 'white',
-      },
-      selectedChoice: {
-        backgroundColor: 'purple',
-      },
-
+        borderColor: "white",
+    },
+    text: {
+        color: "purple",
+    },
+    selectedText: {
+        color: "white",
+    },
+    selectedChoice: {
+        backgroundColor: "purple",
+    },
 
     // flex 3
-    
+
     container2: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "center",
         flexDirection: "row",
         justifyContent: "space-evenly",
-      },
-      productContainer: {
+    },
+    productContainer: {
         backgroundColor: "#fffdfd",
-        width: '40%',
+        width: "40%",
         borderRadius: 40,
-        borderColor: 'white',
+        borderColor: "white",
         padding: "5%",
         margin: "5%",
-        
-      },
-      image: {
-        width: '100%',
+    },
+    image: {
+        width: "100%",
         height: 100,
         marginBottom: "5%",
-      },
-      name: {
-        fontWeight: 'bold',
+    },
+    name: {
+        fontWeight: "bold",
         fontSize: 16,
         textAlign: "center",
-      },
-      price: {
+    },
+    price: {
         fontSize: 14,
         textAlign: "center",
-      },
-      description: {
-        color: 'purple',
+    },
+    description: {
+        color: "purple",
         textAlign: "center",
-      },
+    },
 
     flex1: {
         flex: 0.35,
@@ -473,9 +521,8 @@ const styles = StyleSheet.create({
     flex2: {
         //backgroundColor: "blue",
         flex: 0.15,
-        flexDirection: "column", 
-        justifyContent: "center", 
-
+        flexDirection: "column",
+        justifyContent: "center",
     },
 
     flex3: {
@@ -487,18 +534,13 @@ const styles = StyleSheet.create({
     },
 
     flex4: {
-        backgroundColor: 'linear-gradient(90deg, rgba(231, 192, 248, 0.70) 0%, rgba(188, 204, 243, 0.70) 100%)',
+        backgroundColor:
+            "linear-gradient(90deg, rgba(231, 192, 248, 0.70) 0%, rgba(188, 204, 243, 0.70) 100%)",
         flex: 0.1,
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
     },
-
-    //bar recent
-    
- 
-
-
 });
 
 export default HomeScreen;
