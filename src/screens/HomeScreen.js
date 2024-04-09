@@ -34,6 +34,8 @@ const HomeScreen = ({ navigation }) => {
     const [activeCategory, setActiveCategory] = useState();
     const [restaurants, setRestaurants] = useState(mockRestaurants); // set fake data
     const [activeSortItem, setActiveSortItem] = useState("recent");
+    const [searchText, setSearchText] = useState(""); // State lưu từ khóa tìm kiếm
+    const [filteredProducts, setFilteredProducts] = useState(products); // State lưu danh sách sản phẩm sau khi lọc
 
     //fake data
     const mockRestaurants = [
@@ -67,16 +69,15 @@ const HomeScreen = ({ navigation }) => {
         // Add more mock restaurants as needed
     ];
 
-    // useEffect(() => {
-    //   const unsubscribe = navigation.addListener('focus', () => {
-    //     RestaurantService.getRestaurants().then(response => {
-    //       if (response?.status) {
-    //         setRestaurants(response?.data);
-    //       }
-    //     });
-    //   });
-    //   return unsubscribe;
-    // }, []);
+    // Khi SearchText thay đổi -> cập nhật
+    useEffect(() => {
+        const filtered = products.filter((product) => {
+            return product.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                   product.description.toLowerCase().includes(searchText.toLowerCase());
+        });
+        setFilteredProducts(filtered);
+    }, [searchText]);
+
 
     //products
     const products = [
@@ -176,6 +177,8 @@ const HomeScreen = ({ navigation }) => {
                                 <TextInput
                                     style={styles.searchText}
                                     placeholder="Search..."
+                                    value={searchText}
+                                    onChangeText={setSearchText} //Update seach value
                                 />
                             </View>
                             <Feather
@@ -289,7 +292,7 @@ const HomeScreen = ({ navigation }) => {
                         </View> */}
                         
                     <ScrollView contentContainerStyle={styles.container2}>
-                        {products.map((product) => (
+                        {filteredProducts.map((product) => (
                             <TouchableOpacity key={product.id} style={styles.productContainer}>
                                 <Image source={product.image} style={styles.image} />
                                 <Text style={styles.name}>{product.name}</Text>
