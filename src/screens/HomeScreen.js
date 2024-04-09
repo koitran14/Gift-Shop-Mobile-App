@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     TextInput,
     Image,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
 } from "react-native";
 import {
     CategoryMenuItem,
@@ -23,7 +23,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather";
 import { RestaurantService } from "../services";
 import { Display } from "../utils";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 
 const sortStyle = (isActive) =>
     isActive
@@ -86,10 +86,12 @@ const HomeScreen = ({ navigation }) => {
         { id:4, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/flower.png') },   
     ];
     
-    // Recent bar
-    const [selectedChoice, setSelectedChoice] = useState('Recent');
 
-    const choices = ['Recent', 'Favorite', 'Flowers', 'Gifts', 'Cakes'];
+
+    // Recent bar
+    const [selectedChoice, setSelectedChoice] = useState("Recent");
+
+    const choices = ["Recent", "Favorite", "Flowers", "Gifts", "Cakes"];
 
     const handleChoiceSelect = (choice) => {
         setSelectedChoice(choice);  
@@ -337,19 +339,19 @@ const styles = StyleSheet.create({
     },
 
     // flex1
-  
+
     headerContainer: {
         justifyContent: "space-evenly",
     },
     locationContainer: {
         flexDirection: "row",
         alignItems: "center",
-        marginTop: '12%',
+        marginTop: "12%",
         marginHorizontal: "5%",
     },
     locationText: {
         color: Colors.DEFAULT_BLACK,
-        marginLeft: '2%',
+        marginLeft: "2%",
         fontSize: 13,
         lineHeight: 13 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
@@ -381,32 +383,32 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-
     },
     searchSection: {
         flexDirection: "row",
         alignItems: "center",
-        marginLeft: '3%',
+        marginLeft: "3%",
     },
     searchText: {
         color: Colors.DEFAULT_BLACK,
         fontSize: 16,
         lineHeight: 16 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
-        marginLeft: '5%',
+        marginLeft: "5%",
     },
-   
+
     specialDayTitle: {
-        textDecorationLine: 'underline',
+        textDecorationLine: "underline",
         fontSize: 16,
         fontFamily: Fonts.POPPINS_MEDIUM,
+        marginHorizontal: "5%",
         color: Colors.DEFAULT_BLACK,
-        marginLeft: '5%', // Hoặc một giá trị phù hợp để căn lề trái
-        marginBottom: '2%', // Khoảng cách giữa tiêu đề và ScrollView
+        // Hoặc một giá trị phù hợp để căn lề trái
+        marginBottom: "2%", // Khoảng cách giữa tiêu đề và ScrollView
     },
 
     // flex2
-   
+
     listHeader: {
         flexDirection: "row",
         alignItems: "center",
@@ -415,17 +417,19 @@ const styles = StyleSheet.create({
     },
 
     listHeaderTitle: {
-        textDecorationLine: 'underline',
+        textDecorationLine: "underline",
         color: Colors.DEFAULT_BLACK,
         fontSize: 16,
         lineHeight: 16 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
+        marginHorizontal: "5%",
     },
     listHeaderSubtitle: {
         color: Colors.DEFAULT_YELLOW,
         fontSize: 13,
         lineHeight: 13 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
+        marginHorizontal: "5%",
     },
 
     container3: {
@@ -456,7 +460,7 @@ const styles = StyleSheet.create({
     },
 
     // flex 3
-    
+
     container2: {
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -467,9 +471,9 @@ const styles = StyleSheet.create({
 
     productContainer: {
         backgroundColor: "#fffdfd",
-        width: '40%',
+        width: "40%",
         borderRadius: 40,
-        borderColor: 'white',
+        borderColor: "white",
         padding: "5%",
         margin: "5%",
     },
