@@ -6,5 +6,8 @@ import ForgotPasswordScreen from "./ForgotPasswordScreen";
 import RegisterPhoneScreen from "./RegisterPhoneScreen";
 import VerificationScreen from "./VerificationScreen";
 import HomeScreen from './HomeScreen'
-import HomeTest from "./HomeTest";
-export { SplashScreen, WelcomeScreen, SigninScreen, SignupScreen, ForgotPasswordScreen, RegisterPhoneScreen, VerificationScreen, HomeScreen, HomeTest};
+import ProfileScreen from "./ProfileScreen";
+import CartScreen from "./CartScreen";
+import FavoriteScreen from "./FavoriteScreen";
+
+export { SplashScreen, WelcomeScreen, SigninScreen, SignupScreen, ForgotPasswordScreen, RegisterPhoneScreen, VerificationScreen, HomeScreen, CartScreen, ProfileScreen, FavoriteScreen};

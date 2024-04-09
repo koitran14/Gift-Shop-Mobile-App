@@ -9,8 +9,10 @@ import {
     ForgotPasswordScreen,
     RegisterPhoneScreen,
     VerificationScreen,
-    HomeTest,
-    HomeScreen
+    HomeScreen,
+    FavoriteScreen,
+    CartScreen,
+    ProfileScreen
 } from '../screens';
 import { connect } from 'react-redux';
 
@@ -29,11 +31,14 @@ const Navigators = ({ token }) => {
                         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
                         <Stack.Screen name="RegisterPhone" component={RegisterPhoneScreen} />
                         <Stack.Screen name="Verification" component={VerificationScreen} />
-                        <Stack.Screen name="Homescreen" component={HomeScreen} />
-                        {/* <Stack.Screen name="Home" component={HomeTest} /> */}
                     </>
                 ) : (
-                    <Stack.Screen name="Home" component={HomeScreen} />
+                    <>
+                        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+                        <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
+                        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+                        <Stack.Screen name="CartScreen" component={CartScreen} />
+                    </>
                 )}
             </Stack.Navigator>
         </NavigationContainer>

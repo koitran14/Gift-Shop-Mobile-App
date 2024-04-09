@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   signinButton: {
-    backgroundColor: Colors.DEFAULT_GREEN,
+    backgroundColor: 'purple',
     borderRadius: 8,
     marginHorizontal: 20,
     height: Display.setHeight(6),

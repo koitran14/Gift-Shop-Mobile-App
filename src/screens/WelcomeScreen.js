@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     borderRadius: 32,
   },
   gettingStartedButton: {
-    backgroundColor: Colors.DEFAULT_GREEN,
+    backgroundColor: 'purple',
     paddingVertical: 10,
     paddingHorizontal: 32,
     borderRadius: 8,
