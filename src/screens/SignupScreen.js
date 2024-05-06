@@ -151,7 +151,7 @@ const SignupScreen = ({ navigation }) => {
             style={{ marginRight: 10 }}
           />
           <TextInput
-            placeholder="Email address"
+            placeholder="Username"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}

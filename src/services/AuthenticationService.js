@@ -1,10 +1,6 @@
 import axios from "axios";
 import { ApiContants } from "../contants";
 
-const AuthRequest = axios.create({
-    baseURL: ApiContants.BACKEND_API.BASE_API_URL,
-});
-
 const register = async (user) => {
     if (!user?.username || !user?.email || !user?.password) {
         return {
@@ -18,7 +14,7 @@ const register = async (user) => {
             password: user?.password,
             email: user?.email
         };
-        let registerResponse = await AuthRequest.post(
+        let registerResponse = await axios.post(
             ApiContants.BACKEND_API.REGISTER, 
             requestBody
         );
@@ -42,7 +38,7 @@ const login = async user => {
             username: user?.username,
             password: user?.password,
         }
-        let loginResponse = await AuthRequest.post(
+        let loginResponse = await axios.post(
             ApiContants.BACKEND_API.LOGIN,
             requestBody,
         );
@@ -55,7 +51,7 @@ const login = async user => {
 const checkUserExist = async(type, value) => {
     try {
         let params = {[type]: value};
-        let userCheckResponse = await AuthRequest.get(
+        let userCheckResponse = await axios.get(
             ApiContants.BACKEND_API.USER_EXIST,
             {params}
         )

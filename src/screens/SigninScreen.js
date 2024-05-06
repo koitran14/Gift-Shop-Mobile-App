@@ -25,9 +25,11 @@ const SigninScreen = ({navigation, setToken}) => {
     }; 
     AuthenticationService.login(user).then(response => {
       setIsLoading(false);
-      if (response.data) setToken(`${response.data}`);
+      if (response.data) {
+        setToken(`${response.data}`);
+        navigation.navigate('HomeScreen')
+      }
       console.log("Token from login: " + response.data)
-      navigation.navigate('HomeScreen')
       if (!response?.status){
         setErrorMessage(response?.message);
       }

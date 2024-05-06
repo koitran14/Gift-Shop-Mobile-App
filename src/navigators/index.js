@@ -31,12 +31,6 @@ const Navigators = ({ token }) => {
                         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
                         <Stack.Screen name="RegisterPhone" component={RegisterPhoneScreen} />
                         <Stack.Screen name="Verification" component={VerificationScreen} />
-                        {/* Testing without token */}
-                        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-                        <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
-                        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-                        <Stack.Screen name="CartScreen" component={CartScreen} />
-
                     </>
                 ) : (
                     <>

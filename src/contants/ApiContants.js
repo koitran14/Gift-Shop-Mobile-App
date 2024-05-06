@@ -9,9 +9,9 @@ const COUNTRY_FLAG = {
 
 const BACKEND_API = {
   BASE_API_URL: `${BACKEND_BASE_URL}/api`,
-  REGISTER: '/register',
-  LOGIN: '/login',
-  USER_EXIST: '/user-exist'
+  REGISTER: `${BACKEND_BASE_URL}/api/register`,
+  LOGIN: `${BACKEND_BASE_URL}/api/login`,
+  USER_EXIST: `${BACKEND_BASE_URL}/user-exist`
 };
 
 const STATIC_IMAGE = {

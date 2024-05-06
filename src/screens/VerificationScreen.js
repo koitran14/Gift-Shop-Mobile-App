@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Alert,
 } from 'react-native';
 import {Separator} from '../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -37,6 +38,8 @@ const VerificationScreen = ({
     if (validOtp) {
       console.log("Valid OTP.")
       navigation.navigate('Signin');
+    } else {
+      Alert.alert('Wrong OTP! It must be 1-2-3-4.')
     }
   }
 
@@ -119,7 +122,7 @@ const VerificationScreen = ({
       <TouchableOpacity
         style={styles.signinButton}
         onPress={submit}
-        disabled={!validOtp}>
+      >
         <Text style={styles.signinButtonText}>Verify</Text>
       </TouchableOpacity>
     </View>

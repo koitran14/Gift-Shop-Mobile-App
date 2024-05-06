@@ -35,6 +35,14 @@ const HomeScreen = ({ navigation }) => {
     const [restaurants, setRestaurants] = useState(mockRestaurants); // set fake data
     const [activeSortItem, setActiveSortItem] = useState("recent");
     const [searchText, setSearchText] = useState(""); // State lưu từ khóa tìm kiếm
+    
+    const products = [
+        { id: 1, name: 'Gifts', price: '$10', description: 'A beautiful gift', image: require('../../assets/images/gift.png') },
+        { id: 2, name: 'Cake', price: '$20', description: 'A delicious cake', image: require('../../assets/images/cake.png') },
+        { id: 3, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/star.png') },
+        { id:4, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/flower.png') },   
+    ];
+    
     const [filteredProducts, setFilteredProducts] = useState(products); // State lưu danh sách sản phẩm sau khi lọc
 
     //fake data
@@ -69,7 +77,7 @@ const HomeScreen = ({ navigation }) => {
         // Add more mock restaurants as needed
     ];
 
-    // Khi SearchText thay đổi -> cập nhật
+
     useEffect(() => {
         const filtered = products.filter((product) => {
             return product.name.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -77,18 +85,7 @@ const HomeScreen = ({ navigation }) => {
         });
         setFilteredProducts(filtered);
     }, [searchText]);
-
-
-    //products
-    const products = [
-        { id: 1, name: 'Gifts', price: '$10', description: 'A beautiful gift', image: require('../../assets/images/gift.png') },
-        { id: 2, name: 'Cake', price: '$20', description: 'A delicious cake', image: require('../../assets/images/cake.png') },
-        { id: 3, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/star.png') },
-        { id:4, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/flower.png') },   
-    ];
-    
-
-
+                                                                             
     // Recent bar
     const [selectedChoice, setSelectedChoice] = useState("Recent");
 
@@ -312,24 +309,6 @@ const HomeScreen = ({ navigation }) => {
                         </TouchableOpacity>
                     ))}
                 </View>
-
-                {/* <View style={styles.flex4}> 
-                    <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}> 
-                        <Image source={Images.HOME} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => navigation.navigate('FavoriteScreen')}>
-                        <Image source={Images.LOVE}  />
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>  
-                        <Image source={Images.USER}  />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => navigation.navigate('CartScreen')}>  
-                        <Image source={Images.CART}  />
-                    </TouchableOpacity>
-                </View> */}
             </View>
         </LinearGradient>
     );
