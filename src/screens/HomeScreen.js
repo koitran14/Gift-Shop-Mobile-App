@@ -35,14 +35,14 @@ const HomeScreen = ({ navigation }) => {
     const [restaurants, setRestaurants] = useState(mockRestaurants); // set fake data
     const [activeSortItem, setActiveSortItem] = useState("recent");
     const [searchText, setSearchText] = useState(""); // State lưu từ khóa tìm kiếm
-    
+
     const products = [
         { id: 1, name: 'Gifts', price: '$10', description: 'A beautiful gift', image: require('../../assets/images/gift.png') },
         { id: 2, name: 'Cake', price: '$20', description: 'A delicious cake', image: require('../../assets/images/cake.png') },
         { id: 3, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/star.png') },
-        { id:4, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/flower.png') },   
+        { id: 4, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/flower.png') },
     ];
-    
+
     const [filteredProducts, setFilteredProducts] = useState(products); // State lưu danh sách sản phẩm sau khi lọc
 
     //fake data
@@ -81,18 +81,18 @@ const HomeScreen = ({ navigation }) => {
     useEffect(() => {
         const filtered = products.filter((product) => {
             return product.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                   product.description.toLowerCase().includes(searchText.toLowerCase());
+                product.description.toLowerCase().includes(searchText.toLowerCase());
         });
         setFilteredProducts(filtered);
     }, [searchText]);
-                                                                             
+
     // Recent bar
     const [selectedChoice, setSelectedChoice] = useState("Recent");
 
     const choices = ["Recent", "Favorite", "Flowers", "Gifts", "Cakes"];
 
     const handleChoiceSelect = (choice) => {
-        setSelectedChoice(choice);  
+        setSelectedChoice(choice);
     };
 
     //special day
@@ -102,10 +102,10 @@ const HomeScreen = ({ navigation }) => {
         { date: '20/11', image: require('../../assets/images/2011.png') },
         { date: '14/2', image: require('../../assets/images/83.png') },
     ];
-    
+
     const handleImagePress = (date) => {
         if (date === '14/2') {
-          navigation.navigate('HomeScreen');
+            navigation.navigate('HomeScreen');
         }
     };
 
@@ -138,11 +138,11 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.container}>
 
                 {/* flex1 */}
-                <View style={styles.flex1}> 
+                <View style={styles.flex1}>
                     <View style={styles.headerContainer}>
                         <View style={styles.locationContainer}>
                             {/* Welcome  */}
-                            <Image source={Images.USER}  />
+                            <Image source={Images.USER} />
 
                             <Text style={styles.locationText}>
                                 Welcome Koi Tran
@@ -219,9 +219,9 @@ const HomeScreen = ({ navigation }) => {
                                     />
                                 ))}
                             </ScrollView> old*/}
-                            
-                            <ScrollView 
-                                horizontal 
+
+                            <ScrollView
+                                horizontal
                                 contentContainerStyle={{ flexDirection: 'row' }}
                                 showsHorizontalScrollIndicator={false}
                             >
@@ -252,8 +252,8 @@ const HomeScreen = ({ navigation }) => {
                             </Text>
                         </View>
 
-                        <ScrollView 
-                            horizontal 
+                        <ScrollView
+                            horizontal
                             contentContainerStyle={styles.container3}
                             showsHorizontalScrollIndicator={false}
                         >
@@ -271,9 +271,9 @@ const HomeScreen = ({ navigation }) => {
                 </View>
 
                 {/* flex3 */}
-                
+
                 <View style={styles.flex3}>
-            
+
                     {/* <View style={styles.rectangleView}>
                         <Image source={Images.FLOWER} style={styles.flower} />
                         <Text style={styles.flower_text1}>Bouquet</Text>
@@ -287,7 +287,7 @@ const HomeScreen = ({ navigation }) => {
                         <Text style={styles.flower_text2}>Having 5 flower</Text>
                         <Text style={styles.flower_text3}>$20</Text>
                         </View> */}
-                        
+
                     <ScrollView contentContainerStyle={styles.container2}>
                         {filteredProducts.map((product) => (
                             <TouchableOpacity key={product.id} style={styles.productContainer}>
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
         height: 100,
         marginBottom: "5%",
     },
-      
+
     name: {
         fontWeight: 'bold',
         fontSize: 16,
@@ -474,7 +474,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         textAlign: "center",
     },
-      
+
     description: {
         color: 'purple',
         textAlign: "center",
@@ -491,8 +491,8 @@ const styles = StyleSheet.create({
         //backgroundColor: "blue",
         flex: 0.15,
         width: '100%',
-        flexDirection: "column", 
-        justifyContent: "center", 
+        flexDirection: "column",
+        justifyContent: "center",
     },
 
     flex3: {

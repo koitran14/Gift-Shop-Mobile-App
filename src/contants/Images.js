@@ -23,6 +23,8 @@ export default {
     LOVE: require('../../assets/images/love_bar.png'),
     USER: require('../../assets/images/User_bar.png'),
     CART: require('../../assets/images/cart_bar.png'),
+    VISA: require('../../assets/images/visa.png'),
+    MASTERCARD: require('../../assets/images/mastercard.png'),
 
 };
 
