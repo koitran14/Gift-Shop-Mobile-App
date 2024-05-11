@@ -25,19 +25,13 @@ const Navigators = ({ token }) => {
               <Stack.Navigator screenOptions={{ headerShown: false }}>
                 { !token ? (
                     <>
-                        {/* <Stack.Screen name="Splash" component={SplashScreen} />
-                        <Stack.Screen name="Welcome" component={WelcomeScreen} /> */}
-                        {/* <Stack.Screen name="Signin" component={SigninScreen} />
-                        <Stack.Screen name="Signup" component={SignupScreen} /> */}
-                        {/* <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+                        <Stack.Screen name="Splash" component={SplashScreen} />
+                        <Stack.Screen name="Welcome" component={WelcomeScreen} />
+                        <Stack.Screen name="Signin" component={SigninScreen} />
+                        <Stack.Screen name="Signup" component={SignupScreen} />
+                        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
                         <Stack.Screen name="RegisterPhone" component={RegisterPhoneScreen} />
-                        <Stack.Screen name="Verification" component={VerificationScreen} /> */}
-
-                        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-                        <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
-                        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-                        <Stack.Screen name="CartScreen" component={CartScreen} />
-
+                        <Stack.Screen name="Verification" component={VerificationScreen} />
                         
 
                         
