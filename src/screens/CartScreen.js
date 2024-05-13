@@ -201,12 +201,12 @@ export default function CartScreen ({navigation}) {
             </View>
         </View>
             ):(
-                <View style={styles.image}>
-                <Image  source={Images.CART2} resizeMode="cover"/>
+            <View style={styles.imageContainer}>
+                <Image source={Images.CART2} resizeMode="cover" style={styles.image}/>
                 <Text style={styles.description}>
                     You don't have any orders
                 </Text>
-                </View>  
+            </View>
             )}
     </View>
     <View style={styles.frame}>
@@ -246,6 +246,9 @@ const styles = StyleSheet.create({
         lineHeight: 16 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
     },
+    image: {
+        marginTop: '-40%',
+    },
     description: {
         alignContent: 'center',
         color: Colors.DEFAULT_BLACK,
@@ -254,6 +257,11 @@ const styles = StyleSheet.create({
         lineHeight: 16 * 1.4,
         fontFamily: Fonts.POPPINS_EXTRA_LIGHT,
         marginTop: 20,
+    },
+    imageContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     productContainer: {
         marginTop: 20,
