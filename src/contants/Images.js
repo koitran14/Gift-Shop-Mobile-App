@@ -23,6 +23,12 @@ export default {
     LOVE: require('../../assets/images/love_bar.png'),
     USER: require('../../assets/images/User_bar.png'),
     CART: require('../../assets/images/cart_bar.png'),
-
+    CART2: require('../../assets/images/cart.png'),
+    ADD: require('../../assets/images/Add_round_fill.png'),
+    REMOVE: require('../../assets/images/Remove_fill.png'), 
+    BOUQUET: require('../../assets/images/bouquet.png'),
+    BIRTHDAY_CAKE: require('../../assets/images/birthday.png'),
+    SHOP: require('../../assets/images/Shop.png'),
+    MAP: require('../../assets/images/Map_light.png'),
 };
 
