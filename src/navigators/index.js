@@ -12,7 +12,9 @@ import {
     HomeScreen,
     FavoriteScreen,
     CartScreen,
-    ProfileScreen
+    ProfileScreen,
+    ShopScreen,
+
 } from '../screens';
 import { connect } from 'react-redux';
 
@@ -31,9 +33,11 @@ const Navigators = ({ token }) => {
                         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
                         <Stack.Screen name="RegisterPhone" component={RegisterPhoneScreen} />
                         <Stack.Screen name="Verification" component={VerificationScreen} />
+                       
                     </>
                 ) : (
-                    <>
+                    <>  
+                        <Stack.Screen name="ShopScreen" component={ShopScreen} />
                         <Stack.Screen name="HomeScreen" component={HomeScreen} />
                         <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
                         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />

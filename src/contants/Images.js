@@ -23,6 +23,10 @@ export default {
     LOVE: require('../../assets/images/love_bar.png'),
     USER: require('../../assets/images/User_bar.png'),
     CART: require('../../assets/images/cart_bar.png'),
+    FLOWER1: require('../../assets/images/image 4.png'),
+    SUB: require('../../assets/images/Subtract.png'),
+
+    FLOWERBANNER: require('../../assets/images/image 2.png')
 
 };
 

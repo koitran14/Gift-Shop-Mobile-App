@@ -115,7 +115,7 @@ const HomeScreen = ({ navigation }) => {
             source: Images.HOME,
         },
         {
-            navigation: 'FavoriteScreen',
+            navigation: 'ShopScreen',
             source: Images.LOVE,
         },
         {
