@@ -72,7 +72,18 @@ const Shop = ({ navigation }) => {
 
                 {/* flex 1: hang shop */}
                 <View style={styles.flex1}>
-                    <View style={styles.searchContainer}>
+                   
+                
+                    <Image style={styles.image3} source={Images.FLOWERBANNER} />
+
+                    <View style={styles.subtractParent}>
+                        <Image
+                            style={styles.subtractIcon}
+                            source={Images.SUB}
+                        />
+
+
+                        <View style={styles.searchContainer}>
                         {/* search bar */}
                         <View style={styles.searchSection}>
                             <Ionicons
@@ -88,17 +99,10 @@ const Shop = ({ navigation }) => {
                             />
                         </View>
                     </View>
-
-                    <Image style={styles.image3} source={Images.FLOWERBANNER} />
-
-                    <View style={styles.subtractParent}>
-                        <Image
-                            style={styles.subtractIcon}
-                            source={Images.SUB}
-                        />
-
+                    
+                    <View style={styles.container1}>
                         <Text style={[styles.sflower]}>SFlower</Text>
-                        <Text style={[styles.follow, styles.followFlexBox]}>
+                        <Text style={[styles.follow]}>
                             + Follow
                         </Text>
                         <Text
@@ -119,6 +123,7 @@ const Shop = ({ navigation }) => {
                             resizeMode="cover"
                             source="Star 1.png"
                         />
+                        </View>
                     </View>
                 </View>
 
@@ -187,16 +192,16 @@ const styles = StyleSheet.create({
 
     flex1: {
         flex: 0.2,
+        flexDirection: "column",
+        justifyContent: 'space-around',
         //backgroundColor: "red",
     },
     searchInThe: {
         fontSize: 20,
-        letterSpacing: 0,
-        lineHeight: 28,
         fontWeight: "700",
         color: "rgba(0, 0, 0, 0.45)",
         textAlign: "left",
-        width: 295,
+        width: "100%",
         textShadowColor: "rgba(0, 0, 0, 0.25)",
         textShadowOffset: {
             width: 0,
@@ -206,12 +211,13 @@ const styles = StyleSheet.create({
     },
     searchContainer: {
         backgroundColor: Colors.DEFAULT_WHITE,
-        height: "17%",
+        height: "25%",
+        width: "140%",
         borderRadius: 8,
-
         marginLeft: "15%",
         marginRight: "10%",
         flexDirection: "row",
+
     },
     searchSection: {
         flexDirection: "row",
@@ -226,12 +232,14 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.POPPINS_MEDIUM,
         marginLeft: "5%",
     },
+    container1: {
+        top: "10%",
 
+    },
     sflower: {
         color: "#e07ce9",
         fontWeight: "700",
         fontSize: 25,
-        marginTop: "20%",
         left: "40%",
     },
 
@@ -239,7 +247,7 @@ const styles = StyleSheet.create({
         borderStyle: "solid",
         borderColor: "#fe3c3c",
         borderWidth: 1,
-        left: "180%",
+        left: "120%",
         fontSize: 22,
         lineHeight: 25,
         fontWeight: "700",
@@ -264,8 +272,8 @@ const styles = StyleSheet.create({
     subtractIcon: {
         height: 40,
         width: 40,
-        top: "30%",
-        left: "2%",
+        top: "45%",
+        left: "18%",
         position: "absolute",
     },
 
@@ -282,7 +290,7 @@ const styles = StyleSheet.create({
     flex2: {
         //backgroundColor: "blue",
         flex: 0.55,
-        top: "3%",
+        
         flexDirection: "column",
         justifyContent: "space-between",
     },
