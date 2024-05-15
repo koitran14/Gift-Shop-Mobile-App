@@ -6,13 +6,9 @@ import {
     View,
     Text,
     StyleSheet,
-    StatusBar,
     ScrollView,
-    FlatList,
     TouchableOpacity,
-    TextInput,
     Image,
-    TouchableWithoutFeedback,
 } from "react-native";
 
 const FavoriteScreen = ({ navigation }) => {
@@ -23,7 +19,7 @@ const FavoriteScreen = ({ navigation }) => {
         birthday: "January 1, 1990",
         phone: "123-456-7890",
         email: "mary@example.com",
-        location: "Los Angeles",
+        location: "Los Angeles, California, USA",
         cards: [
             { type: "VISA Credit Card", number: "XXXX-XXXX-XXXX-1123", image: Images.VISA },
             { type: "MasterCard", number: "XXXX-XXXX-XXXX-5100", image: Images.MASTERCARD }
@@ -37,6 +33,10 @@ const FavoriteScreen = ({ navigation }) => {
     });
     const [selectedIcon, setSelectedIcon] = useState('heart'); // Tracks which icon is selected
     const [selectedMenu, setSelectedMenu] = useState('products'); // Mặc định chọn 'products'
+
+    useEffect(() => {
+        setSelectedIcon('heart');
+    }, []);
 
     const handleMenuSelect = (menu) => {
         setSelectedMenu(menu);
@@ -199,59 +199,53 @@ const styles = StyleSheet.create({
     }),
 
     contentContainer: {
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingHorizontal: 20,
     },
     header: {
-        // flex: 1,
         flexDirection: 'row',
-        paddingVertical: 50,
+        alignItems: 'center',
+        paddingVertical: 20,
         paddingHorizontal: 20,
     },
     headerTitle: {
         fontSize: 24,
         fontWeight: "bold",
         marginLeft: 20,
-
     },
     profileDetails: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'white',
         borderRadius: 30,
-        padding: 25,
+        padding: 20,
         marginHorizontal: 20,
         marginTop: 10,
-        borderWidth: 2, // Thêm viền
+        borderWidth: 1,
         borderColor: '#CCC',
-        elevation: 4,
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 1.5,
-
     },
     avatar: {
         width: 80,
         height: 80,
         borderRadius: 40,
-        borderWidth: 3, // Thêm viền cho avatar
-        borderColor: '#BBB', // Màu viền
-        elevation: 6, // Đổ bóng 
+        borderWidth: 3,
+        borderColor: '#BBB',
+        marginRight: 20,
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 3,
-
     },
     name: {
-        fontSize: 32,
+        fontSize: 24,
         fontWeight: "bold",
-        marginTop: 5,
-        paddingLeft: 10,
     },
     details: {
         color: "gray",
         fontSize: 16,
-        paddingLeft: 10,
     },
     menuIcons: {
         flexDirection: "row",
@@ -264,7 +258,6 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderTopWidth: 1,
         borderBottomWidth: 0,
-
     },
     newMenu: {
         flexDirection: 'row',
@@ -278,22 +271,18 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         paddingVertical: 15,
-        // borderColor: 'gray', // Màu viền khi không được chọn
-        // borderBottomWidth: 0.5,
         borderTopWidth: 0.5,
-
     },
     selectedMenuItem: {
-        borderTopColor: 'gray', // Màu viền khi được chọn
+        borderTopColor: 'gray',
         borderBottomWidth: 0,
     },
     menuText: {
-        color: 'gray', // Màu chữ khi không được chọn
+        color: 'gray',
     },
     selectedMenuText: {
-        color: 'black', // Màu chữ khi được chọn
+        color: 'black',
         fontWeight: 'bold',
-
     },
     container: {
         padding: 10,
@@ -367,7 +356,7 @@ const styles = StyleSheet.create({
     shopName: {
         fontWeight: 'bold',
         fontSize: 18,
-        // color: 'deeppink',
+        color: '#FF1493',
     },
     locationContainer: {
         flexDirection: 'row',
@@ -379,19 +368,16 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
     viewButton: {
-        backgroundColor: '#B0E0E6', // Light blue color
+        backgroundColor: '#B0E0E6',
         paddingVertical: 5,
         paddingHorizontal: 15,
         borderRadius: 5,
-        // alignSelf: 'flex-start',
+        marginLeft: 10,
     },
     viewButtonText: {
         color: '#ffffff',
         fontSize: 14,
     },
-
-
-
 });
 
 export default FavoriteScreen;

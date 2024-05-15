@@ -6,16 +6,14 @@ import {
     View,
     Text,
     StyleSheet,
-    StatusBar,
     ScrollView,
-    FlatList,
     TouchableOpacity,
-    TextInput,
     Image,
-    TouchableWithoutFeedback,
 } from "react-native";
 
 const ProfileScreen = ({ navigation }) => {
+
+    // DATA
     const [userInfo, setUserInfo] = useState({
         name: "Mary Johnson",
         username: "Mary",
@@ -23,7 +21,7 @@ const ProfileScreen = ({ navigation }) => {
         birthday: "January 1, 1990",
         phone: "123-456-7890",
         email: "mary@example.com",
-        location: "Los Angeles",
+        location: "Los Angeles, California, USA",
         cards: [
             { type: "VISA Credit Card", number: "XXXX-XXXX-XXXX-1123", image: Images.VISA },
             { type: "MasterCard", number: "XXXX-XXXX-XXXX-5100", image: Images.MASTERCARD }
@@ -32,13 +30,15 @@ const ProfileScreen = ({ navigation }) => {
             { platform: "Facebook", linked: false, image: Images.FACEBOOK },
             { platform: "Google", linked: true, image: Images.GOOGLE }
         ],
-        facebookLinked: false,
-        googleLinked: true,
     });
     const [selectedIcon, setSelectedIcon] = useState('person'); // Tracks which icon is selected
 
+    useEffect(() => {
+        setSelectedIcon('person');
+    }, []);
+
     const handleIconPress = (iconName) => {
-        setSelectedIcon(iconName); // Cập nhật biểu tượng được chọn
+        setSelectedIcon(iconName); // Update the selected icon
 
         switch (iconName) {
             case 'person':
@@ -55,10 +55,6 @@ const ProfileScreen = ({ navigation }) => {
                 break;
         }
     };
-
-    // const [selectedMenu, setSelectedMenu] = useState('profile');  // 'profile' là giá trị khởi tạo
-
-
 
     return (
         <LinearGradient
@@ -98,26 +94,15 @@ const ProfileScreen = ({ navigation }) => {
                     <Ionicons name="clipboard-outline" size={30} />
                 </TouchableOpacity>
             </View>
-            <ScrollView contentContainerStyle={styles.contentContainer}
-            >
 
+            <ScrollView contentContainerStyle={styles.contentContainer}>
                 {/* User Info */}
                 <View style={styles.userInfo}>
-                    <Text style={styles.infoLabel}>
-                        <Text style={{ fontWeight: 'bold' }}>Name: </Text>{userInfo.name}
-                    </Text>
-                    <Text style={styles.infoLabel}>
-                        <Text style={{ fontWeight: 'bold' }}>Gender: </Text>{userInfo.gender}
-                    </Text>
-                    <Text style={styles.infoLabel}>
-                        <Text style={{ fontWeight: 'bold' }}>Birthday: </Text>{userInfo.birthday}
-                    </Text>
-                    <Text style={styles.infoLabel}>
-                        <Text style={{ fontWeight: 'bold' }}>Phone: </Text>{userInfo.phone}
-                    </Text>
-                    <Text style={styles.infoLabel}>
-                        <Text style={{ fontWeight: 'bold' }}>Email: </Text>{userInfo.email}
-                    </Text>
+                    <Text style={styles.infoLabel}><Text style={{ fontWeight: 'bold' }}>Name: </Text>{userInfo.name}</Text>
+                    <Text style={styles.infoLabel}><Text style={{ fontWeight: 'bold' }}>Gender: </Text>{userInfo.gender}</Text>
+                    <Text style={styles.infoLabel}><Text style={{ fontWeight: 'bold' }}>Birthday: </Text>{userInfo.birthday}</Text>
+                    <Text style={styles.infoLabel}><Text style={{ fontWeight: 'bold' }}>Phone: </Text>{userInfo.phone}</Text>
+                    <Text style={styles.infoLabel}><Text style={{ fontWeight: 'bold' }}>Email: </Text>{userInfo.email}</Text>
                 </View>
 
                 {/* Actions */}
@@ -144,7 +129,7 @@ const ProfileScreen = ({ navigation }) => {
                 </TouchableOpacity>
 
                 {/* Social Links */}
-                <Text style={styles.sectionTitle}>Social Links</Text>
+                <Text style={styles.sectionTitle}>Link Social Account</Text>
                 {userInfo.socialLinks.map((link, index) => (
                     <View key={index} style={styles.socialLinkItem}>
                         <Image source={link.image} style={styles.socialIcon} />
@@ -158,126 +143,126 @@ const ProfileScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     icon: (selected) => ({
-        backgroundColor: selected ? 'rgba(138, 43, 226, 0.2)' : 'transparent', 
+        backgroundColor: selected ? 'rgba(138, 43, 226, 0.2)' : 'transparent',
         padding: 10,
         borderRadius: 10,
     }),
 
     contentContainer: {
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingHorizontal: 20,
     },
     header: {
-        // flex: 1,
         flexDirection: 'row',
-        paddingVertical: 50,
+        alignItems: 'center',
+        paddingVertical: 20,
         paddingHorizontal: 20,
     },
     headerTitle: {
         fontSize: 24,
         fontWeight: "bold",
         marginLeft: 20,
-
     },
     profileDetails: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'white',
         borderRadius: 30,
-        padding: 25,
+        padding: 20,
         marginHorizontal: 20,
         marginTop: 10,
-        borderWidth: 2,
-        borderColor: '#CCC', 
-        elevation: 4,
+        borderWidth: 1,
+        borderColor: '#CCC',
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 1.5,
-
     },
     avatar: {
         width: 80,
         height: 80,
         borderRadius: 40,
-        borderWidth: 3, 
+        borderWidth: 3,
         borderColor: '#BBB',
-        elevation: 6, // Đổ bóng 
+        marginRight: 20,
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 3,
-
     },
     name: {
-        fontSize: 32, 
+        fontSize: 24,
         fontWeight: "bold",
-        marginTop: 5, 
-        paddingLeft: 10,
     },
     details: {
         color: "gray",
         fontSize: 16,
-        paddingLeft: 10,
     },
     menuIcons: {
         flexDirection: "row",
         justifyContent: "space-around",
         marginVertical: 20,
-
-
-        borderWidth: 1,    
+        borderWidth: 1,
         borderColor: 'rgba(180, 160, 220, 0.9)',
-        paddingVertical: 10,           
-        backgroundColor: "white"
-
+        paddingVertical: 10,
+        backgroundColor: "white",
     },
-
-
     userInfo: {
         backgroundColor: "white",
         padding: 20,
         borderRadius: 10,
         marginBottom: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 1.5,
     },
     infoLabel: {
         fontSize: 16,
-        marginBottom: 15, 
-        borderBottomWidth: 1, 
-        borderBottomColor: '#DDD', 
-        paddingBottom: 10, 
-    },
-    infoContent: {
-        fontSize: 16,
-        marginBottom: 15, 
+        marginBottom: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: '#DDD',
+        paddingBottom: 10,
     },
     actionButton: {
-        backgroundColor: "blue",
-        paddingVertical: 5,
-        paddingHorizontal: 30,    
+        backgroundColor: "#87CEEB",
+        paddingVertical: 10,
+        paddingHorizontal: 30,
         borderRadius: 10,
         alignItems: "center",
         marginBottom: 20,
         alignSelf: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
     },
     actionText: {
         color: "white",
         fontSize: 16,
+        fontWeight: "bold",
     },
     sectionTitle: {
         fontSize: 18,
         fontWeight: "bold",
         marginTop: 20,
-        paddingLeft: 10,
     },
     card: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        alignItems: 'center',
         backgroundColor: "white",
         padding: 15,
         borderRadius: 10,
         marginBottom: 20,
+        borderWidth: 1,
+        borderColor: '#DDD',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 1.5,
     },
     cardContent: {
         flex: 1,
+        marginLeft: 10,
     },
     cardTitle: {
         fontSize: 16,
@@ -286,41 +271,35 @@ const styles = StyleSheet.create({
     },
     cardNumber: {
         fontSize: 14,
+        color: "gray",
     },
-
-    socialLinks: {
-
-        backgroundColor: "white",
-        padding: 15,
-        borderRadius: 10,
-        // flexDirection: "row",
-
-    },
-    iconStyle: {
-        marginRight: 10,
+    editIcon: {
+        marginLeft: 10,
     },
     addButton: {
         flexDirection: 'row',
-        alignItems: 'left',
-        justifyContent: 'left',
-        // padding: 10,
-        // borderRadius: 10,
-        // backgroundColor: '#007AFF', // Blue background
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        backgroundColor: '#007AFF',
         marginVertical: 10,
-        alignSelf: 'left',
-        // fontWeight: "bold",
+        alignSelf: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
     },
     addButtonText: {
         color: 'white',
         fontSize: 18,
-        color: '#007AFF',
         fontWeight: "bold",
     },
     cardImage: {
         width: 80,
         height: 50,
-        marginRight: 10,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
     },
     socialLinkItem: {
         flexDirection: "row",
@@ -329,12 +308,18 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 10,
         marginBottom: 10,
+        borderWidth: 1,
+        borderColor: '#DDD',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 1.5,
     },
     socialIcon: {
         width: 30,
         height: 30,
         marginRight: 10,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
     },
 });
 
