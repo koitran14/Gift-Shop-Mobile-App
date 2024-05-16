@@ -14,6 +14,7 @@ import {
     CartScreen,
     ProfileScreen,
     ShopScreen,
+    ProductShop,
 
 } from '../screens';
 import { connect } from 'react-redux';
@@ -42,6 +43,7 @@ const Navigators = ({ token }) => {
                         <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
                         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
                         <Stack.Screen name="CartScreen" component={CartScreen} />
+                        <Stack.Screen name="ProductShop" component={ProductShop} />
                     </>
                 )}
             </Stack.Navigator>

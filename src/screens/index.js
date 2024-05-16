@@ -10,5 +10,6 @@ import ProfileScreen from "./ProfileScreen";
 import CartScreen from "./CartScreen";
 import FavoriteScreen from "./FavoriteScreen";
 import ShopScreen from "./ShopScreen";
+import ProductShop from "./ProductShop";
 
-export { SplashScreen, WelcomeScreen, SigninScreen, SignupScreen, ForgotPasswordScreen, RegisterPhoneScreen, VerificationScreen, HomeScreen, CartScreen, ProfileScreen, FavoriteScreen,ShopScreen};
+export { SplashScreen, WelcomeScreen, SigninScreen, SignupScreen, ForgotPasswordScreen, RegisterPhoneScreen, VerificationScreen, HomeScreen, CartScreen, ProfileScreen, FavoriteScreen,ShopScreen, ProductShop, };
