@@ -47,6 +47,7 @@ const SigninScreen = ({navigation, setToken}) => {
       <Image source={Images.CAKE} style={styles.banhKem11} resizeMode="cover" />
       <Image source={Images.STAR} style={styles.gift51} resizeMode="cover" />
       <View style={styles.headerContainer}>
+
         <Ionicons
           name="chevron-back-outline"
           size={30}
@@ -54,6 +55,7 @@ const SigninScreen = ({navigation, setToken}) => {
         />
       <Text style={styles.headerTitle}>Sign In</Text>
       </View>
+    
     
       <Text style={styles.title}>Welcome</Text>
       <Text style={styles.content}>Enter your email and password</Text>

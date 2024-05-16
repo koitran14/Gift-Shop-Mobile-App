@@ -12,7 +12,7 @@ import { Colors, Fonts, Images } from "../contants";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
 
-const Shop = ({ navigation }) => {
+const CategoriesShop = ({ navigation }) => {
     const products = [
         {
             id: 1,
@@ -44,6 +44,14 @@ const Shop = ({ navigation }) => {
         },
     ];
 
+    const [selectedChoice, setSelectedChoice] = useState("Recent");
+
+    const choices = ["Recent", "Favorite", "Flowers", "Gifts", "Cakes"];
+
+    const handleChoiceSelect = (choice) => {
+        setSelectedChoice(choice);
+    };
+
     const [filteredProducts, setFilteredProducts] = useState(products);
     const [searchText, setSearchText] = useState("");
 
@@ -68,71 +76,65 @@ const Shop = ({ navigation }) => {
         >
             <View style={styles.container}>
                 {/* flex 0: hang tren cung */}
-                <View style={styles.flex0}></View>
-
+                <View style={styles.flex0}>
+               
+                </View>
+               
                 {/* flex 1: hang shop */}
                 <View style={styles.flex1}>
-                <Ionicons
-                name="chevron-back-outline"
-                size={30}
-                onPress={() => navigation.goBack()}
-                style={{
-                    marginTop: 20,
-                    marginRight: 90,
-                
-                }}
-            />
-                
 
+               
                     <Image style={styles.image3} source={Images.FLOWERBANNER} />
-                  
+                    
+
                     <View style={styles.subtractParent}>
                         <Image
                             style={styles.subtractIcon}
                             source={Images.SUB}
                         />
+                 
 
 
                         <View style={styles.searchContainer}>
-                        {/* search bar */}
-                        <View style={styles.searchSection}>
-                            <Ionicons
-                                name="search-outline"
-                                size={25}
-                                color={Colors.DEFAULT_GREY}
-                            />
-                            <TextInput
-                                style={styles.searchText}
-                                placeholder="Search..."
-                                value={searchText}
-                                onChangeText={setSearchText} //Update seach value
-                            />
+                            {/* search bar */}
+                            <View style={styles.searchSection}>
+                                <Ionicons
+                                    name="search-outline"
+                                    size={25}
+                                    color={Colors.DEFAULT_GREY}
+                                />
+                                <TextInput
+                                    style={styles.searchText}
+                                    placeholder="Search..."
+                                    value={searchText}
+                                    onChangeText={setSearchText} //Update seach value
+                                />
+                            </View>
                         </View>
-                    </View>
-                    
-                    <View style={styles.container1}>
-                        <Text style={[styles.sflower]}>SFlower</Text>
-                        <Text style={[styles.follow]}>
-                            + Follow
-                        </Text>
-                        <Text
-                            style={[
-                                styles.online2Minutes,
-                                styles.kFollowersTypo,
-                            ]}
-                        >{`Online 2 minutes ago `}</Text>
-                        <Text
-                            style={[styles.kFollowers, styles.kFollowersTypo]}
-                        >
-                            4.9/5.0 | 33.7k Followers
-                        </Text>
-                    </View>
-                    <View style={[styles.vectorParent, styles.parentShadowBox]}>
-                        <Image
-                            style={[styles.groupItem, styles.groupItemLayout]}
-                            resizeMode="cover"
-                            source="Star 1.png"
-                        />
+
+                        <View style={styles.container1}>
+                            <Text style={[styles.sflower]}>SFlower</Text>
+                            <Text style={[styles.follow]}>
+                                + Follow
+                            </Text>
+                            <Text
+                                style={[
+                                    styles.online2Minutes,
+                                    styles.kFollowersTypo,
+                                ]}
+                            >{`Online 2 minutes ago `}</Text>
+                            <Text
+                                style={[styles.kFollowers, styles.kFollowersTypo]}
+                            >
+                                4.9/5.0 | 33.7k Followers
+                            </Text>
+                        </View>
+                        <View style={[styles.vectorParent, styles.parentShadowBox]}>
+                            <Image
+                                style={[styles.groupItem, styles.groupItemLayout]}
+                                resizeMode="cover"
+                                source="Star 1.png"
+                            />
                         </View>
                     </View>
                 </View>
@@ -147,41 +149,30 @@ const Shop = ({ navigation }) => {
                         </View>
                     </View>
 
-                    <Text
-                        style={[styles.welcomeToSoap]}
-                    >{`Welcome to Soap Flower Official Shop! We specialize in a wide variety of gift items, including wax flowers, wool flowers, and gift boxes, all at affordable prices with top-quality.
-We're a Vietnamese brand offering nationwide delivery.
-Open hours: 8 AM - 8 PM
-FB: SFlower`}</Text>
-                    <Image style={styles.image2Icon} source={Images.FLOWER1} />
                 </View>
 
                 {/* flex 3: san pham */}
                 <View style={styles.flex3}>
-                    <Text style={[styles.hotList, styles.hotListClr]}>
-                        HOT LIST
-                    </Text>
 
-                    <ScrollView contentContainerStyle={styles.container2}>
-                        {filteredProducts.map((product) => (
-                            <TouchableOpacity
-                                key={product.id}
-                                style={styles.productContainer}
-                            >
-                                <Image
-                                    source={product.image}
-                                    style={styles.image}
-                                />
-                                <Text style={styles.name}>{product.name}</Text>
-                                <Text style={styles.price}>
-                                    {product.price}
-                                </Text>
-                                <Text style={styles.description}>
-                                    {product.description}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
+                    <View style={styles.rectangleView1}>
+                        <Image style={[styles.image7Icon]} source={Images.seven} />
+                        <Text Text style={styles.flowers}>{`   Flowers (30)`}</Text>
+                    </View>
+                    
+                    <View style={styles.rectangleView1}>
+                        <Image style={[styles.image7Icon]} source={Images.eight} />
+                        <Text Text style={styles.flowers}>{`   Cakes (18)`}</Text>
+                    </View>
+
+                    <View style={styles.rectangleView1}>
+                        <Image style={[styles.image7Icon]} source={Images.nine} />
+                        <Text Text style={styles.flowers}>{`   Gift box (15)`}</Text>
+                    </View>
+
+
+
+
+
                 </View>
             </View>
         </LinearGradient>
@@ -299,11 +290,11 @@ const styles = StyleSheet.create({
 
     flex2: {
         //backgroundColor: "blue",
-        flex: 0.55,
-        
+        flex: 0.06,
         flexDirection: "column",
         justifyContent: "space-between",
     },
+
     rectangleView: {
         flexDirection: "row",
         justifyContent: "space-around",
@@ -318,32 +309,59 @@ const styles = StyleSheet.create({
         opacity: 0.7,
     },
 
-    image2Icon: {
-        height: "50%",
-        width: "100%",
-        opacity: 0.99,
-        top: -20,
-    },
-
     flex3: {
-        //backgroundColor: "green",
-        flex: 0.25,
+        // backgroundColor: "green",
+        flex: 0.8,
         flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
+
     },
 
-    hotList: {
-        borderRadius: 20,
-        backgroundColor: "rgba(149, 16, 183, 0.48)",
-        fontSize: 14,
-        fontWeight: "800",
-        color: "#000",
-        top: "10%",
-        justifyContent: "center",
-        alignItems: "center",
+    container3: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: '2%',
+        width: '100%',
+    },
+    choice: {
+        padding: "4%",
+        margin: 5,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'white',
     },
 
+    text: {
+        color: 'purple',
+    },
+
+    selectedText: {
+        color: 'white',
+        fontWeight: '400',
+    },
+
+    selectedChoice: {
+        backgroundColor: 'purple',
+    },
+
+
+    rectangleView1: {
+        flex: 0.2,
+        flexDirection: "row",
+
+        shadowColor: "rgba(0, 0, 0, 0.25)",
+        shadowOffset: {
+            width: 0,
+            height: 4
+        },
+        shadowRadius: 4,
+        elevation: 4,
+        shadowOpacity: 1,
+        borderRadius: 4,
+        backgroundColor: "#fff",
+
+        width: "100%",
+        height: 68
+    },
     container2: {
         flexDirection: "row",
         flexWrap: "wrap",
@@ -381,6 +399,19 @@ const styles = StyleSheet.create({
         color: "purple",
         textAlign: "center",
     },
+
+
+    flowers: {
+        marginTop: "10%",
+        alignItems: "flex-end",
+        fontWeight: "700"
+    },
+
+    image7Icon: {
+        marginLeft: "8%",
+        marginTop: "5%",
+    },
+  
 });
 
-export default Shop;
+export default CategoriesShop;

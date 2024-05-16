@@ -123,7 +123,7 @@ const HomeScreen = ({ navigation }) => {
             source: Images.USER,
         },
         {
-            navigation: 'CartScreen',
+            navigation: 'CategoriesShop',
             source: Images.CART,
         }
     ]
