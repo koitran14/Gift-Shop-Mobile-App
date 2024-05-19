@@ -13,8 +13,11 @@ import {
     FavoriteScreen,
     CartScreen,
     ProfileScreen,
+<<<<<<< HEAD
     SearchScreen,
     ProductScreen,
+=======
+>>>>>>> 9790eb881864b6ea53eef9c6714865a877d37404
     CheckoutScreen,
     VoucherScreen,
 } from '../screens';
@@ -42,8 +45,11 @@ const Navigators = ({ token }) => {
                         <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
                         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
                         <Stack.Screen name="CartScreen" component={CartScreen} />
+<<<<<<< HEAD
                         <Stack.Screen name="SearchScreen" component={SearchScreen}/>
                         <Stack.Screen name="ProductScreen" component={ProductScreen}/>
+=======
+>>>>>>> 9790eb881864b6ea53eef9c6714865a877d37404
                         <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
                         <Stack.Screen name="VoucherScreen" component={VoucherScreen} />
                     </>
