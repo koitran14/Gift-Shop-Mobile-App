@@ -11,7 +11,12 @@ const BACKEND_API = {
   BASE_API_URL: `${BACKEND_BASE_URL}/api`,
   REGISTER: `${BACKEND_BASE_URL}/api/register`,
   LOGIN: `${BACKEND_BASE_URL}/api/login`,
-  USER_EXIST: `${BACKEND_BASE_URL}/user-exist`
+  USER_EXIST: `${BACKEND_BASE_URL}/user-exist`,
+  GET_ALL_PRODUCT: `${BACKEND_BASE_URL}/product`,
+  GET_ALL_CATEGORIES: `${BACKEND_BASE_URL}/category`,
+  GET_ALL_SPECIALDAYS: `${BACKEND_BASE_URL}/specialDay`,
+
+
 };
 
 const STATIC_IMAGE = {

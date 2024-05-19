@@ -3,26 +3,20 @@ import {
     View,
     Text,
     StyleSheet,
-    StatusBar,
     ScrollView,
     FlatList,
     TouchableOpacity,
     TextInput,
     Image,
-    TouchableWithoutFeedback,
 } from "react-native";
 import {
-    CategoryMenuItem,
-    RestaurantCard,
-    RestaurantMediumCard,
-    Separator,
+    ProductCard,
 } from "../components";
-import { Colors, Fonts, Mock, Images } from "../contants";
+import { Colors, Fonts, Images } from "../contants";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather";
-import { RestaurantService } from "../services";
-import { Display } from "../utils";
+import { CategoryService, ProductService, SpecialDayService } from "../services";
 import { LinearGradient } from "expo-linear-gradient";
 
 const sortStyle = (isActive) =>
@@ -31,83 +25,12 @@ const sortStyle = (isActive) =>
         : { ...styles.sortListItem, borderBottomColor: Colors.DEFAULT_WHITE };
 
 const HomeScreen = ({ navigation }) => {
-    const [activeCategory, setActiveCategory] = useState();
-    const [restaurants, setRestaurants] = useState(mockRestaurants); // set fake data
-    const [activeSortItem, setActiveSortItem] = useState("recent");
+    const [activeCategory, setActiveCategory] = useState('Recent');
     const [searchText, setSearchText] = useState(""); // State lưu từ khóa tìm kiếm
-    
-    const products = [
-        { id: 1, name: 'Gifts', price: '$10', description: 'A beautiful gift', image: require('../../assets/images/gift.png') },
-        { id: 2, name: 'Cake', price: '$20', description: 'A delicious cake', image: require('../../assets/images/cake.png') },
-        { id: 3, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/star.png') },
-        { id:4, name: 'Product 3', price: '$30', description: 'Description 3', image: require('../../assets/images/flower.png') },   
-    ];
-    
-    const [filteredProducts, setFilteredProducts] = useState(products); // State lưu danh sách sản phẩm sau khi lọc
-
-    //fake data
-    const mockRestaurants = [
-        {
-            id: "1",
-            name: "Restaurant A",
-            description: "Delicious food at affordable prices.",
-            rating: 4.5,
-            imageUrl:
-                "https://www.google.com/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F62%2FBarbieri_-_ViaSophia25668.jpg%2F640px-Barbieri_-_ViaSophia25668.jpg&tbnid=cTtqtZLwD_SHiM&vet=12ahUKEwj-7Jv6mJyFAxVioa8BHW3BC-8QMygAegQIARBy..i&imgrefurl=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FRestaurant&docid=GJpv6Vju4A3OkM&w=640&h=552&q=restaurant&ved=2ahUKEwj-7Jv6mJyFAxVioa8BHW3BC-8QMygAegQIARBy",
-            category: "Italian",
-        },
-        {
-            id: "2",
-            name: "Restaurant B",
-            description: "Authentic cuisine from around the world.",
-            rating: 4.2,
-            imageUrl:
-                "https://www.google.com/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F62%2FBarbieri_-_ViaSophia25668.jpg%2F640px-Barbieri_-_ViaSophia25668.jpg&tbnid=cTtqtZLwD_SHiM&vet=12ahUKEwj-7Jv6mJyFAxVioa8BHW3BC-8QMygAegQIARBy..i&imgrefurl=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FRestaurant&docid=GJpv6Vju4A3OkM&w=640&h=552&q=restaurant&ved=2ahUKEwj-7Jv6mJyFAxVioa8BHW3BC-8QMygAegQIARBy",
-            category: "Asian",
-        },
-        {
-            id: "3",
-            name: "Restaurant C",
-            description: "Healthy and organic dishes for everyone.",
-            rating: 4.8,
-            imageUrl:
-                "https://www.google.com/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F6%2F62%2FBarbieri_-_ViaSophia25668.jpg%2F640px-Barbieri_-_ViaSophia25668.jpg&tbnid=cTtqtZLwD_SHiM&vet=12ahUKEwj-7Jv6mJyFAxVioa8BHW3BC-8QMygAegQIARBy..i&imgrefurl=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FRestaurant&docid=GJpv6Vju4A3OkM&w=640&h=552&q=restaurant&ved=2ahUKEwj-7Jv6mJyFAxVioa8BHW3BC-8QMygAegQIARBy",
-            category: "Vegetarian",
-        },
-        // Add more mock restaurants as needed
-    ];
-
-
-    useEffect(() => {
-        const filtered = products.filter((product) => {
-            return product.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                   product.description.toLowerCase().includes(searchText.toLowerCase());
-        });
-        setFilteredProducts(filtered);
-    }, [searchText]);
-                                                                             
-    // Recent bar
-    const [selectedChoice, setSelectedChoice] = useState("Recent");
-
-    const choices = ["Recent", "Favorite", "Flowers", "Gifts", "Cakes"];
-
-    const handleChoiceSelect = (choice) => {
-        setSelectedChoice(choice);  
-    };
-
-    //special day
-    const specialDays = [
-        { date: '14/2', image: require('../../assets/images/83.png') },
-        { date: '8/3', image: require('../../assets/images/142.png') },
-        { date: '20/11', image: require('../../assets/images/2011.png') },
-        { date: '14/2', image: require('../../assets/images/83.png') },
-    ];
-    
-    const handleImagePress = (date) => {
-        if (date === '14/2') {
-          navigation.navigate('HomeScreen');
-        }
-    };
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState(products);
+    const [specialDays, setSpecialDays] = useState([]);
 
     const navigators = [
         {
@@ -128,6 +51,60 @@ const HomeScreen = ({ navigation }) => {
         }
     ]
 
+    useEffect(() => {
+        const getProducts = async() => {
+            const products = await ProductService.getAllProducts();
+            setProducts(products);
+            activeCategory === 'Recent' && setFilteredProducts(products);
+        }
+
+        const getCategories = async() => {
+            const categories = await CategoryService.getAllCategories();
+            setCategories(categories);
+        }
+
+        const getSpecialDays = async() => {
+            const specialDays = await SpecialDayService.getAllSpecialDay();
+            console.log(specialDays)
+            setSpecialDays(specialDays);
+        }
+
+        getProducts();
+        getCategories();
+        getSpecialDays();
+    },[])
+                                                                     
+    const handleSearchSubmit = () => {
+        const filtered = products?.filter((product) => {
+            return product.productName.toLowerCase().includes(searchText.toLowerCase()) ||
+                   product.productDescription.toLowerCase().includes(searchText.toLowerCase());
+        });
+        searchText && navigation.navigate("SearchScreen", { searchResults: filtered });
+    }
+
+    const onPress = (product) => {
+        navigation.navigate('ProductScreen', { product: product });
+    }
+
+    const selectCategory = (choice) => {
+        setActiveCategory(choice);  
+        const filtered = filteredProducts?.filter((product) => {
+            return product.category.categoryName.toLowerCase().includes(choice.toLowerCase())
+        });
+        setFilteredProducts(choice === 'Recent' ? products : filtered);
+    };
+
+    const handleFilterBySpecialDay = (specialDay) => {
+        const filtered = filteredProducts.filter(product => {
+            return product.properties.some(productProp => {
+                return specialDay.properties.some(specialProp => {
+                    return productProp.typeOfProperties.toLowerCase() === specialProp.typeOfProperties.toLowerCase();
+                });
+            });
+        });
+        setFilteredProducts(filtered);
+    };
+    
     return (
         <LinearGradient
             colors={['rgba(231, 192, 248, 0.7)', 'rgba(188, 204, 243, 0.7)']}
@@ -176,6 +153,7 @@ const HomeScreen = ({ navigation }) => {
                                     placeholder="Search..."
                                     value={searchText}
                                     onChangeText={setSearchText} //Update seach value
+                                    onSubmitEditing={handleSearchSubmit}
                                 />
                             </View>
                             <Feather
@@ -189,47 +167,16 @@ const HomeScreen = ({ navigation }) => {
                         {/* special day */}
                         <View style={styles.specialDaySection}>
                             <Text style={styles.specialDayTitle}>Special Day</Text>
-                            {/* <ScrollView
-                                horizontal={true}
-                                showsHorizontalScrollIndicator={false}
-                            >
-                                {Mock.CATEGORIES.map(({ name, logo }) => (
-                                    <CategoryMenuItem
-                                        key={name}
-                                        name={name}
-                                        logo={logo}
-                                        activeCategory={activeCategory}
-                                        setActiveCategory={setActiveCategory}
-                                        special={
-                                            name === "14-2" ||
-                                            name === "8-3" ||
-                                            name === "1-4" ||
-                                            name === "1-5" ||
-                                            name === "20-10" ||
-                                            name === "20-11"
-                                        }
-                                        backgroundColor={
-                                            Colors[
-                                                `SPECIAL_DATE_${name.replace(
-                                                    "-",
-                                                    "_"
-                                                )}`
-                                            ]
-                                        }
-                                    />
-                                ))}
-                            </ScrollView> old*/}
-                            
                             <ScrollView 
                                 horizontal 
                                 contentContainerStyle={{ flexDirection: 'row' }}
                                 showsHorizontalScrollIndicator={false}
                             >
-                                {specialDays.map(({ date, image }, index) => (
-                                    <TouchableOpacity key={index} onPress={() => handleImagePress(date)}>
+                                {specialDays.map((date, index) => (
+                                    <TouchableOpacity key={index} onPress={() => handleFilterBySpecialDay(date)}>
                                         <View style={{ marginHorizontal: 10 }}>
                                             <Image
-                                                source={image}
+                                                source={{uri: date.dateImage}}
                                                 style={{ width: 120, height: 80, borderRadius: 10 }}
                                             />
                                         </View>
@@ -257,13 +204,19 @@ const HomeScreen = ({ navigation }) => {
                             contentContainerStyle={styles.container3}
                             showsHorizontalScrollIndicator={false}
                         >
-                            {choices.map((choice, index) => (
+                            <TouchableOpacity
+                                style={[styles.choice, activeCategory === 'Recent' ? styles.selectedChoice : null]}
+                                onPress={() => selectCategory('Recent')}
+                            >
+                                <Text style={activeCategory === 'Recent' ? styles.selectedText : styles.text}>Recent</Text>
+                            </TouchableOpacity>
+                            {categories.map((category, index) => (
                                 <TouchableOpacity
                                     key={index}
-                                    style={[styles.choice, selectedChoice === choice ? styles.selectedChoice : null]}
-                                    onPress={() => handleChoiceSelect(choice)}
+                                    style={[styles.choice, activeCategory === category.categoryName ? styles.selectedChoice : null]}
+                                    onPress={() => selectCategory(category.categoryName)}
                                 >
-                                    <Text style={selectedChoice === choice ? styles.selectedText : styles.text}>{choice}</Text>
+                                    <Text style={activeCategory === category.categoryName ? styles.selectedText : styles.text}>{category.categoryName}</Text>
                                 </TouchableOpacity>
                             ))}
                         </ScrollView>
@@ -273,35 +226,21 @@ const HomeScreen = ({ navigation }) => {
                 {/* flex3 */}
                 
                 <View style={styles.flex3}>
-            
-                    {/* <View style={styles.rectangleView}>
-                        <Image source={Images.FLOWER} style={styles.flower} />
-                        <Text style={styles.flower_text1}>Bouquet</Text>
-                        <Text style={styles.flower_text2}>Having 5 flower</Text>
-                        <Text style={styles.flower_text3}>$20</Text>
-                    </View>
-
-                    <View style={styles.rectangleView}>
-                        <Image source={Images.FLOWER} style={styles.flower} />
-                        <Text style={styles.flower_text1}>Bouquet</Text>
-                        <Text style={styles.flower_text2}>Having 5 flower</Text>
-                        <Text style={styles.flower_text3}>$20</Text>
-                        </View> */}
-                        
-                    <ScrollView contentContainerStyle={styles.container2}>
-                        {filteredProducts.map((product) => (
-                            <TouchableOpacity key={product.id} style={styles.productContainer}>
-                                <Image source={product.image} style={styles.image} />
-                                <Text style={styles.name}>{product.name}</Text>
-                                <Text style={styles.price}>{product.price}</Text>
-                                <Text style={styles.description}>{product.description}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
+                    <FlatList
+                        data={filteredProducts}
+                        renderItem={({ item }) => (
+                            <ProductCard product={item} onPress={() => onPress(item)} />
+                        )}
+                        keyExtractor={(item) => item._id.toString()}
+                        numColumns={2}
+                        contentContainerStyle={styles.container2}
+                        columnWrapperStyle={styles.row}
+                        ListEmptyComponent={<Text>Not found</Text>}
+                    />
                 </View>
 
-                {/* flex4 */}
 
+                {/* flex4 */}
                 <View style={styles.flex4}>
                     {navigators.map((nav, index) => (
                         <TouchableOpacity key={index} onPress={() => navigation.navigate(nav.navigation)}>
@@ -444,40 +383,13 @@ const styles = StyleSheet.create({
     // flex 3
 
     container2: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        width: '100%',
-        justifyContent: 'center',
-        justifyContent: "space-evenly",
+        paddingHorizontal: 10,
     },
 
-    productContainer: {
-        backgroundColor: "#fffdfd",
-        width: "40%",
-        borderRadius: 40,
-        borderColor: "white",
-        padding: "5%",
-        margin: "5%",
-    },
-    image: {
-        width: '100%',
-        height: 100,
-        marginBottom: "5%",
-    },
-      
-    name: {
-        fontWeight: 'bold',
-        fontSize: 16,
-        textAlign: "center",
-    },
-    price: {
-        fontSize: 14,
-        textAlign: "center",
-    },
-      
-    description: {
-        color: 'purple',
-        textAlign: "center",
+    row: {
+        justifyContent: 'space-between',
+        gap: 8, 
+        marginVertical: 10,
     },
 
     flex1: {
@@ -498,9 +410,7 @@ const styles = StyleSheet.create({
     flex3: {
         //backgroundColor: "green",
         flex: 0.43,
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center",
+        width: '100%',
     },
 
     flex4: {
