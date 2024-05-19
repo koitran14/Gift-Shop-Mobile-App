@@ -11,6 +11,8 @@ import CartScreen from "./CartScreen";
 import FavoriteScreen from "./FavoriteScreen";
 import SearchScreen from "./SearchScreen";
 import ProductScreen from "./ProductScreen";
+import CheckoutScreen from "./CheckoutScreen";
+import VoucherScreen from "./VoucherScreen";
 
 export { 
     SplashScreen, 
@@ -25,5 +27,7 @@ export {
     ProfileScreen, 
     FavoriteScreen, 
     SearchScreen,
-    ProductScreen
+    ProductScreen,
+    CheckoutScreen,
+    VoucherScreen,
 };
