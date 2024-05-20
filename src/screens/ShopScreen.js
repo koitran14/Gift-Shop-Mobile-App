@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import {StoreService} from '../services';
 import React, { useState, useEffect } from "react";
 import {
     ScrollView,
@@ -21,18 +21,27 @@ const ShopScreen = ({ navigation }) => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [searchText, setSearchText] = useState("");
-    
-    
-    useEffect(() => {
-        axios.get('http://192.168.4.245:3000/store/product?storeName=Example%20Store')
-            .then(response => {
-                const data = response.data.filter(item => item !== null);
-                setProducts(data);
-                setFilteredProducts(data);
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
 
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await StoreService.getProduct("Example Store");
+                // Kiểm tra response để xử lý trường hợp có lỗi từ hàm getProduct
+                if (response.status === false) {
+                    console.error('Error fetching data:', response.message);
+                } else {
+                    const data = response.filter(item => item !== null);
+                    setProducts(data);
+                    setFilteredProducts(data);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+    
+        fetchProducts();
+    }, []);
+    
     useEffect(() => {
         const filtered = products.filter((product) => {
             return (

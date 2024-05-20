@@ -17,20 +17,20 @@ const addStore = async (storeData) => {
 };
 
 //GET PRODUCT IN STORE
-const getProduct = async (type,value) => {
+const getProduct = async (storeName) => {
     try {
-        let params = {[type]: value};
+        let params = {storeName};
         const productResponse = await axios.get(
             ApiContants.BACKEND_API.GET_PRODUCT, 
             {params}
             );
         console.log('Getting products successfully:', productResponse.data);
-        return productResponse?.data;
+        return productResponse.data;
     } catch (error) {
         console.log(error);
         return {
             status: false,
-            message: error
+            message: error.message
         };
     }
 };
