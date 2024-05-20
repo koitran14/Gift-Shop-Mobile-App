@@ -41,6 +41,8 @@ const Navigators = ({ token }) => {
                     <>  
                         <Stack.Screen name="ShopScreen" component={ShopScreen} />
                         <Stack.Screen name="HomeScreen" component={HomeScreen} />
+                        
+                        
                         <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
                         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
                         <Stack.Screen name="CartScreen" component={CartScreen} />

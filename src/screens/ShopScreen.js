@@ -9,6 +9,7 @@ import {
     View,
     TouchableOpacity,
     TextInput,
+    FlatList,
 } from "react-native";
 import { Colors, Fonts, Images } from "../contants";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -16,51 +17,64 @@ import { LinearGradient } from "expo-linear-gradient";
 
 
 const ShopScreen = ({ navigation }) => {
-    const products = [
-        {
-            id: 1,
-            name: "Gifts",
-            price: "$10",
-            description: "A beautiful gift",
-            image: require("../../assets/images/gift.png"),
-        },
-        {
-            id: 2,
-            name: "Cake",
-            price: "$20",
-            description: "A delicious cake",
-            image: require("../../assets/images/cake.png"),
-        },
-        {
-            id: 3,
-            name: "Product 3",
-            price: "$30",
-            description: "Description 3",
-            image: require("../../assets/images/star.png"),
-        },
-        {
-            id: 4,
-            name: "Product 3",
-            price: "$30",
-            description: "Description 3",
-            image: require("../../assets/images/flower.png"),
-        },
-    ];
 
-    const [filteredProducts, setFilteredProducts] = useState(products);
+    // const products = [
+    //     {
+    //         id: 1,
+    //         name: "Gifts",
+    //         price: "$10",
+    //         description: "A beautiful gift",
+    //         image: require("../../assets/images/gift.png"),
+    //     },
+    //     {
+    //         id: 2,
+    //         name: "Cake",
+    //         price: "$20",
+    //         description: "A delicious cake",
+    //         image: require("../../assets/images/cake.png"),
+    //     },
+    //     {
+    //         id: 3,
+    //         name: "Product 3",
+    //         price: "$30",
+    //         description: "Description 3",
+    //         image: require("../../assets/images/star.png"),
+    //     },
+    //     {
+    //         id: 4,
+    //         name: "Product 3",
+    //         price: "$30",
+    //         description: "Description 3",
+    //         image: require("../../assets/images/flower.png"),
+    //     },
+    // ];
+
+    const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [searchText, setSearchText] = useState("");
+    
+
+
+    useEffect(() => {
+        axios.get('http://172.17.35.67:3000/store/product?storeName=Example%20Store')
+            .then(response => {
+                const data = response.data.filter(item => item !== null);
+                setProducts(data);
+                setFilteredProducts(data);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
 
     useEffect(() => {
         const filtered = products.filter((product) => {
             return (
-                product.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                product.description
-                    .toLowerCase()
-                    .includes(searchText.toLowerCase())
+                product.productName.toLowerCase().includes(searchText.toLowerCase()) ||
+                product.productDescription.toLowerCase().includes(searchText.toLowerCase())
             );
         });
         setFilteredProducts(filtered);
-    }, [searchText]);
+    }, [searchText, products]);
+
 
     return (
         <LinearGradient
@@ -164,26 +178,23 @@ FB: SFlower`}</Text>
                         HOT LIST
                     </Text>
 
-                    <ScrollView contentContainerStyle={styles.container2}>
-                        {filteredProducts.map((product) => (
-                            <TouchableOpacity
-                                key={product.id}
-                                style={styles.productContainer}
-                            >
-                                <Image
-                                    source={product.image}
-                                    style={styles.image}
-                                />
-                                <Text style={styles.name}>{product.name}</Text>
-                                <Text style={styles.price}>
-                                    {product.price}
-                                </Text>
-                                <Text style={styles.description}>
-                                    {product.description}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
+                    <FlatList
+                    data={filteredProducts}
+                    renderItem={({ item }) => (
+                        <View>
+                            <Image source={{ uri: item.productImage }} style={{ width: 100, height: 100 }} />
+                            <Text>{item.productName}</Text>
+                            <Text>{item.productDescription}</Text>
+                            <Text>{item.price}</Text>
+                        </View>
+                    )}
+                    keyExtractor={(item) => item._id}
+                    numColumns={2}
+                    contentContainerStyle={styles.container2}
+                    columnWrapperStyle={styles.row}
+                    ListEmptyComponent={<Text>Not found</Text>}
+        />
+
                 </View>
             </View>
         </LinearGradient>
