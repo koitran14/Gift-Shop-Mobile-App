@@ -9,7 +9,6 @@ import HomeScreen from './HomeScreen'
 import ProfileScreen from "./ProfileScreen";
 import CartScreen from "./CartScreen";
 import FavoriteScreen from "./FavoriteScreen";
-<<<<<<< HEAD
 import SearchScreen from "./SearchScreen";
 import ProductScreen from "./ProductScreen";
 import CheckoutScreen from "./CheckoutScreen";
@@ -32,9 +31,3 @@ export {
     CheckoutScreen,
     VoucherScreen,
 };
-=======
-import CheckoutScreen from "./CheckoutScreen";
-import VoucherScreen from "./VoucherScreen";
-
-export { SplashScreen, WelcomeScreen, SigninScreen, SignupScreen, ForgotPasswordScreen, RegisterPhoneScreen, VerificationScreen, HomeScreen, CartScreen, ProfileScreen, FavoriteScreen, CheckoutScreen, VoucherScreen};
->>>>>>> 9790eb881864b6ea53eef9c6714865a877d37404

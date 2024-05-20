@@ -6,11 +6,7 @@ import { Colors, Fonts, Images } from "../contants";
 
 export default function CheckoutScreen ({navigation, route}) {
     const { selectedProducts } = route.params;
-<<<<<<< HEAD
-    const [ inputText, setInputText ] = useState("");
-=======
     const [inputText, setInputText] = useState("");
->>>>>>> 9790eb881864b6ea53eef9c6714865a877d37404
 
     return (
         <LinearGradient

@@ -33,10 +33,7 @@ export default function VoucherScreen ({ navigation }) {
             expiredDate: "Exp 12 June 2024",
         },
     ]);
-<<<<<<< HEAD
     
-=======
->>>>>>> 9790eb881864b6ea53eef9c6714865a877d37404
     const boxContent = {
         left: (
             <View style={{paddingHorizontal: 20, marginTop: 15}}>

@@ -35,4 +35,7 @@ export default {
     TICKET: require('../../assets/images/Ticket.png'),
     CALENDAR: require('../../assets/images/calendar.png'),
     CIRCLE: require('../../assets/images/circle.png'),
+    VISA: require('../../assets/images/visa.png'),
+    MASTERCARD: require('../../assets/images/mastercard.png'),
+
 };

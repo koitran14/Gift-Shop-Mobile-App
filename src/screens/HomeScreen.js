@@ -115,11 +115,11 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.container}>
 
                 {/* flex1 */}
-                <View style={styles.flex1}> 
+                <View style={styles.flex1}>
                     <View style={styles.headerContainer}>
                         <View style={styles.locationContainer}>
                             {/* Welcome  */}
-                            <Image source={Images.USER}  />
+                            <Image source={Images.USER} />
 
                             <Text style={styles.locationText}>
                                 Welcome Koi Tran
@@ -199,8 +199,8 @@ const HomeScreen = ({ navigation }) => {
                             </Text>
                         </View>
 
-                        <ScrollView 
-                            horizontal 
+                        <ScrollView
+                            horizontal
                             contentContainerStyle={styles.container3}
                             showsHorizontalScrollIndicator={false}
                         >
@@ -224,7 +224,7 @@ const HomeScreen = ({ navigation }) => {
                 </View>
 
                 {/* flex3 */}
-                
+
                 <View style={styles.flex3}>
                     <FlatList
                         data={filteredProducts}
@@ -403,8 +403,8 @@ const styles = StyleSheet.create({
         //backgroundColor: "blue",
         flex: 0.15,
         width: '100%',
-        flexDirection: "column", 
-        justifyContent: "center", 
+        flexDirection: "column",
+        justifyContent: "center",
     },
 
     flex3: {

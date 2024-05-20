@@ -6,11 +6,7 @@ import React, { useState, useEffect } from 'react';
 
 export default function CartScreen ({navigation}) {
     const CheckoutPress = () =>{
-<<<<<<< HEAD
         navigation.navigate('Checkout');
-=======
-    navigation.navigate('Checkout');
->>>>>>> 9790eb881864b6ea53eef9c6714865a877d37404
     };
 
     const [selectedProducts, setSelectedProducts] = useState([]);
