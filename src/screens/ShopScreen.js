@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import React, { useState, useEffect } from "react";
 import {
     ScrollView,
@@ -9,10 +11,11 @@ import {
     TextInput,
 } from "react-native";
 import { Colors, Fonts, Images } from "../contants";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { LinearGradient } from "expo-linear-gradient";
 
-const Shop = ({ navigation }) => {
+
+const ShopScreen = ({ navigation }) => {
     const products = [
         {
             id: 1,
@@ -72,16 +75,15 @@ const Shop = ({ navigation }) => {
 
                 {/* flex 1: hang shop */}
                 <View style={styles.flex1}>
+
                 <Ionicons
-                name="chevron-back-outline"
-                size={30}
-                onPress={() => navigation.goBack()}
-                style={{
-                    marginTop: 20,
-                    marginRight: 90,
-                
-                }}
-            />
+                        name="chevron-back-outline"
+                        size={30}
+                        onPress={() => navigation.navigate('HomeScreen')}
+                        style={{
+                           top: -10
+                        }}
+                    />
                 
 
                     <Image style={styles.image3} source={Images.FLOWERBANNER} />
@@ -383,4 +385,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Shop;
+export default ShopScreen;

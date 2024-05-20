@@ -80,7 +80,15 @@ const ProductShop = ({ navigation }) => {
 
                 {/* flex 1: hang shop */}
                 <View style={styles.flex1}>
-                   
+                <Ionicons
+                        name="chevron-back-outline"
+                        size={30}
+                        onPress={() => navigation.navigate('HomeScreen')}
+                        style={{
+                           top: -10
+                        }}
+                    />
+                    
                 
                     <Image style={styles.image3} source={Images.FLOWERBANNER} />
 

@@ -76,24 +76,26 @@ const CategoriesShop = ({ navigation }) => {
         >
             <View style={styles.container}>
                 {/* flex 0: hang tren cung */}
-                <View style={styles.flex0}>
-               
-                </View>
-               
+                <View style={styles.flex0}></View>
+
                 {/* flex 1: hang shop */}
                 <View style={styles.flex1}>
-
-               
-                    <Image style={styles.image3} source={Images.FLOWERBANNER} />
+                <Ionicons
+                        name="chevron-back-outline"
+                        size={30}
+                        onPress={() => navigation.navigate('HomeScreen')}
+                        style={{
+                           top: -10
+                        }}
+                    />
                     
+                    <Image style={styles.image3} source={Images.FLOWERBANNER} />
 
                     <View style={styles.subtractParent}>
                         <Image
                             style={styles.subtractIcon}
                             source={Images.SUB}
                         />
-                 
-
 
                         <View style={styles.searchContainer}>
                             {/* search bar */}
@@ -114,9 +116,7 @@ const CategoriesShop = ({ navigation }) => {
 
                         <View style={styles.container1}>
                             <Text style={[styles.sflower]}>SFlower</Text>
-                            <Text style={[styles.follow]}>
-                                + Follow
-                            </Text>
+                            <Text style={[styles.follow]}>+ Follow</Text>
                             <Text
                                 style={[
                                     styles.online2Minutes,
@@ -124,14 +124,25 @@ const CategoriesShop = ({ navigation }) => {
                                 ]}
                             >{`Online 2 minutes ago `}</Text>
                             <Text
-                                style={[styles.kFollowers, styles.kFollowersTypo]}
+                                style={[
+                                    styles.kFollowers,
+                                    styles.kFollowersTypo,
+                                ]}
                             >
                                 4.9/5.0 | 33.7k Followers
                             </Text>
                         </View>
-                        <View style={[styles.vectorParent, styles.parentShadowBox]}>
+                        <View
+                            style={[
+                                styles.vectorParent,
+                                styles.parentShadowBox,
+                            ]}
+                        >
                             <Image
-                                style={[styles.groupItem, styles.groupItemLayout]}
+                                style={[
+                                    styles.groupItem,
+                                    styles.groupItemLayout,
+                                ]}
                                 resizeMode="cover"
                                 source="Star 1.png"
                             />
@@ -148,31 +159,42 @@ const CategoriesShop = ({ navigation }) => {
                             <Text>Categories</Text>
                         </View>
                     </View>
-
                 </View>
 
                 {/* flex 3: san pham */}
                 <View style={styles.flex3}>
-
                     <View style={styles.rectangleView1}>
-                        <Image style={[styles.image7Icon]} source={Images.seven} />
-                        <Text Text style={styles.flowers}>{`   Flowers (30)`}</Text>
-                    </View>
-                    
-                    <View style={styles.rectangleView1}>
-                        <Image style={[styles.image7Icon]} source={Images.eight} />
-                        <Text Text style={styles.flowers}>{`   Cakes (18)`}</Text>
-                    </View>
-
-                    <View style={styles.rectangleView1}>
-                        <Image style={[styles.image7Icon]} source={Images.nine} />
-                        <Text Text style={styles.flowers}>{`   Gift box (15)`}</Text>
+                        <Image
+                            style={[styles.image7Icon]}
+                            source={Images.seven}
+                        />
+                        <Text
+                            Text
+                            style={styles.flowers}
+                        >{`   Flowers (30)`}</Text>
                     </View>
 
+                    <View style={styles.rectangleView1}>
+                        <Image
+                            style={[styles.image7Icon]}
+                            source={Images.eight}
+                        />
+                        <Text
+                            Text
+                            style={styles.flowers}
+                        >{`   Cakes (18)`}</Text>
+                    </View>
 
-
-
-
+                    <View style={styles.rectangleView1}>
+                        <Image
+                            style={[styles.image7Icon]}
+                            source={Images.nine}
+                        />
+                        <Text
+                            Text
+                            style={styles.flowers}
+                        >{`   Gift box (15)`}</Text>
+                    </View>
                 </View>
             </View>
         </LinearGradient>
@@ -194,7 +216,7 @@ const styles = StyleSheet.create({
     flex1: {
         flex: 0.2,
         flexDirection: "column",
-        justifyContent: 'space-around',
+        justifyContent: "space-around",
         //backgroundColor: "red",
     },
     searchInThe: {
@@ -218,7 +240,6 @@ const styles = StyleSheet.create({
         marginLeft: "15%",
         marginRight: "10%",
         flexDirection: "row",
-
     },
     searchSection: {
         flexDirection: "row",
@@ -235,7 +256,6 @@ const styles = StyleSheet.create({
     },
     container1: {
         top: "10%",
-
     },
     sflower: {
         color: "#e07ce9",
@@ -313,36 +333,34 @@ const styles = StyleSheet.create({
         // backgroundColor: "green",
         flex: 0.8,
         flexDirection: "column",
-
     },
 
     container3: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: '2%',
-        width: '100%',
+        flexDirection: "row",
+        alignItems: "center",
+        marginLeft: "2%",
+        width: "100%",
     },
     choice: {
         padding: "4%",
         margin: 5,
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: 'white',
+        borderColor: "white",
     },
 
     text: {
-        color: 'purple',
+        color: "purple",
     },
 
     selectedText: {
-        color: 'white',
-        fontWeight: '400',
+        color: "white",
+        fontWeight: "400",
     },
 
     selectedChoice: {
-        backgroundColor: 'purple',
+        backgroundColor: "purple",
     },
-
 
     rectangleView1: {
         flex: 0.2,
@@ -351,7 +369,7 @@ const styles = StyleSheet.create({
         shadowColor: "rgba(0, 0, 0, 0.25)",
         shadowOffset: {
             width: 0,
-            height: 4
+            height: 4,
         },
         shadowRadius: 4,
         elevation: 4,
@@ -360,7 +378,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
 
         width: "100%",
-        height: 68
+        height: 68,
     },
     container2: {
         flexDirection: "row",
@@ -400,18 +418,16 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
 
-
     flowers: {
         marginTop: "10%",
         alignItems: "flex-end",
-        fontWeight: "700"
+        fontWeight: "700",
     },
 
     image7Icon: {
         marginLeft: "8%",
         marginTop: "5%",
     },
-  
 });
 
 export default CategoriesShop;
