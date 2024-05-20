@@ -11,7 +11,12 @@ const BACKEND_API = {
   BASE_API_URL: `${BACKEND_BASE_URL}/api`,
   REGISTER: `${BACKEND_BASE_URL}/api/register`,
   LOGIN: `${BACKEND_BASE_URL}/api/login`,
-  USER_EXIST: `${BACKEND_BASE_URL}/user-exist`
+  USER_EXIST: `${BACKEND_BASE_URL}/user-exist`,
+  GET_PRODUCT: `${BACKEND_BASE_URL}/store/product`,
+  GET_STORE: `${BACKEND_BASE_URL}/store/`,
+  GET_CATEGORIES:`${BACKEND_BASE_URL}/store/categories`,
+  GET_PRODUCT_BY_CATEGORIES:`${BACKEND_BASE_URL}/store/categories/product`,
+  ADD_STORE:`${BACKEND_BASE_URL}/store/add-store`
 };
 
 const STATIC_IMAGE = {

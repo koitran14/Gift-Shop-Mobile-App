@@ -18,45 +18,13 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const ShopScreen = ({ navigation }) => {
 
-    // const products = [
-    //     {
-    //         id: 1,
-    //         name: "Gifts",
-    //         price: "$10",
-    //         description: "A beautiful gift",
-    //         image: require("../../assets/images/gift.png"),
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Cake",
-    //         price: "$20",
-    //         description: "A delicious cake",
-    //         image: require("../../assets/images/cake.png"),
-    //     },
-    //     {
-    //         id: 3,
-    //         name: "Product 3",
-    //         price: "$30",
-    //         description: "Description 3",
-    //         image: require("../../assets/images/star.png"),
-    //     },
-    //     {
-    //         id: 4,
-    //         name: "Product 3",
-    //         price: "$30",
-    //         description: "Description 3",
-    //         image: require("../../assets/images/flower.png"),
-    //     },
-    // ];
-
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [searchText, setSearchText] = useState("");
     
-
-
+    
     useEffect(() => {
-        axios.get('http://172.17.35.67:3000/store/product?storeName=Example%20Store')
+        axios.get('http://192.168.4.245:3000/store/product?storeName=Example%20Store')
             .then(response => {
                 const data = response.data.filter(item => item !== null);
                 setProducts(data);
