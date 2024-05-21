@@ -4,6 +4,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { Colors, Fonts, Images } from "../contants";
 import React, { useState, useEffect } from 'react';
 
+const API_URL = 'http://localhost:4000/api/cart';
+
 export default function CartScreen ({navigation}) {
     const CheckoutPress = () =>{
     navigation.navigate('Checkout');
@@ -46,55 +48,46 @@ export default function CartScreen ({navigation}) {
     ]);
 
     const handleAddToCart = (productId) => {
-        setProducts(prevProducts => {
-            return prevProducts.map(product => {
-                if (product.id === productId) {
-                    return { ...product, quantity: product.quantity + 1 };
-                }
-                return product;
-            });
-        });
-    
         const productToAdd = products.find(product => product.id === productId);
-    
-        const existingProductIndex = selectedProducts.findIndex(product => product.id === productId);
-    
-        if (existingProductIndex === -1) {
-            setSelectedProducts([...selectedProducts, productToAdd]);
-        }
-    
-        setTotalAmount(prevTotalAmount => prevTotalAmount + 1);
-        setTotalPrice(prevTotalPrice => prevTotalPrice + parseFloat(productToAdd.price.replace('$', '')));
+        axios.post(`${API_URL}/addToCart`, productToAdd)
+            .then(response => {
+                const addedProduct = response.data;
+                setProducts(prevProducts => {
+                    return prevProducts.map(product => {
+                        if (product.id === productId) {
+                            return { ...product, quantity: product.quantity + 1 };
+                        }
+                        return product;
+                    });
+                });
+                setSelectedProducts([...selectedProducts, addedProduct]);
+                setTotalAmount(prevTotalAmount => prevTotalAmount + 1);
+                setTotalPrice(prevTotalPrice => prevTotalPrice + parseFloat(addedProduct.price.replace('$', '')));
+            })
+            .catch(error => {
+                console.error("There was an error adding the product to the cart!", error);
+            });
     };
 
     const handleRemoveFromCart = (productId) => {
-        setProducts(prevProducts => {
-            return prevProducts.map(product => {
-                if (product.id === productId && product.quantity > 0) {
-                    return { ...product, quantity: product.quantity - 1 };
-                }
-                return product;
+        axios.post(`${API_URL}/removeFromCart`, { id: productId })
+            .then(response => {
+                const removedProduct = response.data;
+                setProducts(prevProducts => {
+                    return prevProducts.map(product => {
+                        if (product.id === productId && product.quantity > 0) {
+                            return { ...product, quantity: product.quantity - 1 };
+                        }
+                        return product;
+                    });
+                });
+                setSelectedProducts(prevSelectedProducts => prevSelectedProducts.filter(product => product.id !== productId));
+                setTotalAmount(prevTotalAmount => prevTotalAmount - 1);
+                setTotalPrice(prevTotalPrice => prevTotalPrice - parseFloat(removedProduct.price.replace('$', '')));
+            })
+            .catch(error => {
+                console.error("There was an error removing the product from the cart!", error);
             });
-        });
-    
-        const productIndexToRemove = selectedProducts.findIndex(product => product.id === productId);
-    
-        if (productIndexToRemove !== -1) {
-            const updatedSelectedProducts = [...selectedProducts];
-            if (selectedProducts[productIndexToRemove].quantity === 1) {
-                updatedSelectedProducts.splice(productIndexToRemove, 1);
-            } else {
-                updatedSelectedProducts[productIndexToRemove].quantity--;
-            }
-            setSelectedProducts(updatedSelectedProducts);
-        }
-    
-        const productToRemove = products.find(product => product.id === productId);
-    
-        if (productToRemove.quantity > 0) {
-            setTotalAmount(prevTotalAmount => prevTotalAmount - 1);
-            setTotalPrice(prevTotalPrice => prevTotalPrice - parseFloat(productToRemove.price.replace('$', '')));
-        }
     };
 
     useEffect(() => {
@@ -109,7 +102,15 @@ export default function CartScreen ({navigation}) {
     }, [selectedProducts]);
 
     useEffect(() => {
-        setSelectedProducts(products.map(product => ({ ...product, quantity: 1 })));
+        axios.get(API_URL)
+            .then(response => {
+                const productsFromServer = response.data;
+                setSelectedProducts(productsFromServer.map(product => ({ ...product, quantity: 1 })));
+                setProducts(productsFromServer);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the products!", error);
+            });
     }, []);
     
 
