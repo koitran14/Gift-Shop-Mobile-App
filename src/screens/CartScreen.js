@@ -3,6 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Colors, Fonts, Images } from "../contants";
 import React, { useState, useEffect } from 'react';
+import axios from "axios";
 
 const API_URL = 'http://localhost:4000/api/cart';
 
