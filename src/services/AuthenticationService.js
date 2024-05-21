@@ -46,11 +46,10 @@ const login = async user => {
 
         
         if (loginResponse?.data?.token) {
-            Cookies.set('AccessToken', loginResponse.data.token); 
+            Cookies.set('token', loginResponse.data.token); 
         }
-        // return loginResponse?data.token;
+        return loginResponse.data.token;
 
-        return loginResponse?.token;
     } catch (error) {
         return { status: false, message: 'Oops! Something went wrong.'};
     }
