@@ -32,23 +32,23 @@ const FavoriteScreen = ({ navigation }) => {
       }
 
       try {
-        const productResponse = await axios.get('http://192.168.0.103:3000/product', {
+        const productResponse = await axios.get('http://localhost:3000/product', {
           headers: {
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI3NzMyOCwiZXhwIjoxNzE2MjgwOTI4fQ.XNBXJz66f8sCGn4U5V31R8TQJzs88BE7eZsrYwf_w0g`
+            'Authorization': `Bearer ${token}`
           }
         });
         setProducts(productResponse.data);
 
-        const shopResponse = await axios.get('http://192.168.0.103:3000/store', {
+        const shopResponse = await axios.get('http://localhost:3000/store', {
           headers: {
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI3NzMyOCwiZXhwIjoxNzE2MjgwOTI4fQ.XNBXJz66f8sCGn4U5V31R8TQJzs88BE7eZsrYwf_w0g`
+            'Authorization': `Bearer ${token}`
           }
         });
         setShops(shopResponse.data);
 
-        const userResponse = await axios.get('http://192.168.0.103:3000/user', {
+        const userResponse = await axios.get('http://localhost:3000/user', {
           headers: {
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI3NzMyOCwiZXhwIjoxNzE2MjgwOTI4fQ.XNBXJz66f8sCGn4U5V31R8TQJzs88BE7eZsrYwf_w0g`
+            'Authorization': `Bearer ${token}`
           }
         });
         setUserInfo(userResponse.data.user);
