@@ -12,10 +12,12 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
+import { ProductCard } from '../components';
 
 const FavoriteScreen = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [shops, setShops] = useState([]);
+  const [userInfo, setUserInfo] = useState(null);
   const [selectedIcon, setSelectedIcon] = useState('heart');
   const [selectedMenu, setSelectedMenu] = useState('products');
   const [loading, setLoading] = useState(true);
@@ -23,11 +25,32 @@ const FavoriteScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const productResponse = await axios.get('http://192.168.0.103:3000/product');
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI2OTcwMCwiZXhwIjoxNzE2MjczMzAwfQ.CO1fbP1Ab4SIw9j_FdOtvhxWhved8cko4edOvGocjqE";
+        
+        // Fetch user profile
+        const userResponse = await axios.get('http://192.168.0.103:3000/user', {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI3NTY4MSwiZXhwIjoxNzE2Mjc5MjgxfQ.nVJ_kXfCd1_5BD950lsRrfRzebHEJlvJQUY8JGqsWqQ`
+          }
+        });
+        setUserInfo(userResponse.data.user);
+
+        // Fetch products
+        const productResponse = await axios.get('http://192.168.0.103:3000/product', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         setProducts(productResponse.data);
 
-        const shopResponse = await axios.get('http://192.168.0.103:3000/store');
+        // Fetch shops
+        const shopResponse = await axios.get('http://192.168.0.103:3000/store', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         setShops(shopResponse.data);
+
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -61,7 +84,11 @@ const FavoriteScreen = ({ navigation }) => {
   };
 
   const goToProduct = (product) => {
-    // navigation.navigate(product.navigateTo, { product });
+    // navigation.navigate(product.navigateTo, { ProductCard });
+
+  //   renderItem={({ item }) => (
+  //     <ProductCard product={item} onPress={() => onPress(item)} />
+  // )}
   };
 
   const viewShop = (shopId) => {
@@ -87,8 +114,8 @@ const FavoriteScreen = ({ navigation }) => {
       <View style={styles.profileDetails}>
         <Image source={Images.USER} style={styles.avatar} />
         <View>
-          <Text style={styles.name}>User Name</Text>
-          <Text style={styles.details}>Gender</Text>
+          <Text style={styles.name}>{userInfo.username}</Text>
+          <Text style={styles.details}>{userInfo.email}</Text>
           <Text style={styles.details}>Location</Text>
         </View>
       </View>

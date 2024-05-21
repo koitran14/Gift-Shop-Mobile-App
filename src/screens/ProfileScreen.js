@@ -20,11 +20,12 @@ const ProfileScreen = ({ navigation }) => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get('http://192.168.0.103:3000/user',{
+        const response = await axios.get('http://192.168.0.103:3000/user',
+          {
             headers: {
-                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI2OTcwMCwiZXhwIjoxNzE2MjczMzAwfQ.CO1fbP1Ab4SIw9j_FdOtvhxWhved8cko4edOvGocjqE`
+              'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI3NTY4MSwiZXhwIjoxNzE2Mjc5MjgxfQ.nVJ_kXfCd1_5BD950lsRrfRzebHEJlvJQUY8JGqsWqQ`
             }
-        }
+          }
 
         );
         setUserInfo(response.data.user);
