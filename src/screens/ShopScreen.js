@@ -21,6 +21,9 @@ const ShopScreen = ({ navigation }) => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [searchText, setSearchText] = useState("");
+    const navigateToScreen = (screenName) => {
+        navigation.navigate(screenName);
+    };
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -134,9 +137,25 @@ const ShopScreen = ({ navigation }) => {
                 <View style={styles.flex2}>
                     <View style={styles.ngang}>
                         <View style={styles.rectangleView}>
-                            <Text>Shop</Text>
-                            <Text>Product</Text>
-                            <Text>Categories</Text>
+
+                        <TouchableOpacity
+                                onPress={() => navigateToScreen("ShopScreen")}
+                            >
+                                <Text>Shop</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => navigateToScreen("ProductShop")}
+                            >
+                                <Text>Product</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    navigateToScreen("CategoriesShop")
+                                }
+                            >
+                                <Text>Categories</Text>
+                            </TouchableOpacity>
+
                         </View>
                     </View>
 

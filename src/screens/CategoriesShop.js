@@ -7,65 +7,34 @@ import {
     View,
     TouchableOpacity,
     TextInput,
+    FlatList,
 } from "react-native";
 import { Colors, Fonts, Images } from "../contants";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import axios from "axios"; // Import axios
 import { LinearGradient } from "expo-linear-gradient";
 
 const CategoriesShop = ({ navigation }) => {
-    const products = [
-        {
-            id: 1,
-            name: "Gifts",
-            price: "$10",
-            description: "A beautiful gift",
-            image: require("../../assets/images/gift.png"),
-        },
-        {
-            id: 2,
-            name: "Cake",
-            price: "$20",
-            description: "A delicious cake",
-            image: require("../../assets/images/cake.png"),
-        },
-        {
-            id: 3,
-            name: "Product 3",
-            price: "$30",
-            description: "Description 3",
-            image: require("../../assets/images/star.png"),
-        },
-        {
-            id: 4,
-            name: "Product 3",
-            price: "$30",
-            description: "Description 3",
-            image: require("../../assets/images/flower.png"),
-        },
-    ];
-
-    const [selectedChoice, setSelectedChoice] = useState("Recent");
-
-    const choices = ["Recent", "Favorite", "Flowers", "Gifts", "Cakes"];
-
-    const handleChoiceSelect = (choice) => {
-        setSelectedChoice(choice);
-    };
-
-    const [filteredProducts, setFilteredProducts] = useState(products);
     const [searchText, setSearchText] = useState("");
 
+    const [categoryData, setCategoryData] = useState([]);
+
+    const navigateToScreen = (screenName) => {
+        navigation.navigate(screenName);
+    };
+
     useEffect(() => {
-        const filtered = products.filter((product) => {
-            return (
-                product.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                product.description
-                    .toLowerCase()
-                    .includes(searchText.toLowerCase())
-            );
-        });
-        setFilteredProducts(filtered);
-    }, [searchText]);
+        axios
+            .get(
+                "http://10.238.57.239:3000/store/categories?storeName=Example%20Store"
+            )
+            .then((response) => {
+                setCategoryData(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching category data:", error);
+            });
+    }, []);
 
     return (
         <LinearGradient
@@ -80,15 +49,15 @@ const CategoriesShop = ({ navigation }) => {
 
                 {/* flex 1: hang shop */}
                 <View style={styles.flex1}>
-                <Ionicons
+                    <Ionicons
                         name="chevron-back-outline"
                         size={30}
-                        onPress={() => navigation.navigate('HomeScreen')}
+                        onPress={() => navigation.navigate("HomeScreen")}
                         style={{
-                           top: -10
+                            top: -10,
                         }}
                     />
-                    
+
                     <Image style={styles.image3} source={Images.FLOWERBANNER} />
 
                     <View style={styles.subtractParent}>
@@ -154,47 +123,47 @@ const CategoriesShop = ({ navigation }) => {
                 <View style={styles.flex2}>
                     <View style={styles.ngang}>
                         <View style={styles.rectangleView}>
-                            <Text>Shop</Text>
-                            <Text>Product</Text>
-                            <Text>Categories</Text>
+                            <TouchableOpacity
+                                onPress={() => navigateToScreen("ShopScreen")}
+                            >
+                                <Text>Shop</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => navigateToScreen("ProductShop")}
+                            >
+                                <Text>Product</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    navigateToScreen("CategoriesShop")
+                                }
+                            >
+                                <Text>Categories</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
 
                 {/* flex 3: san pham */}
                 <View style={styles.flex3}>
-                    <View style={styles.rectangleView1}>
-                        <Image
-                            style={[styles.image7Icon]}
-                            source={Images.seven}
-                        />
-                        <Text
-                            Text
-                            style={styles.flowers}
-                        >{`   Flowers (30)`}</Text>
-                    </View>
-
-                    <View style={styles.rectangleView1}>
-                        <Image
-                            style={[styles.image7Icon]}
-                            source={Images.eight}
-                        />
-                        <Text
-                            Text
-                            style={styles.flowers}
-                        >{`   Cakes (18)`}</Text>
-                    </View>
-
-                    <View style={styles.rectangleView1}>
-                        <Image
-                            style={[styles.image7Icon]}
-                            source={Images.nine}
-                        />
-                        <Text
-                            Text
-                            style={styles.flowers}
-                        >{`   Gift box (15)`}</Text>
-                    </View>
+                    <FlatList
+                        data={categoryData}
+                        renderItem={({ item }) => (
+                            <View style={styles.gridItem}>
+                                {/* Assuming you have an image URL for each category */}
+                                <Text style={styles.productName}>
+                                    {item.categoryName}
+                                </Text>
+                                <Text style={styles.productDescription}>
+                                    {item.quantity}
+                                </Text>
+                            </View>
+                        )}
+                        keyExtractor={(item) => item._id}
+                        numColumns={2}
+                        contentContainerStyle={styles.container2}
+                        ListEmptyComponent={<Text>No categories found</Text>} // Display message when no categories are available
+                    />
                 </View>
             </View>
         </LinearGradient>

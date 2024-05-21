@@ -119,11 +119,11 @@ const HomeScreen = ({ navigation }) => {
             source: Images.LOVE,
         },
         {
-            navigation: 'ProductShop',
+            navigation: 'ProfileScreen',
             source: Images.USER,
         },
         {
-            navigation: 'CategoriesShop',
+            navigation: 'CartScreen',
             source: Images.CART,
         }
     ]

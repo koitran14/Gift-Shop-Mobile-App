@@ -7,42 +7,54 @@ import {
     View,
     TouchableOpacity,
     TextInput,
+    FlatList,
 } from "react-native";
 import { Colors, Fonts, Images } from "../contants";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
+import axios from 'axios';
+import {StoreService} from '../services';
 
 const ProductShop = ({ navigation }) => {
-    const products = [
-        {
-            id: 1,
-            name: "Gifts",
-            price: "$10",
-            description: "A beautiful gift",
-            image: require("../../assets/images/gift.png"),
-        },
-        {
-            id: 2,
-            name: "Cake",
-            price: "$20",
-            description: "A delicious cake",
-            image: require("../../assets/images/cake.png"),
-        },
-        {
-            id: 3,
-            name: "Product 3",
-            price: "$30",
-            description: "Description 3",
-            image: require("../../assets/images/star.png"),
-        },
-        {
-            id: 4,
-            name: "Product 3",
-            price: "$30",
-            description: "Description 3",
-            image: require("../../assets/images/flower.png"),
-        },
-    ];
+
+    const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [searchText, setSearchText] = useState("");
+    const navigateToScreen = (screenName) => {
+        navigation.navigate(screenName);
+    };
+
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await StoreService.getProduct("Example Store");
+                // Kiểm tra response để xử lý trường hợp có lỗi từ hàm getProduct
+                if (response.status === false) {
+                    console.error('Error fetching data:', response.message);
+                } else {
+                    const data = response.filter(item => item !== null);
+                    setProducts(data);
+                    setFilteredProducts(data);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+    
+        fetchProducts();
+    }, []);
+    
+    useEffect(() => {
+        const filtered = products.filter((product) => {
+            return (
+                product.productName.toLowerCase().includes(searchText.toLowerCase()) ||
+                product.productDescription.toLowerCase().includes(searchText.toLowerCase())
+            );
+        });
+        setFilteredProducts(filtered);
+    }, [searchText, products]);
+
 
     const [selectedChoice, setSelectedChoice] = useState("Recent");
 
@@ -52,20 +64,8 @@ const ProductShop = ({ navigation }) => {
         setSelectedChoice(choice);  
     };
 
-    const [filteredProducts, setFilteredProducts] = useState(products);
-    const [searchText, setSearchText] = useState("");
 
-    useEffect(() => {
-        const filtered = products.filter((product) => {
-            return (
-                product.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                product.description
-                    .toLowerCase()
-                    .includes(searchText.toLowerCase())
-            );
-        });
-        setFilteredProducts(filtered);
-    }, [searchText]);
+
 
     return (
         <LinearGradient
@@ -147,9 +147,25 @@ const ProductShop = ({ navigation }) => {
                 <View style={styles.flex2}>
                     <View style={styles.ngang}>
                         <View style={styles.rectangleView}>
-                            <Text>Shop</Text>
-                            <Text>Product</Text>
-                            <Text>Categories</Text>
+                        
+                            <TouchableOpacity
+                                onPress={() => navigateToScreen("ShopScreen")}
+                            >
+                                <Text>Shop</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => navigateToScreen("ProductShop")}
+                            >
+                                <Text>Product</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    navigateToScreen("CategoriesShop")
+                                }
+                            >
+                                <Text>Categories</Text>
+                            </TouchableOpacity>
+
                         </View>
                     </View>
 
@@ -158,43 +174,23 @@ const ProductShop = ({ navigation }) => {
                 {/* flex 3: san pham */}
                 <View style={styles.flex3}>
 
-                    <ScrollView 
-                            horizontal 
-                            contentContainerStyle={styles.container3}
-                            showsHorizontalScrollIndicator={false}
-                        >
-                            {choices.map((choice, index) => (
-                                <TouchableOpacity
-                                    key={index}
-                                    style={[styles.choice, selectedChoice === choice ? styles.selectedChoice : null]}
-                                    onPress={() => handleChoiceSelect(choice)}
-                                >
-                                    <Text style={selectedChoice === choice ? styles.selectedText : styles.text}>{choice}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-                   
+                <FlatList
+                    data={filteredProducts}
+                    renderItem={({ item }) => (
+                        <View>
+                            <Image source={{ uri: item.productImage }} style={{ width: 100, height: 100 }} />
+                            <Text>{item.productName}</Text>
+                            <Text>{item.productDescription}</Text>
+                            <Text>{item.price}</Text>
+                        </View>
+                    )}
+                    keyExtractor={(item) => item._id}
+                    numColumns={2}
+                    contentContainerStyle={styles.container2}
+                    columnWrapperStyle={styles.row}
+                    ListEmptyComponent={<Text>Not found</Text>}
+        />
 
-                    <ScrollView contentContainerStyle={styles.container2}>
-                        {filteredProducts.map((product) => (
-                            <TouchableOpacity
-                                key={product.id}
-                                style={styles.productContainer}
-                            >
-                                <Image
-                                    source={product.image}
-                                    style={styles.image}
-                                />
-                                <Text style={styles.name}>{product.name}</Text>
-                                <Text style={styles.price}>
-                                    {product.price}
-                                </Text>
-                                <Text style={styles.description}>
-                                    {product.description}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
                 </View>
             </View>
         </LinearGradient>
