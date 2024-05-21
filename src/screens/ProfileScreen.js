@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const ProfileScreen = ({ navigation }) => {
   const [userInfo, setUserInfo] = useState(null);
@@ -19,15 +20,18 @@ const ProfileScreen = ({ navigation }) => {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
+      const token = Cookies.get('AccessToken');
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+      
       try {
-        const response = await axios.get('http://192.168.0.103:3000/user',
-          {
-            headers: {
-              'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI3NzMyOCwiZXhwIjoxNzE2MjgwOTI4fQ.XNBXJz66f8sCGn4U5V31R8TQJzs88BE7eZsrYwf_w0g`
-            }
+        const response = await axios.get('http://192.168.0.103:3000/user', {
+          headers: {
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI3NzMyOCwiZXhwIjoxNzE2MjgwOTI4fQ.XNBXJz66f8sCGn4U5V31R8TQJzs88BE7eZsrYwf_w0g`
           }
-
-        );
+        });
         setUserInfo(response.data.user);
       } catch (error) {
         console.error("Error fetching user profile:", error);

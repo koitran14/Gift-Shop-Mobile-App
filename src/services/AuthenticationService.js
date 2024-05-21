@@ -45,10 +45,12 @@ const login = async user => {
         );
 
         
-        if (loginResponse?.data?.AccessToken) {
-            Cookies.set('AccessToken', loginResponse.data.AccessToken); 
+        if (loginResponse?.data?.token) {
+            Cookies.set('AccessToken', loginResponse.data.token); 
         }
-        return loginResponse?.data;
+        // return loginResponse?data.token;
+
+        return loginResponse?.token;
     } catch (error) {
         return { status: false, message: 'Oops! Something went wrong.'};
     }

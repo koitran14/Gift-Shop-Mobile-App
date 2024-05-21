@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { ProductCard } from '../components';
+import Cookies from 'js-cookie';
 
 const FavoriteScreen = ({ navigation }) => {
   const [products, setProducts] = useState([]);
@@ -24,33 +25,33 @@ const FavoriteScreen = ({ navigation }) => {
 
   useEffect(() => {
     const fetchFavorites = async () => {
-      try {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI2OTcwMCwiZXhwIjoxNzE2MjczMzAwfQ.CO1fbP1Ab4SIw9j_FdOtvhxWhved8cko4edOvGocjqE";
-        
-        // Fetch user profile
-        const userResponse = await axios.get('http://192.168.0.103:3000/user', {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI3NzMyOCwiZXhwIjoxNzE2MjgwOTI4fQ.XNBXJz66f8sCGn4U5V31R8TQJzs88BE7eZsrYwf_w0g`
-          }
-        });
-        setUserInfo(userResponse.data.user);
+      const token = Cookies.get('AccessToken');
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
 
-        // Fetch products
+      try {
         const productResponse = await axios.get('http://192.168.0.103:3000/product', {
           headers: {
-            Authorization: `Bearer ${token}`
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI3NzMyOCwiZXhwIjoxNzE2MjgwOTI4fQ.XNBXJz66f8sCGn4U5V31R8TQJzs88BE7eZsrYwf_w0g`
           }
         });
         setProducts(productResponse.data);
 
-        // Fetch shops
         const shopResponse = await axios.get('http://192.168.0.103:3000/store', {
           headers: {
-            Authorization: `Bearer ${token}`
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI3NzMyOCwiZXhwIjoxNzE2MjgwOTI4fQ.XNBXJz66f8sCGn4U5V31R8TQJzs88BE7eZsrYwf_w0g`
           }
         });
         setShops(shopResponse.data);
 
+        const userResponse = await axios.get('http://192.168.0.103:3000/user', {
+          headers: {
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGI4NTE3NzBlYjAwNDJjMTdlM2E0OCIsImlhdCI6MTcxNjI3NzMyOCwiZXhwIjoxNzE2MjgwOTI4fQ.XNBXJz66f8sCGn4U5V31R8TQJzs88BE7eZsrYwf_w0g`
+          }
+        });
+        setUserInfo(userResponse.data.user);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
