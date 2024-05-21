@@ -17,14 +17,17 @@ import Cookies from 'js-cookie';
 const ProfileScreen = ({ navigation }) => {
   const [userInfo, setUserInfo] = useState(null);
   const [selectedIcon, setSelectedIcon] = useState('person');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
+      const token = Cookies.get('AccessToken');
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
+
       try {
-        const token = Cookies.get('token');
-        if (!token) {
-          return "No token found";
-        }
         const response = await axios.get('http://192.168.0.103:3000/user', {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -33,6 +36,8 @@ const ProfileScreen = ({ navigation }) => {
         setUserInfo(response.data.user);
       } catch (error) {
         console.error("Error fetching user profile:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -57,7 +62,7 @@ const ProfileScreen = ({ navigation }) => {
     }
   };
 
-  if (!userInfo) {
+  if (loading) {
     return <ActivityIndicator size="large" color={Colors.PRIMARY} />;
   }
 
@@ -82,6 +87,23 @@ const ProfileScreen = ({ navigation }) => {
         </View>
       </View>
 
+      <View style={styles.contentContainer2}>
+        <View style={styles.menuIcons}>
+          <TouchableOpacity onPress={() => handleIconPress('person')} style={styles.icon(selectedIcon === 'person')}>
+            <Ionicons name="person-outline" size={30} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleIconPress('heart')} style={styles.icon(selectedIcon === 'heart')}>
+            <Ionicons name="heart-outline" size={30} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleIconPress('cube')} style={styles.icon(selectedIcon === 'cube')}>
+            <Ionicons name="cube-outline" size={30} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleIconPress('clipboard')} style={styles.icon(selectedIcon === 'clipboard')}>
+            <Ionicons name="clipboard-outline" size={30} />
+          </TouchableOpacity>
+        </View>
+      </View>
+
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.userInfo}>
           <Text style={styles.infoLabel}><Text style={{ fontWeight: 'bold' }}>Username: </Text>{userInfo.username}</Text>
@@ -102,21 +124,6 @@ const ProfileScreen = ({ navigation }) => {
           <Text>Google: Signed in as {userInfo.username}</Text>
         </View>
       </ScrollView>
-
-      <View style={styles.menuIcons}>
-        <TouchableOpacity onPress={() => handleIconPress('person')} style={styles.icon(selectedIcon === 'person')}>
-          <Ionicons name="person-outline" size={30} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleIconPress('heart')} style={styles.icon(selectedIcon === 'heart')}>
-          <Ionicons name="heart-outline" size={30} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleIconPress('cube')} style={styles.icon(selectedIcon === 'cube')}>
-          <Ionicons name="cube-outline" size={30} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleIconPress('clipboard')} style={styles.icon(selectedIcon === 'clipboard')}>
-          <Ionicons name="clipboard-outline" size={30} />
-        </TouchableOpacity>
-      </View>
     </LinearGradient>
   );
 };
@@ -180,11 +187,39 @@ const styles = StyleSheet.create({
   menuIcons: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginVertical: 20,
+    marginTop: 20,
+    marginBottom: 0,
     borderWidth: 1,
     borderColor: 'rgba(180, 160, 220, 0.9)',
     paddingVertical: 10,
     backgroundColor: "white",
+    borderTopWidth: 1,
+    borderBottomWidth: 0,
+  },
+  newMenu: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderTopWidth: 0,
+    borderBottomWidth: 1,
+    marginTop: 0,
+    paddingBottom: 10,
+  },
+  menuItem: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 15,
+    borderTopWidth: 0.5,
+  },
+  selectedMenuItem: {
+    borderTopColor: 'gray',
+    borderBottomWidth: 0,
+  },
+  menuText: {
+    color: 'gray',
+  },
+  selectedMenuText: {
+    color: 'black',
+    fontWeight: 'bold',
   },
   userInfo: {
     backgroundColor: "white",
