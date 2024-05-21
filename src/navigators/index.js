@@ -12,14 +12,17 @@ import {
     HomeScreen,
     FavoriteScreen,
     CartScreen,
-    ProfileScreen
+    ProfileScreen,
+    SearchScreen,
+    ProductScreen,
+    CheckoutScreen,
+    VoucherScreen,
 } from '../screens';
 import { connect } from 'react-redux';
 
 const Stack = createStackNavigator();
 
 const Navigators = ({ token }) => {
-    console.log('Current token:', token);
     return (
         <NavigationContainer>
               <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -32,19 +35,6 @@ const Navigators = ({ token }) => {
                         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
                         <Stack.Screen name="RegisterPhone" component={RegisterPhoneScreen} />
                         <Stack.Screen name="Verification" component={VerificationScreen} />
-                        
-
-
-                        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} />
-                        <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
-                        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-                        <Stack.Screen name="CartScreen" component={CartScreen} /> */}
-
-                        
-
-                        
-
-                        
                     </>
                 ) : (
                     <>
@@ -54,8 +44,10 @@ const Navigators = ({ token }) => {
                         <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
                         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
                         <Stack.Screen name="CartScreen" component={CartScreen} />
-                        
-                        
+                        <Stack.Screen name="SearchScreen" component={SearchScreen}/>
+                        <Stack.Screen name="ProductScreen" component={ProductScreen}/>
+                        <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
+                        <Stack.Screen name="VoucherScreen" component={VoucherScreen} />
                     </>
                 )}
             </Stack.Navigator>
