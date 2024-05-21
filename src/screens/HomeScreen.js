@@ -19,11 +19,6 @@ import Feather from "react-native-vector-icons/Feather";
 import { CategoryService, ProductService, SpecialDayService } from "../services";
 import { LinearGradient } from "expo-linear-gradient";
 
-const sortStyle = (isActive) =>
-    isActive
-        ? styles.sortListItem
-        : { ...styles.sortListItem, borderBottomColor: Colors.DEFAULT_WHITE };
-
 const HomeScreen = ({ navigation }) => {
     const [activeCategory, setActiveCategory] = useState('Recent');
     const [searchText, setSearchText] = useState(""); // State lưu từ khóa tìm kiếm
@@ -38,15 +33,15 @@ const HomeScreen = ({ navigation }) => {
             source: Images.HOME,
         },
         {
-            navigation: 'FavoriteScreen',
+            navigation: '',
             source: Images.LOVE,
         },
         {
-            navigation: 'ProfileScreen',
+            navigation: 'ProductShop',
             source: Images.USER,
         },
         {
-            navigation: 'CartScreen',
+            navigation: 'CategoriesShop',
             source: Images.CART,
         }
     ]
@@ -72,7 +67,7 @@ const HomeScreen = ({ navigation }) => {
         getProducts();
         getCategories();
         getSpecialDays();
-    },[])
+    }, [])
                                                                      
     const handleSearchSubmit = () => {
         const filtered = products?.filter((product) => {

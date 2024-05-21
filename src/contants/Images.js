@@ -37,5 +37,10 @@ export default {
     CIRCLE: require('../../assets/images/circle.png'),
     VISA: require('../../assets/images/visa.png'),
     MASTERCARD: require('../../assets/images/mastercard.png'),
-
+    FLOWER1: require('../../assets/images/image 4.png'),
+    SUB: require('../../assets/images/Subtract.png'),
+    seven: require('../../assets/images/image 7.png'),
+    eight: require('../../assets/images/image 8.png'),
+    nine: require('../../assets/images/image 9.png'),
+    FLOWERBANNER: require('../../assets/images/image 2.png')
 };

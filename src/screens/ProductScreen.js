@@ -22,6 +22,10 @@ const ProductScreen = ({ route, navigation }) => {
         navigation.navigate("SearchScreen", { searchResults: filtered });
     }
 
+    const visitStore = () => {
+        navigation.navigate('ShopScreen', { productId: product._id })
+    }
+
     useEffect(() => {
         const getProducts = async() => {
             const products = await ProductService.getAllProducts();
@@ -204,7 +208,7 @@ const ProductScreen = ({ route, navigation }) => {
                             </View> 
                             <TouchableOpacity 
                                 style={{ padding: 15, backgroundColor: 'pink', borderColor: 'red', borderRadius: 50}}
-                                onPress={() => {}}
+                                onPress={visitStore}
                             >
                                 <Text style={{ fontWeight: '500' }}>Visit Store</Text>
                             </TouchableOpacity>

@@ -13,6 +13,9 @@ import SearchScreen from "./SearchScreen";
 import ProductScreen from "./ProductScreen";
 import CheckoutScreen from "./CheckoutScreen";
 import VoucherScreen from "./VoucherScreen";
+import ShopScreen from "./ShopScreen";
+import ProductShop from "./ProductShop";
+import CategoriesShop from "./CategoriesShop";
 
 export { 
     SplashScreen, 
@@ -30,4 +33,9 @@ export {
     ProductScreen,
     CheckoutScreen,
     VoucherScreen,
+    ShopScreen,
+    ProductShop,
+    CategoriesShop
 };
+
+
