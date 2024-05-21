@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from 'js-cookie';
 import { ApiContants } from "../contants";
 
 const register = async (user) => {
@@ -42,6 +43,11 @@ const login = async user => {
             ApiContants.BACKEND_API.LOGIN,
             requestBody,
         );
+
+        
+        if (loginResponse?.data?.AccessToken) {
+            Cookies.set('AccessToken', loginResponse.data.AccessToken); 
+        }
         return loginResponse?.data;
     } catch (error) {
         return { status: false, message: 'Oops! Something went wrong.'};
