@@ -23,7 +23,7 @@ const Navigators = ({ token }) => {
     return (
         <NavigationContainer>
               <Stack.Navigator screenOptions={{ headerShown: false }}>
-                { !token ? (
+                { token ? (
                     <>
                         <Stack.Screen name="Splash" component={SplashScreen} />
                         <Stack.Screen name="Welcome" component={WelcomeScreen} />
@@ -48,6 +48,8 @@ const Navigators = ({ token }) => {
                     </>
                 ) : (
                     <>
+
+                        
                         <Stack.Screen name="HomeScreen" component={HomeScreen} />
                         <Stack.Screen name="FavoriteScreen" component={FavoriteScreen} />
                         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
