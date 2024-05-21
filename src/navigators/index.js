@@ -48,6 +48,7 @@ const Navigators = ({ token }) => {
                         <Stack.Screen name="ProductScreen" component={ProductScreen}/>
                         <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
                         <Stack.Screen name="VoucherScreen" component={VoucherScreen} />
+                        
                     </>
                 )}
             </Stack.Navigator>
