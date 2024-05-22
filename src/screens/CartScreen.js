@@ -5,7 +5,7 @@ import { Colors, Fonts, Images } from "../contants";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 
-const API_URL = 'http://localhost:4000/api/cart';
+const API_URL = 'http://localhost/api/cart';
 
 export default function CartScreen ({navigation}) {
     const CheckoutPress = () =>{
@@ -15,47 +15,42 @@ export default function CartScreen ({navigation}) {
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [totalProducts, setTotalProducts] = useState(0);
+    const [quantities, setQuantities] = useState({});
+
 
     const handleProductSelection = (productId) => {
-        const index = selectedProducts.findIndex((product) => product.id === productId);
+        const index = selectedProducts.findIndex((product) => product._id === productId);
         if (index === -1) {
-            const selected = products.find((product) => product.id === productId);
+            const selected = products.find((product) => product._id === productId);
             setSelectedProducts([...selectedProducts, selected]);
         } else {
-            const updatedSelectedProducts = selectedProducts.filter((product) => product.id !== productId);
+            const updatedSelectedProducts = selectedProducts.filter((product) => product._id !== productId);
             setSelectedProducts(updatedSelectedProducts);
         }
     };
 
-    const [products, setProducts] = useState([
-    {
-        id: 1,
-        shop: "SFlower",
-        name: "Bouquet",
-        price: "$20.00",
-        description: "Our stunning bouquet boasts a vibrant array of freshly picked flowers expertly arranged to convey heartfelt emotions and bring joy to any occasion.",
-        image: Images.FLOWER,
-        quantity: 1,
-    },
-    {
-        id: 2,
-        shop: "Cake Shop",
-        name: "Birthday Cake",
-        price: "$10.00",
-        description: "Indulge in our exquisite birthday cake, featuring layers of moist sponge cake, creamy frosting, and personalized edible decorations",
-        image: Images.BIRTHDAY_CAKE,
-        quantity: 2,
-    },
-    ]);
+    const [products, setProducts] = useState([]);
+    
+    // test -----------------------------------------------
+    useEffect(() => {
+        axios.get('http://192.168.1.101:3000/product')
+        .then(res => {
+            setProducts(res.data);
+            setTotalProducts(res.data.length);
+        })
+        .catch(err => console.log(err));
+
+      }, []);
 
     const handleAddToCart = (productId) => {
-        const productToAdd = products.find(product => product.id === productId);
+        const productToAdd = products.find(product => product._id === productId);
         axios.post(`${API_URL}/addToCart`, productToAdd)
             .then(response => {
                 const addedProduct = response.data;
                 setProducts(prevProducts => {
                     return prevProducts.map(product => {
-                        if (product.id === productId) {
+                        if (product._id === productId) {
                             return { ...product, quantity: product.quantity + 1 };
                         }
                         return product;
@@ -76,13 +71,13 @@ export default function CartScreen ({navigation}) {
                 const removedProduct = response.data;
                 setProducts(prevProducts => {
                     return prevProducts.map(product => {
-                        if (product.id === productId && product.quantity > 0) {
+                        if (product._id === productId && product.quantity > 0) {
                             return { ...product, quantity: product.quantity - 1 };
                         }
                         return product;
                     });
                 });
-                setSelectedProducts(prevSelectedProducts => prevSelectedProducts.filter(product => product.id !== productId));
+                setSelectedProducts(prevSelectedProducts => prevSelectedProducts.filter(product => product._id !== productId));
                 setTotalAmount(prevTotalAmount => prevTotalAmount - 1);
                 setTotalPrice(prevTotalPrice => prevTotalPrice - parseFloat(removedProduct.price.replace('$', '')));
             })
@@ -102,7 +97,7 @@ export default function CartScreen ({navigation}) {
         setTotalPrice(totalPrice);
     }, [selectedProducts]);
 
-    useEffect(() => {
+    /*useEffect(() => {
         axios.get(API_URL)
             .then(response => {
                 const productsFromServer = response.data;
@@ -112,7 +107,7 @@ export default function CartScreen ({navigation}) {
             .catch(error => {
                 console.error("There was an error fetching the products!", error);
             });
-    }, []);
+    }, []);*/
     
 
     return (
@@ -156,18 +151,18 @@ export default function CartScreen ({navigation}) {
             <View style={styles.quantityContainer}>
                 <View style={styles.bar3}>
                 <Text style={styles.quantity}>
-                    You have {selectedProducts.length} item{selectedProducts.length > 1 ? 's' : ' '} in your list chart
+                    You have {totalProducts} item{totalProducts !== 1 ? 's' : ''} in your list chart
                 </Text>
                 </View>
             </View>
             {products.map(product => (
-                <View key={product.id }>
+                <View key={product._id }>
                     <View style={styles.bar2}></View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <TouchableOpacity onPress={() => handleProductSelection(product.id)}>
-                            <View style={[styles.selectedProduct, selectedProducts.some(p => p.id === product.id) && styles.selectedProductYellow]}></View>
+                        <TouchableOpacity onPress={() => handleProductSelection(product._id)}>
+                            <View style={[styles.selectedProduct, selectedProducts.some(p => p._id === product._id) && styles.selectedProductYellow]}></View>
                         </TouchableOpacity>
-                        <Text style={styles.productShop}>{product.shop}
+                        <Text style={styles.productShop}>Shop Name {/*Change this to productShopName */}
                             <Text style={{        
                                 fontWeight: '100',
                                 fontSize: 20,
@@ -176,17 +171,17 @@ export default function CartScreen ({navigation}) {
                             </Text>
                         </Text>
                     </View>
-                    <Text style={styles.productName}>{product.name}</Text>
-                    <Image source={product.image} resizeMode="contain" style={styles.productImage}/>
-                    <Text style={styles.productDescription}>{product.description}</Text>
+                    <Text style={styles.productName}>{product.productName}</Text>
+                    <Image source={{ uri: product.productImage }} resizeMode="contain" style={styles.productImage}/>
+                    <Text style={styles.productDescription}>{product.productDescription}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={styles.productPrice}>{product.price}</Text>
-                        {selectedProducts.some(p => p.id === product.id) ? (
+                        {selectedProducts.some(p => p._id === product._id) ? (
                         <>
-                        <TouchableOpacity onPress={() => handleAddToCart(product.id)}>
+                        <TouchableOpacity onPress={() => handleAddToCart(product._id)}>
                             <Image source={Images.ADD} resizeMode="cover" style={styles.addButton}/>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleRemoveFromCart(product.id)}>
+                        <TouchableOpacity onPress={() => handleRemoveFromCart(product._id)}>
                             <Image source={Images.REMOVE} resizeMode="cover" style={styles.removeButton}/>
                         </TouchableOpacity>
                         </>
@@ -196,7 +191,7 @@ export default function CartScreen ({navigation}) {
                     <Image source={Images.REMOVE} resizeMode="cover" style={[styles.removeButtonOff, { opacity: 0.5 }]} pointerEvents="none" />
                         </>
                         )}
-                        <Text style={styles.productQuantity}>{product.quantity}</Text>
+                        <Text style={styles.productQuantity}></Text>
                     </View>
                 </View>
             ))}
@@ -291,7 +286,7 @@ const styles = StyleSheet.create({
         marginVertical: -10,
     },
     productImage: {
-        marginBottom: 5,
+        marginBottom: '7%',
         width: 110,
         height: 110,
         marginLeft: 20,
@@ -302,7 +297,7 @@ const styles = StyleSheet.create({
         right: -140,
         width: 180,
         flexWrap: 'wrap',
-        marginTop: -130,
+        marginTop: -110,
     },
     productPrice: {
         fontSize: 15,
