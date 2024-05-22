@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:4000/api/cart';
+const API_URL = 'http://10.238.35.55:4000/api/cart';
 
 // Get all cart items
 const getAll = async () => {

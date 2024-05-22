@@ -5,7 +5,7 @@ import { Colors, Fonts, Images } from "../contants";
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 
-const API_URL = 'http://localhost/api/cart';
+const API_URL = 'http://localhost:4000/api/cart';
 
 export default function CartScreen ({navigation}) {
     const CheckoutPress = () =>{
@@ -34,15 +34,24 @@ export default function CartScreen ({navigation}) {
     
     // test -----------------------------------------------
     useEffect(() => {
-        axios.get('http://192.168.1.101:3000/product')
+        axios.get('http://localhost:3000/product')
         .then(res => {
             setProducts(res.data);
             setTotalProducts(res.data.length);
+            // Set default selected products and quantities
+            const initialSelectedProducts = res.data.map(product => ({ ...product, quantity: 1 }));
+            setSelectedProducts(initialSelectedProducts);
+            const initialQuantities = res.data.reduce((acc, product) => {
+                acc[product._id] = 1;
+                return acc;
+            }, {});
+            setQuantities(initialQuantities);
+            setTotalAmount(res.data.length);
+            const initialTotalPrice = res.data.reduce((sum, product) => sum + parseFloat(product.price.replace('$', '')), 0);
+            setTotalPrice(initialTotalPrice);
         })
         .catch(err => console.log(err));
-
-      }, []);
-
+    }, []);
     const handleAddToCart = (productId) => {
         const productToAdd = products.find(product => product._id === productId);
         axios.post(`${API_URL}/addToCart`, productToAdd)
@@ -51,19 +60,23 @@ export default function CartScreen ({navigation}) {
                 setProducts(prevProducts => {
                     return prevProducts.map(product => {
                         if (product._id === productId) {
-                            return { ...product, quantity: product.quantity + 1 };
+                            return { ...product, quantity: (product.quantity || 0) + 1 }; // Increase quantity by 1
                         }
                         return product;
                     });
                 });
-                setSelectedProducts([...selectedProducts, addedProduct]);
                 setTotalAmount(prevTotalAmount => prevTotalAmount + 1);
                 setTotalPrice(prevTotalPrice => prevTotalPrice + parseFloat(addedProduct.price.replace('$', '')));
+                setQuantities(prevQuantities => ({
+                    ...prevQuantities,
+                    [productId]: (prevQuantities[productId] || 0) + 1 // Increase quantity by 1
+                }));
             })
             .catch(error => {
-                console.error("There was an error adding the product to the cart!", error);
+                console.error("Error adding product to cart:", error);
             });
     };
+    
 
     const handleRemoveFromCart = (productId) => {
         axios.post(`${API_URL}/removeFromCart`, { id: productId })
@@ -72,30 +85,43 @@ export default function CartScreen ({navigation}) {
                 setProducts(prevProducts => {
                     return prevProducts.map(product => {
                         if (product._id === productId && product.quantity > 0) {
-                            return { ...product, quantity: product.quantity - 1 };
+                            return { ...product, quantity: product.quantity - 1 }; // Decrease quantity by 1
                         }
                         return product;
                     });
                 });
-                setSelectedProducts(prevSelectedProducts => prevSelectedProducts.filter(product => product._id !== productId));
                 setTotalAmount(prevTotalAmount => prevTotalAmount - 1);
                 setTotalPrice(prevTotalPrice => prevTotalPrice - parseFloat(removedProduct.price.replace('$', '')));
+                setQuantities(prevQuantities => {
+                    const newQuantities = { ...prevQuantities };
+                    if (newQuantities[productId] > 0) {
+                        newQuantities[productId] -= 1; // Decrease quantity by 1
+                    }
+                    if (newQuantities[productId] === 0) {
+                        delete newQuantities[productId];
+                    }
+                    return newQuantities;
+                });
             })
             .catch(error => {
-                console.error("There was an error removing the product from the cart!", error);
+                console.error("Error removing product from cart:", error);
             });
     };
+    
 
     useEffect(() => {
-        let totalAmount = 0;
         let totalPrice = 0;
+    
         selectedProducts.forEach((product) => {
-            totalAmount += product.quantity;
-            totalPrice += product.quantity * parseFloat(product.price.replace('$', ''));
+            const productPrice = parseFloat(product.price);
+            const productQuantity = quantities[product._id] || 0;
+            totalPrice += productPrice * productQuantity;
         });
-        setTotalAmount(totalAmount);
+    
         setTotalPrice(totalPrice);
-    }, [selectedProducts]);
+    }, [selectedProducts, quantities]);
+    
+    
 
     /*useEffect(() => {
         axios.get(API_URL)
@@ -191,7 +217,7 @@ export default function CartScreen ({navigation}) {
                     <Image source={Images.REMOVE} resizeMode="cover" style={[styles.removeButtonOff, { opacity: 0.5 }]} pointerEvents="none" />
                         </>
                         )}
-                        <Text style={styles.productQuantity}></Text>
+                        <Text style={styles.productQuantity}>{quantities[product._id] || 0}</Text>
                     </View>
                 </View>
             ))}
