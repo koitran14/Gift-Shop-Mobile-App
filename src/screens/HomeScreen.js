@@ -33,7 +33,7 @@ const HomeScreen = ({ navigation }) => {
             source: Images.HOME,
         },
         {
-            navigation: '',
+            navigation: 'ProfileScreen',
             source: Images.LOVE,
         },
         {
