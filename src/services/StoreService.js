@@ -14,4 +14,29 @@ const getStoreByProductId = async(productId) => {
     }
 }
 
-export default {getStoreByProductId};
+
+const followStore = async(storeId, user) => {
+    try {
+        const following = await axios.post(ApiContants.BACKEND_API.ADD_FOLLOWER + `${storeId}`, user);
+        return following.data;
+    } catch (error) {
+        return {
+            status: false,
+            message: `Store not found`,
+        };
+    }
+}
+
+const unfollowStore = async(storeId, user) => {
+     try {
+        const unfollowing = await axios.post(ApiContants.BACKEND_API.REMOVE_FOLLOWER + `${storeId}`, user);
+        return unfollowing.data;
+    } catch (error) {
+        return {
+            status: false,
+            message: `Store not found`,
+        };
+    }
+}
+
+export default {getStoreByProductId, followStore, unfollowStore};

@@ -1,39 +1,62 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
-import { Colors, Fonts } from "../contants"
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { Colors, Fonts, Images } from "../contants"
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState, useEffect } from "react";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'
 import { LinearGradient } from "expo-linear-gradient";
-import { ProductService } from "../services";
+import { CartService, ProductService } from "../services";
+import { StoreService } from "../services"
 import { FeedbackCard } from "../components";
+import { connect } from "react-redux";
+import { Toast } from "toastify-react-native";
 
-const ProductScreen = ({ route, navigation }) => {
+const ProductScreen = ({ route, navigation, user }) => {
     const { product } = route.params;
     const [ searchText, setSearchText ] = useState(""); 
-    const [products, setProducts] = useState([]);
+    const [ store, setStore ] = useState();
+    const [ avgRating, setAvgRating] = useState(0);
+
+    useEffect(() => {
+        setAvgRating(ProductService.averageRating(product.feedBacks))
+        const getStoreByProductId = async() => {
+            if (product) {
+                const store = await StoreService.getStoreByProductId(product._id);
+                setStore(store)
+            }
+        }
+        getStoreByProductId();
+    },[])
 
     const handleSearchSubmit = () => {
-        const filtered = products?.filter((product) => {
-            return product.productName.toLowerCase().includes(searchText.toLowerCase()) ||
-                   product.productDescription.toLowerCase().includes(searchText.toLowerCase());
-        });
-        navigation.navigate("SearchScreen", { searchResults: filtered });
+        navigation.navigate("SearchScreen", {searchParams: searchText});
+    }
+
+    const addToCart = async() => {
+        try {
+            let cart = {
+                user: user,
+                product: product
+            }
+            await CartService.addToCart(cart);
+            Toast.success("Added to cart.")
+        } catch (error) {
+            Toast.success("Something went wrong.")
+        }
     }
 
     const visitStore = () => {
-        navigation.navigate('ShopScreen', { productId: product._id })
+        navigation.navigate("ShopScreen", { store: store })
     }
 
-    useEffect(() => {
-        const getProducts = async() => {
-            const products = await ProductService.getAllProducts();
-            setProducts(products);
-            return products;
-        }
-        getProducts();
-    },[])
+    const checkoutAction = () => {
+        navigation.navigate("CheckoutScreen", { selectedCarts: [{
+            user: user,
+            product: product,
+            quantity: 1
+        }]})
+    }
 
     return (
         <LinearGradient
@@ -129,11 +152,11 @@ const ProductScreen = ({ route, navigation }) => {
                                         paddingRight: 12,
                                         borderRightWidth: 1,
                                         borderRightColor: 'lightgrey',
-                                        fontSize: 14,
-                                        fontWeight: '300',
+                                        fontSize: 16,
+                                        fontWeight: '500',
                                         height: 'fit'
                                     }}>
-                                        Rate
+                                        {avgRating}/5.0
                                     </Text>
                                     <Text
                                         style={{ 
@@ -165,7 +188,6 @@ const ProductScreen = ({ route, navigation }) => {
                         <View style={{
                                 display: 'flex',
                                 flexDirection:'row',
-                                gap: 10,
                                 backgroundColor: 'white',
                                 borderRadius: 10,
                                 padding: 15,
@@ -178,18 +200,17 @@ const ProductScreen = ({ route, navigation }) => {
                                 gap: 15,
                                 alignItems: 'center',
                             }}>
-                                <View style={{
-                                    height: 50,
-                                    width: 50,
-                                    borderRadius: 9999,
-                                    backgroundColor: 'lightgrey'
-                                }}></View>
+                                {store?.storeAvatar ? (
+                                    <Image style={styles.storeLogo} source={{ uri: store.storeAvatar }} />
+                                ):(
+                                    <Image style={styles.storeLogo} source={Images.SUB} />
+                                )}
                                 <View style={{
                                     display: 'flex',
                                     flexDirection: 'column',
                                 }}>
-                                    <Text style={{ fontWeight: '500', fontSize: 20, color: 'red' }}>
-                                        Store
+                                    <Text style={{ fontWeight: '500', fontSize: 16, color: 'red', width: '80%' }}>
+                                        {store?.storeName ? store?.storeName : 'Unknown'}
                                     </Text>
                                     <Text style={{ fontWeight: '400', fontSize: 12, color: 'grey' }}>
                                         Online 2 minutes ago
@@ -201,7 +222,7 @@ const ProductScreen = ({ route, navigation }) => {
                                             color={Colors.DEFAULT_GREY}
                                         />
                                         <Text style={{ fontWeight: '400', fontSize: 12, color: 'grey' }}>
-                                            Ho Chi Minh City
+                                            {store?.storeLocation}
                                         </Text>
                                     </View>
                                 </View>
@@ -223,28 +244,28 @@ const ProductScreen = ({ route, navigation }) => {
                                     FEEDBACK:
                                 </Text>
                                 <View style={{ display: 'flex', flexDirection: 'row', gap: 5, alignItems:'center'}}>
-                                    <Ionicons name="star" size={15} color={'orange'}/>
-                                    <Ionicons name="star" size={15} color={'orange'}/>
-                                    <Ionicons name="star" size={15} color={'orange'}/>
-                                    <Ionicons name="star" size={15} color={'orange'}/>
-                                    <Ionicons name="star" size={15} color={'orange'}/>
+                                    {ProductService.renderStars(avgRating)}
                                     <Text style={{
                                         fontSize: 16,
                                         color: 'orange',
                                         alignSelf: 'center',
                                         fontWeight: '700',
                                         marginRight: 5,
-                                    }}>4.5/5</Text>
+                                    }}>{avgRating}/5</Text>
                                     <Text style={{
                                         color: 'grey',
                                         fontWeight: '500'
                                     }}>
-                                        (3 feedbacks)
+                                        ({product.feedBacks.length})
                                     </Text>
                                 </View>
                             </View>
-                            <View>
-                                <FeedbackCard />
+                            <View style={{ display: 'flex', flexDirection: 'column', gap: 5}}>
+                                {product.feedBacks.map((feedback, index) => (
+                                    <View key={index}>
+                                        <FeedbackCard feedback={feedback}/>
+                                    </View>
+                                ))}
                             </View>
                         </View>
                     </View>
@@ -261,7 +282,10 @@ const ProductScreen = ({ route, navigation }) => {
                     flexDirection: 'row',
                 }}>
                     <View style={styles.flex4}>
-                        <TouchableOpacity style={{ width: '50%', height: '100%', justifyContent: 'center', display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center', backgroundColor: 'white'}}>
+                        <TouchableOpacity 
+                            style={{ width: '50%', height: '100%', justifyContent: 'center', display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center', backgroundColor: '#F8F3EA'}}
+                            onPress={addToCart}
+                        >
                             <FontAwesome6 
                                 name='cart-plus'
                                 size={16}
@@ -269,7 +293,10 @@ const ProductScreen = ({ route, navigation }) => {
                             />
                             <Text style={{ fontWeight: '700', fontSize: 16, color: 'purple'}}>Add to Cart</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{width: '50%', height: '100%', alignItems: 'center', justifyContent: 'center'}}>
+                        <TouchableOpacity 
+                            style={{width: '50%', height: '100%', alignItems: 'center', justifyContent: 'center'}}
+                            onPress={checkoutAction}    
+                        >
                             <Text style={{ fontWeight: '400', fontSize: 16}}>
                                 BUY NOW
                             </Text>
@@ -365,6 +392,18 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         alignItems: "center",
     },
+    storeLogo: {
+        width: 70,
+        height: 70,
+        borderRadius: 40,
+        alignItems: 'center'
+    },
 });
 
-export default ProductScreen;
+const mapStateToProps = (state) => {
+    return {
+        user: state.generalState.user,
+    };
+};
+
+export default connect(mapStateToProps)(ProductScreen);

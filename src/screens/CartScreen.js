@@ -1,249 +1,167 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
+
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Colors, Fonts, Images } from "../contants";
 import React, { useState, useEffect } from 'react';
+import CartService from "../services/CartService";
+import CartItem from "../components/CartItem";
 
-export default function CartScreen ({navigation}) {
-    const CheckoutPress = () =>{
-        navigation.navigate('Checkout');
-    };
+const CartScreen = ({navigation, user}) => {
 
-    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [selectedCarts, setSelectedCarts] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [carts, setCarts] = useState([]);
 
-    const handleProductSelection = (productId) => {
-        const index = selectedProducts.findIndex((product) => product.id === productId);
-        if (index === -1) {
-            const selected = products.find((product) => product.id === productId);
-            setSelectedProducts([...selectedProducts, selected]);
-        } else {
-            const updatedSelectedProducts = selectedProducts.filter((product) => product.id !== productId);
-            setSelectedProducts(updatedSelectedProducts);
+    useEffect(() => {
+        const request = async() => {
+            const carts = await CartService.getAllCartsByUserId(user._id);
+            setCarts(carts);
         }
-    };
-
-    const [products, setProducts] = useState([
-    {
-        id: 1,
-        shop: "SFlower",
-        name: "Bouquet",
-        price: "$20.00",
-        description: "Our stunning bouquet boasts a vibrant array of freshly picked flowers expertly arranged to convey heartfelt emotions and bring joy to any occasion.",
-        image: Images.FLOWER,
-        quantity: 1,
-    },
-    {
-        id: 2,
-        shop: "Cake Shop",
-        name: "Birthday Cake",
-        price: "$10.00",
-        description: "Indulge in our exquisite birthday cake, featuring layers of moist sponge cake, creamy frosting, and personalized edible decorations",
-        image: Images.BIRTHDAY_CAKE,
-        quantity: 2,
-    },
-    ]);
-
-    const handleAddToCart = (productId) => {
-        setProducts(prevProducts => {
-            return prevProducts.map(product => {
-                if (product.id === productId) {
-                    return { ...product, quantity: product.quantity + 1 };
-                }
-                return product;
-            });
-        });
-    
-        const productToAdd = products.find(product => product.id === productId);
-    
-        const existingProductIndex = selectedProducts.findIndex(product => product.id === productId);
-    
-        if (existingProductIndex === -1) {
-            setSelectedProducts([...selectedProducts, productToAdd]);
-        }
-    
-        setTotalAmount(prevTotalAmount => prevTotalAmount + 1);
-        setTotalPrice(prevTotalPrice => prevTotalPrice + parseFloat(productToAdd.price.replace('$', '')));
-    };
-
-    const handleRemoveFromCart = (productId) => {
-        setProducts(prevProducts => {
-            return prevProducts.map(product => {
-                if (product.id === productId && product.quantity > 0) {
-                    return { ...product, quantity: product.quantity - 1 };
-                }
-                return product;
-            });
-        });
-    
-        const productIndexToRemove = selectedProducts.findIndex(product => product.id === productId);
-    
-        if (productIndexToRemove !== -1) {
-            const updatedSelectedProducts = [...selectedProducts];
-            if (selectedProducts[productIndexToRemove].quantity === 1) {
-                updatedSelectedProducts.splice(productIndexToRemove, 1);
-            } else {
-                updatedSelectedProducts[productIndexToRemove].quantity--;
-            }
-            setSelectedProducts(updatedSelectedProducts);
-        }
-    
-        const productToRemove = products.find(product => product.id === productId);
-    
-        if (productToRemove.quantity > 0) {
-            setTotalAmount(prevTotalAmount => prevTotalAmount - 1);
-            setTotalPrice(prevTotalPrice => prevTotalPrice - parseFloat(productToRemove.price.replace('$', '')));
-        }
-    };
+        request();
+    }, [carts])
 
     useEffect(() => {
         let totalAmount = 0;
         let totalPrice = 0;
-        selectedProducts.forEach((product) => {
-            totalAmount += product.quantity;
-            totalPrice += product.quantity * parseFloat(product.price.replace('$', ''));
+        carts.forEach((cart) => {
+            if (checkSelected(cart)) {
+                totalAmount += cart.quantity;
+                totalPrice += cart.quantity * cart.product.price;
+            }
         });
         setTotalAmount(totalAmount);
         setTotalPrice(totalPrice);
-    }, [selectedProducts]);
-
-    useEffect(() => {
-        setSelectedProducts(products.map(product => ({ ...product, quantity: 1 })));
-    }, []);
+    }, [carts]);
     
+    const handleCartSelection = (givenCart) => {
+        const index = selectedCarts.findIndex((cart) => cart._id === givenCart._id);
+        if (index === -1) {
+            const selected = carts.find((cart) => cart._id === givenCart._id);
+            setSelectedCarts([...selectedCarts, selected]);
+        } else {
+            const updatedSelectedProducts = selectedCarts.filter((cart) => cart._id !== givenCart._id);
+            setSelectedCarts(updatedSelectedProducts);
+            givenCart.quantity = carts.find((cart) => cart._id === givenCart._id).quantity;
+        }
+    };
+    
+    const handleAddToCart = async(cart) => {
+        await CartService.updateQuantity(cart, cart.quantity + 1)
+        console.log(cart.quantity)
+    };
+
+    const handleRemoveFromCart = async(cart) => {
+        if (cart.quantity > 1) {
+            await CartService.updateQuantity(cart, cart.quantity - 1)
+        } else (
+            Alert.alert(
+                'Confirmation',
+                'Are you sure you want to remove this item from the cart?',
+                [
+                    { text: 'Cancel', style: 'cancel',},
+                    { text: 'Remove', onPress: async () => await CartService.removeCart(cardId)},
+                ],
+                { cancelable: true }
+            )
+        )
+        console.log(cart.quantity)
+    };
+
+    const checkSelected = (cart) => {
+        return selectedCarts.some(selectedCart => selectedCart._id === cart._id);
+    }
 
     return (
         <LinearGradient
-        colors={['rgba(231, 192, 248, 0.7)', 'rgba(188, 204, 243, 0.7)']}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={{ flex: 1 }}
+            colors={['rgba(231, 192, 248, 0.7)', 'rgba(188, 204, 243, 0.7)']}
+            start={{ x: 0.5, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
+            style={{ flex: 1, position:'relative' }}
         >
-    <View
-    
-        style={{ 
-            flex: 1, 
-            flexDirection: 'column',
-            paddingVertical: 50,
-            paddingHorizontal: 20,
-        }}
-    >
-        <View style={{
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-        }}>
-            <Ionicons
-                name="chevron-back-outline"
-                size={30}
-                onPress={() => navigation.goBack()}
-                style={{
-                    alignSelf: 'flex-start',
-                    marginRight: 90,
+            <View
+                style={{ 
+                    display: 'flex',
+                    flexDirection: 'column',
+                    paddingVertical: 50,
+                    paddingHorizontal: 20,
                 }}
-            />
-            <Text style={styles.headerTitle}>
-                My Cart
-            </Text>
-        </View>
-        {products.length > 0 ? (
-            <View style={styles.productContainer}>
-            <View style={styles.productItem}>
-            <View style={styles.quantityContainer}>
-                <View style={styles.bar3}>
-                <Text style={styles.quantity}>
-                    You have {selectedProducts.length} item{selectedProducts.length > 1 ? 's' : ' '} in your list chart
-                </Text>
+            >
+                <View style={{
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                }}>
+                    <Ionicons
+                        name="chevron-back-outline"
+                        size={30}
+                        onPress={() => navigation.goBack()}
+                    />
+                    <Text style={styles.headerTitle}>My Cart</Text>
+                    <View style={{ width: 50}}></View>
                 </View>
             </View>
-            {products.map(product => (
-                <View key={product.id }>
-                    <View style={styles.bar2}></View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <TouchableOpacity onPress={() => handleProductSelection(product.id)}>
-                            <View style={[styles.selectedProduct, selectedProducts.some(p => p.id === product.id) && styles.selectedProductYellow]}></View>
-                        </TouchableOpacity>
-                        <Text style={styles.productShop}>{product.shop}
-                            <Text style={{        
-                                fontWeight: '100',
-                                fontSize: 20,
-                                fontFamily: Fonts.POPPINS_EXTRA_LIGHT,
-                                }}>{' >'}
-                            </Text>
-                        </Text>
+
+            <View style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingHorizontal: 20,}}>
+                {carts.map((cart, index)=> (
+                    <View key={index}>
+                        <CartItem 
+                            cart={cart} 
+                            onAdd={handleAddToCart} 
+                            onRemove={handleRemoveFromCart} 
+                            isSelected={selectedCarts.some(selectedCart => selectedCart._id === cart._id)} 
+                            handleSelection={() => handleCartSelection(cart)}
+                        />
                     </View>
-                    <Text style={styles.productName}>{product.name}</Text>
-                    <Image source={product.image} resizeMode="contain" style={styles.productImage}/>
-                    <Text style={styles.productDescription}>{product.description}</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={styles.productPrice}>{product.price}</Text>
-                        {selectedProducts.some(p => p.id === product.id) ? (
-                        <>
-                        <TouchableOpacity onPress={() => handleAddToCart(product.id)}>
-                            <Image source={Images.ADD} resizeMode="cover" style={styles.addButton}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleRemoveFromCart(product.id)}>
-                            <Image source={Images.REMOVE} resizeMode="cover" style={styles.removeButton}/>
-                        </TouchableOpacity>
-                        </>
-                        ) : (
-                        <>
-                    <Image source={Images.ADD} resizeMode="cover" style={[styles.addButtonOff, { opacity: 0.5 }]} pointerEvents="none" />
-                    <Image source={Images.REMOVE} resizeMode="cover" style={[styles.removeButtonOff, { opacity: 0.5 }]} pointerEvents="none" />
-                        </>
-                        )}
-                        <Text style={styles.productQuantity}>{product.quantity}</Text>
-                    </View>
+                ))}
+                {!carts && <Text>No cart</Text>}
+            </View>
+
+            {/* total price */}
+            <View style={styles.frame}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.totalAmount}>
+                            Total Amount:
+                    </Text>
+                    <Text style={styles.numberTotal}>
+                            {totalAmount}
+                    </Text>
                 </View>
-            ))}
+                <View style={styles.bar}></View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, }}>
+                    <Text style={styles.totalPrice}>
+                            Total Price:
+                    </Text>
+                    <Text style={styles.numberTotal}>
+                            ${totalPrice.toFixed(2)}
+                    </Text>
+                </View>
+                <TouchableOpacity 
+                    disabled={selectedCarts.length === 0} 
+                    style={[styles.smallFrame, { 
+                            opacity: selectedCarts.length === 0 ? 0.7 : 1 
+                        }
+                    ]} 
+                    onPress={() => navigation.navigate('CheckoutScreen', { selectedCarts })}
+                >
+                    <Text style={styles.checkout}>
+                        Checkout
+                    </Text>
+                </TouchableOpacity>
             </View>
-        </View>
-            ):(
-            <View style={styles.imageContainer}>
-                <Image source={Images.CART2} resizeMode="cover" style={styles.image}/>
-                <Text style={styles.description}>
-                    You don't have any orders
-                </Text>
-            </View>
-            )}
-    </View>
-    <View style={styles.frame}>
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={styles.totalAmount}>
-                Total Amount:
-        </Text>
-        <Text style={styles.numberTotal}>
-                {totalAmount}
-        </Text>
-    </View>
-        <View style={styles.bar}></View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={styles.totalPrice}>
-                Total Price:
-        </Text>
-        <Text style={styles.numberTotal}>
-                ${totalPrice.toFixed(2)}
-        </Text>
-        </View>
-        <TouchableOpacity style={styles.smallFrame} onPress={() => navigation.navigate('CheckoutScreen', { selectedProducts })}>
-            <Text style={styles.checkout}>
-                Checkout
-            </Text>
-        </TouchableOpacity>
-    </View>
-</LinearGradient>
+        </LinearGradient>
    )
 }
 
 const styles = StyleSheet.create({
     headerTitle: {
-        alignContent: 'center',
         color: Colors.DEFAULT_BLACK,
         fontWeight: '800',
         fontSize: 22,
-        lineHeight: 16 * 1.4,
         fontFamily: Fonts.POPPINS_MEDIUM,
     },
     image: {
@@ -317,29 +235,26 @@ const styles = StyleSheet.create({
     frame: {
         backgroundColor: "#FAE4FF",
         width: '100%',
-        height: 160,
         bottom: 0,
         left: 0,
         justifyContent: "center",
         alignSelf: "center",
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
+        borderTopLeftRadius: 35,
+        borderTopRightRadius: 35,
         display: 'flex',
-        paddingHorizontal: 8,
+        paddingHorizontal: 14,
+        paddingTop: 20,
+        paddingBottom: 14,
         position: 'absolute',
     },
     smallFrame: {
-        backgroundColor: "#000000",
-        width: 281,
-        height: 54,
+        backgroundColor: '#000',
+        width: '80%',
         justifyContent: "center",
         alignSelf: "center",
         borderRadius: 20,
         display: 'flex',
         paddingHorizontal: 8,
-        marginTop: 10,
     },
     totalAmount: {
         alignContent: 'left', 
@@ -354,7 +269,6 @@ const styles = StyleSheet.create({
     totalPrice: {
         alignContent: 'left', 
         color: Colors.DEFAULT_BLACK,
-        fontWeight: '400',
         fontSize: 20,
         lineHeight: 16 * 1.4,
         fontFamily: Fonts.POPPINS_EXTRA_LIGHT,
@@ -398,14 +312,13 @@ const styles = StyleSheet.create({
         borderRadius: 20
     },
     checkout: {
-        alignContent: 'center',
+        alignItems: 'center',
         textAlign: 'center',
         color: Colors.DEFAULT_GREY,
-        fontWeight: '200',
+        fontWeight: '300',
         fontSize: 24,
-        lineHeight: 16 * 1.4,
         fontFamily: Fonts.POPPINS_EXTRA_LIGHT,
-        marginTop: 0,
+        paddingVertical: 8,
     },
     quantity: {
         alignContent: 'center',
@@ -460,3 +373,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'yellow',
     },
 });
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.generalState.user,
+    };
+};
+
+export default connect(mapStateToProps)(CartScreen);

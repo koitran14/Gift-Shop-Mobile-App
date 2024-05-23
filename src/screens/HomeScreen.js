@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { connect } from 'react-redux'; 
 import {
     View,
     Text,
@@ -10,16 +11,16 @@ import {
     Image,
 } from "react-native";
 import {
+    NoResult,
     ProductCard,
 } from "../components";
 import { Colors, Fonts, Images } from "../contants";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import Feather from "react-native-vector-icons/Feather";
 import { CategoryService, ProductService, SpecialDayService } from "../services";
 import { LinearGradient } from "expo-linear-gradient";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, user }) => {
     const [activeCategory, setActiveCategory] = useState('Recent');
     const [searchText, setSearchText] = useState(""); // State lưu từ khóa tìm kiếm
     const [products, setProducts] = useState([]);
@@ -33,17 +34,13 @@ const HomeScreen = ({ navigation }) => {
             source: Images.HOME,
         },
         {
-            navigation: '',
-            source: Images.LOVE,
+            navigation: 'CartScreen',
+            source: Images.CART,
         },
         {
-            navigation: 'ProductShop',
+            navigation: 'ProfileScreen',
             source: Images.USER,
         },
-        {
-            navigation: 'CategoriesShop',
-            source: Images.CART,
-        }
     ]
 
     useEffect(() => {
@@ -70,11 +67,7 @@ const HomeScreen = ({ navigation }) => {
     }, [])
                                                                      
     const handleSearchSubmit = () => {
-        const filtered = products?.filter((product) => {
-            return product.productName.toLowerCase().includes(searchText.toLowerCase()) ||
-                   product.productDescription.toLowerCase().includes(searchText.toLowerCase());
-        });
-        searchText && navigation.navigate("SearchScreen", { searchResults: filtered });
+        searchText && navigation.navigate("SearchScreen", { searchParams: searchText });
     }
 
     const onPress = (product) => {
@@ -83,7 +76,7 @@ const HomeScreen = ({ navigation }) => {
 
     const selectCategory = (choice) => {
         setActiveCategory(choice);  
-        const filtered = filteredProducts?.filter((product) => {
+        const filtered = products?.filter((product) => {
             return product.category.categoryName.toLowerCase().includes(choice.toLowerCase())
         });
         setFilteredProducts(choice === 'Recent' ? products : filtered);
@@ -105,7 +98,7 @@ const HomeScreen = ({ navigation }) => {
             colors={['rgba(231, 192, 248, 0.7)', 'rgba(188, 204, 243, 0.7)']}
             start={{ x: 0.5, y: 0 }}
             end={{ x: 0.5, y: 1 }}
-            style={{ flex: 1 }}
+            style={{ flex: 1, paddingTop: 14 }}
         >
             <View style={styles.container}>
 
@@ -117,22 +110,22 @@ const HomeScreen = ({ navigation }) => {
                             <Image source={Images.USER} />
 
                             <Text style={styles.locationText}>
-                                Welcome Koi Tran
+                                Welcome {user?.username} {''}
                             </Text>
                             <MaterialIcons
                                 name="keyboard-arrow-down"
                                 size={16}
                                 color={Colors.DEFAULT_YELLOW}
                             />
-                            <Feather
+                            {/* <Feather
                                 name="bell"
                                 size={24}
                                 color={Colors.DEFAULT_WHITE}
                                 style={{ position: "absolute", right: 0 }}
-                            />
-                            <View style={styles.alertBadge}>
+                            /> */}
+                            {/* <View style={styles.alertBadge}>
                                 <Text style={styles.alertBadgeText}>12</Text>
-                            </View>
+                            </View> */}
                         </View>
 
                         <View style={styles.searchContainer}>
@@ -151,12 +144,6 @@ const HomeScreen = ({ navigation }) => {
                                     onSubmitEditing={handleSearchSubmit}
                                 />
                             </View>
-                            <Feather
-                                name="sliders"
-                                size={20}
-                                color={Colors.DEFAULT_YELLOW}
-                                style={{ marginRight: 10 }}
-                            />
                         </View>
 
                         {/* special day */}
@@ -171,7 +158,7 @@ const HomeScreen = ({ navigation }) => {
                                     <TouchableOpacity key={index} onPress={() => handleFilterBySpecialDay(date)}>
                                         <View style={{ marginHorizontal: 10 }}>
                                             <Image
-                                                source={{uri: date.dateImage}}
+                                                source={{ uri: date.dateThumbnail }}
                                                 style={{ width: 120, height: 80, borderRadius: 10 }}
                                             />
                                         </View>
@@ -230,7 +217,7 @@ const HomeScreen = ({ navigation }) => {
                         numColumns={2}
                         contentContainerStyle={styles.container2}
                         columnWrapperStyle={styles.row}
-                        ListEmptyComponent={<Text>Not found</Text>}
+                        ListEmptyComponent={<NoResult/>}
                     />
                 </View>
 
@@ -251,7 +238,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        position: 'relative'
+        position: 'relative',
     },
 
     // flex1
@@ -423,4 +410,11 @@ const styles = StyleSheet.create({
     //bar recent
 });
 
-export default HomeScreen;
+const mapStateToProps = (state) => {
+    return {
+        token: state.generalState.token,
+        user: state.generalState.user,
+    };
+};
+
+export default connect(mapStateToProps)(HomeScreen);

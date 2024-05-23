@@ -13,7 +13,6 @@ import {
 
 const ProfileScreen = ({ navigation }) => {
 
-    // DATA
     const [userInfo, setUserInfo] = useState({
         name: "Mary Johnson",
         username: "Mary",
@@ -61,7 +60,7 @@ const ProfileScreen = ({ navigation }) => {
             colors={['rgba(231, 192, 248, 0.7)', 'rgba(188, 204, 243, 0.7)']}
             start={{ x: 0.5, y: 0 }}
             end={{ x: 0.5, y: 1 }}
-            style={{ flex: 1 }}
+            style={{ flex: 1, paddingTop: 40 }}
         >
             {/* Header */}
             <View style={styles.header}>

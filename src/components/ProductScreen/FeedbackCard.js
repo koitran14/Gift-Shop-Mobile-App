@@ -1,7 +1,8 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { View, Text, Image } from "react-native";
+import { ProductService } from "../../services";
+import { Images } from "../../contants";
 
-export default function FeedbackCard() {
+export default function FeedbackCard({feedback}) {
     return (
         <View style={{
             display: 'flex',
@@ -12,15 +13,12 @@ export default function FeedbackCard() {
             padding: 15,
             alignItems: 'flex-start',
         }}>
-            <View style={{ height: 50, width: 50, backgroundColor: 'lightgrey', borderRadius: 9999}}></View>
+            <Image source={Images.SUB} style={{height: 50, width: 50, borderRadius: 9999}}/>
+            {/* <View style={{ height: 50, width: 50, backgroundColor: 'lightgrey', borderRadius: 9999}}></View> */}
             <View>
-                <Text style={{ fontSize: 14, fontWeight: '600'}}>Username</Text>
+                <Text style={{ fontSize: 14, fontWeight: '600'}}>{feedback?.user.username}</Text>
                 <View style={{ marginTop: 1,display: 'flex', flexDirection: 'row', gap: 4, alignItems:'center'}}>
-                    <Ionicons name="star" size={14} color={'orange'}/>
-                    <Ionicons name="star" size={14} color={'orange'}/>
-                    <Ionicons name="star" size={14} color={'orange'}/>
-                    <Ionicons name="star" size={14} color={'orange'}/>
-                    <Ionicons name="star" size={14} color={'orange'}/>
+                    {ProductService.renderStars(feedback?.rating)}
                 </View>
                 <View style={{
                     marginTop: 5,
@@ -29,7 +27,7 @@ export default function FeedbackCard() {
                         fontSize: 14,
                         fontWeight: '400',
                     }}>
-                        Feedback Description
+                        {feedback?.comment}
                     </Text>
                     <Text style={{
                         fontSize: 14,
@@ -37,7 +35,7 @@ export default function FeedbackCard() {
                         marginTop: 7,
                         color: 'grey'
                     }}>
-                        03-04-2023 09:15
+                       {new Date(feedback?.feedbackDate).toLocaleString()}
                     </Text>
                 </View>
             </View>

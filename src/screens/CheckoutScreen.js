@@ -1,13 +1,121 @@
-import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, TextInput, Alert } from "react-native";
+import { Toast } from "toastify-react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Colors, Fonts, Images } from "../contants";
+import { CartItem, VoucherCard } from "../components";
+import { CheckoutService } from "../services";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import { connect } from "react-redux";
+import CartService from "../services/CartService";
 
-export default function CheckoutScreen ({navigation, route}) {
-    const { selectedProducts } = route.params;
-    const [inputText, setInputText] = useState("");
+const CheckoutScreen = ({navigation, route, user}) => {
+    const { selectedCarts } = route.params;
+    const [items, setItems] = useState(selectedCarts);
+    const [payments, setPayments] = useState([]);
+    const [vouchers, setVouchers] = useState([]);
+    const [selectedPayment, setSelectedPayment] = useState();
+    const [selectedVoucher, setSelectedVoucher] = useState();
+    const [openVoucherList, setOpenVoucherList] = useState(false);
+    const [totalCost, setTotalCost] = useState(0);
+    const [totalDiscount, setTotalDiscount] = useState(0);
 
+    useEffect(() => {
+        const getCheckout = async() => {
+            let payments = await CheckoutService.getAllPayments();
+            let vouchers = await CheckoutService.getAllVouchers();
+            setPayments(payments);
+            setVouchers(vouchers)
+            setSelectedPayment(payments[0])
+        }
+        getCheckout();
+    },[])
+
+    useEffect(() => {
+        calculateCosts();
+    }, [items, selectedVoucher]);
+
+    const calculateCosts = () => {
+        const productCost = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+        setTotalCost(productCost);
+
+        const discount = selectedVoucher ? selectedVoucher.discount : 0;
+        setTotalDiscount(discount * totalCost);
+    };
+
+    const handleUncheck = (item) => {
+        Alert.alert(
+            "Remove your selection",
+            "Are you sure you want to remove this item from selection?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "Remove",
+                    onPress: () => {
+                        const updatedCarts = items.filter(cart => cart._id !== item._id);
+                        Toast.success("Removed.")
+                        setItems(updatedCarts);
+                        if (items.length === 0) {
+                            navigation.goBack();
+                        }
+                    }
+                }
+            ]
+        );
+    };
+
+    const handleSubmit = async() => {
+        try {
+            const request = await CheckoutService.order({
+                paymentMethod: selectedPayment,
+                voucher: selectedVoucher,
+                orderDetails: items ? items : []
+            });
+            Toast.success("Ordered.")
+            navigation.goBack();
+        } catch (error) {
+            Toast.error("Something went wrong.")
+        }
+    }
+
+    const handleAddToCart = async (cart) => {
+        const updatedCart = { ...cart, quantity: cart.quantity + 1 };
+        await CartService.updateQuantity(cart._id, updatedCart.quantity);
+        setItems(items.map(item => (item._id === cart._id ? updatedCart : item)));
+    };
+
+    const handleRemoveFromCart = async (cart) => {
+        if (cart.quantity > 1) {
+            const updatedCart = { ...cart, quantity: cart.quantity - 1 };
+            await CartService.updateQuantity(cart._id, updatedCart.quantity);
+            setItems(items.map(item => (item._id === cart._id ? updatedCart : item)));
+        } else {
+            Alert.alert(
+                'Confirmation',
+                'Are you sure you want to remove this item from the cart?',
+                [
+                    { text: 'Cancel', style: 'cancel' },
+                    {
+                        text: 'Remove',
+                        onPress: async () => {
+                            await CartService.removeCart(cart._id);
+                            setItems(items.filter(item => item._id !== cart._id));
+                            Toast.success("Removed.");
+                            if (items.length === 0) {
+                                navigation.goBack();
+                            }
+                        }
+                    }
+                ],
+                { cancelable: true }
+            );
+        }
+    };
+   
     return (
         <LinearGradient
             colors={['#F6E8FF', '#F6E8FF']}
@@ -29,128 +137,139 @@ export default function CheckoutScreen ({navigation, route}) {
                     display: 'flex',
                     flexDirection: 'row',
                     alignItems: 'center',
+                    justifyContent: 'space-between',
+
                 }}>
                     <Ionicons
                         name="chevron-back-outline"
                         size={30}
                         onPress={() => navigation.goBack()}
-                        style={{
-                            alignSelf: 'flex-start',
-                            marginRight: 90,
-                        }}
                     />
+                    <Text style={{ fontSize: 26, fontWeight: '600'}}>Checkout</Text>
+                    <View style={{ width: 40}}></View>
                 </View>
-                {selectedProducts.map((product, index) => (
-                    <View key={index} style={styles.productContainer}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image source={product.image} resizeMode="contain" style={styles.productImage}/>
-                        <Text style={styles.productName}>{product.name}</Text>
-                        <TouchableOpacity style={styles.note}>
-                                <Text>Note {'>'}</Text>
-                        </TouchableOpacity>
+                <View style={{ marginTop: 20, display: 'flex', gap: 5, padding: 5}}>
+                    {items?.map((cart, index) => (
+                        <View key={index}>
+                            <CartItem cart={cart} 
+                                onAdd={() => handleAddToCart(cart)}
+                                onRemove={() => handleRemoveFromCart(cart)}
+                                isSelected={true}
+                                handleSelection={() => handleUncheck(cart)}
+                            />
                         </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={Images.SHOP} resizeMode="cover" style={styles.shop}/>
-                            <Text style={styles.productShop}>{product.shop}</Text>
-                            <Text style={styles.productPrice}>{product.price}</Text>                        
-                            <TouchableOpacity>
-                                <Image source={Images.REMOVE} resizeMode="cover" style={styles.removeButton}/>
-                            </TouchableOpacity>
-                            <Text style={styles.productQuantity}>{product.quantity}</Text>
-                            <TouchableOpacity>
-                                <Image source={Images.ADD} resizeMode="cover" style={styles.addButton}/>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.bar}></View>
-                    </View>
-                ))}
+                    ))}
+                </View>
                 <TouchableOpacity>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5 }}>
-                    <Image source={Images.MAP} resizeMode="contain" style={styles.map}/>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={styles.username}>Username</Text>
-                        <Text style={styles.phone}>Phone number</Text>
-                        <Text style={styles.note2}>{'>'}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <View style={styles.HomeBox}>
-                            <Text style={styles.home}>HOME</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, gap: 10 }}>
+                        <Image source={Images.USER} resizeMode="contain" style={styles.map}/>
+                        <View>
+                            <Text>Username</Text>
+                            <Text>Email</Text>
                         </View>
-                    <View>
-                </View>
-                </View>
-                    <Text style={styles.address}>Address</Text>
-                </View>
+                        <View>
+                            <Text>{user.username}</Text>
+                            <Text>{user.email}</Text>
+                        </View>
+                    </View>
                 </TouchableOpacity>
                 <View style={styles.bar2}></View>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text>Select a payment method</Text>
-                    <TouchableOpacity  style={styles.seeAll}>
-                    <Text>See all {'>'}</Text>
-                    </TouchableOpacity>
+                    <Text style={{ fontSize: 18, fontWeight: '500', paddingVertical: 5,}}>Select a payment method</Text>
                 </View>
                 
                 <View style={styles.paymentMethodsContainer}>
-                <ScrollView horizontal={true}>
-                    <View style={styles.box}>
-                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={Images.MONEY} resizeMode="contain"/>
-                            <Text style={styles.moneyText}>Cash on delivery</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.box}>
-                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Image source={Images.PAYPAL} resizeMode="contain"/>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                            {payments.map((payment, index) => (
+                                <View 
+                                    style={[styles.box,
+                                        (payment._id === selectedPayment?._id) && {backgroundColor: 'pink'}
+                                    ]} 
+                                    key={index}
+                                >
+                                    <TouchableOpacity  
+                                        key={index} 
+                                        style={{ flexDirection: 'row', alignItems: 'center' }} 
+                                        onPress={() => setSelectedPayment(payment)}
+                                    >
+                                        <Text style={styles.moneyText}>{payment.paymentTitle}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            ))}
+                    </ScrollView>
                 </View>
                 <View style={styles.bar2}></View>
                 <Text style={styles.voucher}>Voucher</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={styles.box2}>
-                        <TextInput
-                            style={{ flex: 1, marginLeft: 10 }}
-                            placeholder="Enter discount code"
-                            //onChangeText={setInputText}
-                        ></TextInput>
-                    </View>
-                    <View style={styles.applyContainer}>
-                        <Text style={styles.apply}>Apply</Text>
+                
+                <View 
+                    style={{ 
+                        display: 'flex', 
+                        gap: 10, 
+                        backgroundColor: 'white', 
+                        borderRadius: 20, 
+                        flexDirection: 'column',
+                        marginVertical: 12,
+                    }}
+                >
+                    <TouchableOpacity 
+                        style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 16, paddingHorizontal: 18 }} 
+                        onPress={() => setOpenVoucherList(!openVoucherList)}
+                    >
+                        <Text style={styles.voucherText}>Available voucher</Text>
+                        <AntDesign 
+                            name={openVoucherList ? 'up' : 'down'}
+                            size={20}
+                            color={'black'}
+                        />
+                    </TouchableOpacity>
+                    <View style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 5,
+                        paddingHorizontal: 15
+                    }}>
+                        {openVoucherList && 
+                            vouchers?.map((voucher, index) => (
+                                <View key={index}>
+                                    <VoucherCard 
+                                        voucher={voucher} 
+                                        isSelected={voucher?._id === selectedVoucher?._id} 
+                                        handleSelection={() => setSelectedVoucher(voucher)}
+                                    />
+                                </View>
+                            ))
+                        }
                     </View>
                 </View>
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
-                navigation.navigate('VoucherScreen', { selectedProducts })}}>
-                    <Text style={styles.voucherText}>Available voucher</Text>
-                    <Text style={{marginLeft: 'auto', right: 10, fontSize: 20}}>{'>'}</Text>
-                </TouchableOpacity>
+
                 <View style={styles.bar2}></View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={styles.leftInstance}>Product cost</Text>
-                    {/* Insert product cost here */}
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={styles.leftInstance}>Delivery service</Text>
-                    {/* Insert delivery cost here */}
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={styles.leftInstance}>Voucher</Text>
-                    {/* Insert voucher cost here */}
+                <View style={{ 
+                    display: 'flex',
+                    gap: 5, 
+                    flexDirection: 'column',
+                    paddingVertical: 10,
+                }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Text style={styles.leftInstance}>Product cost</Text>
+                        <Text style={styles.leftInstance}>${totalCost.toFixed(2)}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Text style={styles.leftInstance}>Voucher</Text>
+                        <Text style={styles.leftInstance}>- ${totalDiscount.toFixed(2)}</Text>
+                    </View>
                 </View>
                 <View style={styles.totalContainer}>
                     <Text style={styles.total}>Total:</Text>
-                    {/* Insert voucher cost here */}
+                    <Text style={styles.total}>${(totalCost - totalDiscount).toFixed(2)}</Text>
                 </View>
-                <TouchableOpacity style={styles.confirmContainer}>
-
-                        <LinearGradient colors={['#FB9EC5', '#D491AD', '#FFDBEA']} 
-                                    start={{ x: 0.5, y: 0 }}
-                                    end={{ x: 0.5, y: 1 }}
-                                    style={styles.gradientBox}
-                        >
-
-                            <Text style={styles.confirm}>Confirm payment</Text>
-                        </LinearGradient>
+                <TouchableOpacity style={styles.confirmContainer} onPress={handleSubmit}>
+                    <LinearGradient colors={['#FB9EC5', '#D491AD', '#FFDBEA']} 
+                        start={{ x: 0.5, y: 0 }}
+                        end={{ x: 0.5, y: 1 }}
+                        style={styles.gradientBox}
+                    >
+                        <Text style={styles.confirm}>Confirm payment</Text>
+                    </LinearGradient>
                 </TouchableOpacity>
             </View>
             </ScrollView>
@@ -239,15 +358,14 @@ const styles = StyleSheet.create({
         marginVertical: '2%',
     },
     box: {
-        marginVertical: 15,
-        height: 50,
-        width: 186,
         backgroundColor: Colors.DEFAULT_WHITE,
         borderRadius: 20,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginHorizontal: 10,
+        padding: 12,
+        marginHorizontal: 5,
+        marginVertical: 10,
     },
     box2: {
         height: 50,
@@ -264,7 +382,7 @@ const styles = StyleSheet.create({
     moneyText: {
         marginHorizontal: 5, 
         marginTop: -2,
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: '800',
     },
     shop: {
@@ -306,8 +424,8 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     map: {
-        width: 42,
-        height: 42,
+        width: 35,
+        height: 35,
     },
     HomeBox: {
         backgroundColor: '#858AFF',
@@ -321,7 +439,7 @@ const styles = StyleSheet.create({
     },
     home: {
         color: Colors.DEFAULT_WHITE,
-        fontsize: 16,
+        fontSize: 16,
         fontWeight: '100',
         lineHeight: 17,
     } ,
@@ -375,24 +493,12 @@ const styles = StyleSheet.create({
         color: "#5A407B",
         fontSize: 16,
         fontWeight: '500',
-        marginLeft: '2%',
-        marginVertical: '5%',
     },
     leftInstance:{
-        alignContent: 'left', 
         color: Colors.DEFAULT_BLACK,
-        fontWeight: '200',
         fontSize: 16,
         lineHeight: 16 * 1.4,
-        fontFamily: Fonts.POPPINS_EXTRA_LIGHT,
-        marginVertical: '1%',
-        marginLeft: '2%',
-    },
-    rightInstance: {
-        marginLeft: 'auto',
-        color: Colors.DEFAULT_BLACK,
-        fontSize: 18,
-        marginRight: '5%',
+        fontFamily: Fonts.POPPINS_MEDIUM,
     },
     confirm: {
         color: '#7F3480',
@@ -410,27 +516,34 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        marginTop: 5,
+        paddingVertical: 5,
     },
     total: {
         color: Colors.DEFAULT_BLACK,
-        fontWeight: '200',
         fontSize: 22,
-        lineHeight: 16 * 1.4,
-        fontFamily: Fonts.POPPINS_EXTRA_LIGHT,
+        fontFamily: Fonts.POPPINS_MEDIUM,
         marginVertical: '2%',
         marginLeft: '2%',
     },
     totalContainer: {
         backgroundColor: "#F9DFFF",
         borderColor: "#F5B5FF",
-        borderWidth: 1,
-        width: '100%',
-        height: 36,
+        borderWidth: 2,
         display: 'flex',
-        justifyContent: "left",
-        alignSelf: "center",
-        marginVertical: '2%',
+        justifyContent: "space-between",
+        alignItems: "center",
         flexDirection: 'row',
-    },
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 20,
+        marginBottom: 20,
+    }
 });
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.generalState.user,
+    };
+};
+
+export default connect(mapStateToProps)(CheckoutScreen);

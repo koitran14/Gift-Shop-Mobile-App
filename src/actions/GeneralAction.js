@@ -1,6 +1,7 @@
 const types = {
     SET_IS_APP_LOADING: 'SET_IS_APP_LOADING',
     SET_TOKEN: 'SET_TOKEN',
+    SET_USER: 'SET_USER',
 }
 
 const setIsAppLoading = isAppLoading => {
@@ -17,4 +18,11 @@ const setToken = token => {
     }
 }
 
-export default { setIsAppLoading, setToken, types };
+const setUser = user => {
+    return {
+        type: types.SET_USER,
+        payload: user,
+    }
+}
+
+export default { setIsAppLoading, setToken, setUser, types };

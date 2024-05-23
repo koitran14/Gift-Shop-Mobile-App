@@ -6,19 +6,15 @@ import { useState, useEffect } from "react";
 import Feather from "react-native-vector-icons/Feather";
 import { LinearGradient } from "expo-linear-gradient";
 import { ProductService } from "../services";
-import { ProductCard } from "../components";
+import { NoResult, ProductCard } from "../components";
 
 const SearchScreen = ({ route, navigation }) => {
-    const { searchResults } = route.params;
+    const { searchParams } = route.params;
     const [ searchText, setSearchText ] = useState(""); 
     const [products, setProducts] = useState([]);
 
     const handleSearchSubmit = () => {
-        const filtered = products?.filter((product) => {
-            return product.productName.toLowerCase().includes(searchText.toLowerCase()) ||
-                   product.productDescription.toLowerCase().includes(searchText.toLowerCase());
-        });
-        navigation.navigate("SearchScreen", { searchResults: filtered });
+        navigation.navigate("SearchScreen", { searchParams: searchText });
     }
 
     const onPress = (product) => {
@@ -28,8 +24,11 @@ const SearchScreen = ({ route, navigation }) => {
     useEffect(() => {
         const getProducts = async() => {
             const products = await ProductService.getAllProducts();
-            setProducts(products);
-            return products;
+            const filtered = products?.filter((product) => {
+                return product?.productName?.toLowerCase().includes(searchParams.toLowerCase()) ||
+                       product?.productDescription?.toLowerCase().includes(searchParams.toLowerCase());
+            });
+            setProducts(filtered);
         }
         getProducts();
     },[])
@@ -82,7 +81,7 @@ const SearchScreen = ({ route, navigation }) => {
                 </View>
                 <View style={styles.container1}>
                     <FlatList
-                        data={searchResults}
+                        data={products}
                         renderItem={({ item }) => (
                             <ProductCard product={item} onPress={() => onPress(item)} />
                         )}
@@ -90,7 +89,7 @@ const SearchScreen = ({ route, navigation }) => {
                         numColumns={2}
                         contentContainerStyle={styles.container1}
                         columnWrapperStyle={styles.row}
-                        ListEmptyComponent={<Text>Not found</Text>}
+                        ListEmptyComponent={<NoResult/>}
                     />
                 </View>
            </View>

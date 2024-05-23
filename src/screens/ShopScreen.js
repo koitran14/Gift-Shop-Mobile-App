@@ -1,81 +1,123 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import {
-    ScrollView,
     Image,
     StyleSheet,
     Text,
     View,
     TouchableOpacity,
     TextInput,
+    useWindowDimensions,
 } from "react-native";
-import { Colors, Fonts, Images } from "../contants";
+import AntDesign from "react-native-vector-icons/AntDesign";
+
+import { Colors, Images } from "../contants";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { LinearGradient } from "expo-linear-gradient";
+import { ShopRoute } from "./ShopTabs/TabShop";
+import { CategoriesRoute } from "./ShopTabs/TabCategories";
+import { ProductRoute } from "./ShopTabs/TabProducts";
+import { TabView, TabBar } from 'react-native-tab-view';
 import { StoreService } from "../services";
+import { Toast } from "toastify-react-native";
 
-const Shop = ({ navigation, route }) => {
-    const { productId } = route.params;
-    const [store, setStore] = useState();
-    
-    useEffect(() => {
-        const getStore = async() => {
-            const store = await StoreService.getStoreByProductId(productId);
-            setStore(store);
-        }
-        getStore();
-    },[])
-
-    const [filteredProducts, setFilteredProducts] = useState(store.products);
+const ShopScreen = ({ route, navigation, user }) => {
+    const { store } = route.params || {};
+    const [isFollowed, setIsFollowed] = useState(false);
     const [searchText, setSearchText] = useState("");
 
+    const layout = useWindowDimensions();
+    const [index, setIndex] = React.useState(0);
+
     useEffect(() => {
-        const filtered = filteredProducts.filter((product) => {
-            return (
-                product.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                product.description
-                    .toLowerCase()
-                    .includes(searchText.toLowerCase())
-            );
-        });
-        setFilteredProducts(filtered);
-    }, [searchText]);
+        const checkFollowing = store.followers?.some(follower => follower?._id.toString() === user._id.toString());
+        setIsFollowed(checkFollowing)
+    }, []);
+
+    const [routes] = useState([
+        { key: 'first', title: 'Shop', store: store },
+        { key: 'second', title: 'Products', products: store.products },
+        { key: 'third', title: 'Categories', products: store.products },
+    ]);
+
+    const renderScene = ({ route, navigation }) => {
+        switch (route.key) {
+          case 'first':
+            return <ShopRoute route={route} navigation={navigation} />;
+          case 'second':
+            return <ProductRoute route={route} navigation={navigation} />;
+          case 'third':
+            return <CategoriesRoute route={route} navigation={navigation} />;
+          default:
+            return null;
+        }
+      };
+
+    const renderTabBar = (props) => (
+        <TabBar
+          {...props}
+          style={{ 
+            backgroundColor: 'pink',
+          }}
+          indicatorStyle={{
+            backgroundColor: 'purple',
+          }}
+          renderLabel={({ route, focused }) => (
+            <Text style={{ color: focused ? 'purple' : 'grey', margin: 8, fontWeight: '600', fontSize: 14 }}>
+              {route.title}
+            </Text>
+          )}
+        />
+      );
+
+    const handleSearchSubmit = () => {
+        searchText && navigation.navigate("SearchScreen", { searchParams: searchText });
+    }
+
+    const handleFollowing = async () => {
+        try {
+            if (!isFollowed) {
+                const follow = await StoreService.followStore(store._id, user);
+                Toast.success(follow.message, 'top');
+            } else {
+                const unfollow = await StoreService.unfollowStore(store._id, user);
+                Toast.success(unfollow.message, 'top');
+            }
+        } catch (error) {
+            Toast.error(error.message, 'top');
+        } finally {
+            setIsFollowed(!isFollowed)
+        }
+    }
 
     return (
         <LinearGradient
             colors={["rgba(231, 192, 248, 0.7)", "rgba(188, 204, 243, 0.7)"]}
             start={{ x: 0.5, y: 0 }}
             end={{ x: 0.5, y: 1 }}
-            style={{ flex: 1 }}
+            style={styles.linearGradient}
         >
-            <View style={styles.container}>
-                {/* flex 0: hang tren cung */}
-                <View style={styles.flex0}></View>
+            <Image style={styles.bannerImage} source={Images.FLOWERBANNER} />
 
-                {/* flex 1: hang shop */}
-                <View style={styles.flex1}>
-                <Ionicons
-                name="chevron-back-outline"
-                size={30}
-                onPress={() => navigation.goBack()}
-                style={{
-                    marginTop: 20,
-                    marginRight: 90,
-                
-                }}
-            />
-                
+            <View style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: 12,
+                    alignItems: 'center',
+                    paddingHorizontal: 15,
+                    paddingVertical: 12,
+                    width: '100%',
+                    marginTop: 35,
+                }}>
 
-                    <Image style={styles.image3} source={Images.FLOWERBANNER} />
-                  
-                    <View style={styles.subtractParent}>
-                        <Image
-                            style={styles.subtractIcon}
-                            source={Images.SUB}
+                     <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Ionicons
+                            name="arrow-back"
+                            size={25}
+                            color={Colors.DEFAULT_BLACK}
                         />
-
-
-                        <View style={styles.searchContainer}>
-                        {/* search bar */}
+                    </TouchableOpacity>
+                    <View style={styles.searchContainer}>
                         <View style={styles.searchSection}>
                             <Ionicons
                                 name="search-outline"
@@ -87,281 +129,209 @@ const Shop = ({ navigation, route }) => {
                                 placeholder="Search..."
                                 value={searchText}
                                 onChangeText={setSearchText} //Update seach value
+                                onSubmitEditing={handleSearchSubmit}
                             />
                         </View>
+                        <TouchableOpacity>
+                            <AntDesign
+                                name="hearto"
+                                size={20}
+                                color={Colors.DEFAULT_BLACK}  
+                            />
+                        </TouchableOpacity>
                     </View>
-                    
-                    <View style={styles.container1}>
-                        <Text style={[styles.sflower]}>SFlower</Text>
-                        <Text style={[styles.follow]}>
-                            + Follow
-                        </Text>
-                        <Text
-                            style={[
-                                styles.online2Minutes,
-                                styles.kFollowersTypo,
-                            ]}
-                        >{`Online 2 minutes ago `}</Text>
-                        <Text
-                            style={[styles.kFollowers, styles.kFollowersTypo]}
-                        >
-                            4.9/5.0 | 33.7k Followers
-                        </Text>
-                    </View>
-                    <View style={[styles.vectorParent, styles.parentShadowBox]}>
-                        <Image
-                            style={[styles.groupItem, styles.groupItemLayout]}
-                            resizeMode="cover"
-                            source="Star 1.png"
-                        />
-                        </View>
-                    </View>
-                </View>
-
-                {/* flex 2: description, hinh anh */}
-                <View style={styles.flex2}>
-                    <View style={styles.ngang}>
-                        <View style={styles.rectangleView}>
-                            <Text>Shop</Text>
-                            <Text>Product</Text>
-                            <Text>Categories</Text>
-                        </View>
-                    </View>
-
-                    <Text
-                        style={[styles.welcomeToSoap]}
-                    >{`Welcome to Soap Flower Official Shop! We specialize in a wide variety of gift items, including wax flowers, wool flowers, and gift boxes, all at affordable prices with top-quality.
-We're a Vietnamese brand offering nationwide delivery.
-Open hours: 8 AM - 8 PM
-FB: SFlower`}</Text>
-                    <Image style={styles.image2Icon} source={Images.FLOWER1} />
-                </View>
-
-                {/* flex 3: san pham */}
-                <View style={styles.flex3}>
-                    <Text style={[styles.hotList, styles.hotListClr]}>
-                        HOT LIST
-                    </Text>
-
-                    <ScrollView contentContainerStyle={styles.container2}>
-                        {filteredProducts.map((product) => (
-                            <TouchableOpacity
-                                key={product.id}
-                                style={styles.productContainer}
-                            >
-                                <Image
-                                    source={product.image}
-                                    style={styles.image}
-                                />
-                                <Text style={styles.name}>{product.name}</Text>
-                                <Text style={styles.price}>
-                                    {product.price}
-                                </Text>
-                                <Text style={styles.description}>
-                                    {product.description}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                </View>
             </View>
+
+                <View style={styles.storeInfo}>
+                    {store && store.storeAvatar ? (
+                        <Image style={styles.storeLogo} source={{ uri: store.storeAvatar }} />
+                    ):(
+                        <Image style={styles.storeLogo} source={Images.SUB} />
+                    )}
+                    <View style={{ display: 'flex', flexDirection: 'column', }}>
+                        <Text style={styles.storeName}>{store.storeName ? store.storeName : "Unknown"}</Text>
+                        <Text style={styles.storeStatus}>Online 2 minutes ago</Text>
+                        <View style={{ display: 'flex', flexDirection: 'row', gap: 5, alignItems: 'center'}}>
+                            <Ionicons
+                                name="globe"
+                                size={20}
+                                color='grey'
+                            />
+                            <Text style={{ fontWeight: '400', fontSize: 12, color: 'grey' }}>
+                                {store?.storeLocation}
+                            </Text>
+                        </View>
+                        <Text style={styles.storeRating}>
+                            4.9/5.0 | {store.followers.length}
+                            {store.followers.length > 1 ? ' followers': ' follower'}
+                        </Text>
+                    </View>
+                    <TouchableOpacity onPress={handleFollowing}>
+                        { isFollowed ? (
+                            <Text style={[styles.followButton,{ backgroundColor: '#fe3c3c', color: 'white'}]}>Following</Text>
+                        ): (
+                            <Text style={styles.followButton}>+ Follow</Text>
+                        )}
+                    </TouchableOpacity>
+                </View>
+
+                <TabView
+                    navigationState={{ index, routes }}
+                    renderScene={({ route }) => renderScene({ route, navigation: navigation })}
+                    onIndexChange={setIndex}
+                    initialLayout={{ width: layout.width }}
+                    renderTabBar={renderTabBar}
+                />
+                
         </LinearGradient>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    linearGradient: {
         flex: 1,
-        position: "relative",
+        position: 'relative'
     },
-    flex0: {
-        flex: 0.05,
-        //backgroundColor: "purple",
-        flexDirection: "column",
-        justifyContent: "flex-end", //make all content center
+    header: {
+        display: 'flex',
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingTop: 40,
+        gap: 10,
     },
-
-    flex1: {
-        flex: 0.2,
-        flexDirection: "column",
-        justifyContent: 'space-around',
-        //backgroundColor: "red",
+    backIcon: {
+        marginTop: 20,
     },
-    searchInThe: {
-        fontSize: 20,
-        fontWeight: "700",
-        color: "rgba(0, 0, 0, 0.45)",
-        textAlign: "left",
+    bannerImage: {
         width: "100%",
-        textShadowColor: "rgba(0, 0, 0, 0.25)",
-        textShadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        textShadowRadius: 100,
+        height: 250,
+        resizeMode: "cover",
+        position: 'absolute',
+        top:0,
+        left: 0,
+        width: '100%'
+    },
+    scrollView: {
+        flex: 1,
+    },
+    storeInfo: {
+        alignItems: "center",
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 15,
+        marginBottom: 10,
+    },
+    storeLogo: {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
     },
     searchContainer: {
         backgroundColor: Colors.DEFAULT_WHITE,
-        height: "25%",
-        width: "140%",
+        height: 50,
         borderRadius: 8,
-        marginLeft: "15%",
-        marginRight: "10%",
+        width: '80%',
         flexDirection: "row",
-
+        justifyContent: "space-between",
+        alignItems: "center",
     },
     searchSection: {
         flexDirection: "row",
         alignItems: "center",
         marginLeft: "3%",
+        width: '100%',
     },
-
-    searchText: {
-        color: Colors.DEFAULT_BLACK,
-        fontSize: 16,
-        lineHeight: 16 * 1.4,
-        fontFamily: Fonts.POPPINS_MEDIUM,
-        marginLeft: "5%",
-    },
-    container1: {
-        top: "10%",
-
-    },
-    sflower: {
-        color: "#e07ce9",
+    storeName: { 
+        fontSize: 20,
         fontWeight: "700",
-        fontSize: 25,
-        left: "40%",
+        color: "red",
+        marginBottom: 5,
     },
-
-    follow: {
-        borderStyle: "solid",
-        borderColor: "#fe3c3c",
-        borderWidth: 1,
-        left: "120%",
-        fontSize: 22,
-        lineHeight: 25,
+    followButton: {
+        fontSize: 18,
         fontWeight: "700",
         color: "rgba(206, 84, 84, 0.8)",
+        borderColor: "#fe3c3c",
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 5,
         textAlign: "center",
-        alignItems: "center",
-        width: 109,
-        height: 25,
+        marginBottom: 5,
     },
-
-    subtractParent: {
-        position: "absolute",
-        top: "10%",
+    storeStatus: {
+        fontSize: 14,
+        color: "grey",
+        marginBottom: 5,
+        fontWeight: '500'
     },
-
-    image3: {
-        height: "100%",
-        width: "100%",
-        opacity: 0.99,
+    storeRating: {
+        fontSize: 14,
+        color: "black",
+        fontWeight: '500'
     },
-
-    subtractIcon: {
-        height: 40,
-        width: 40,
-        top: "45%",
-        left: "18%",
-        position: "absolute",
-    },
-
-    online2Minutes: {
-        top: -30,
-        left: "40%",
-    },
-
-    kFollowers: {
-        top: -30,
-        left: "40%",
-    },
-
-    flex2: {
-        //backgroundColor: "blue",
-        flex: 0.55,
-        
-        flexDirection: "column",
-        justifyContent: "space-between",
-    },
-    rectangleView: {
+    tabContainer: {
         flexDirection: "row",
         justifyContent: "space-around",
-        alignItems: "center",
-        shadowColor: "rgba(0, 0, 0, 0.25)",
-        shadowOffset: {},
-        shadowRadius: 4,
-        shadowOpacity: 1,
         backgroundColor: "#fff",
-        width: "100%",
-        height: 40,
-        opacity: 0.7,
+        paddingVertical: 10,
+        borderBottomWidth: 1,
+        borderColor: "#eee",
     },
-
-    image2Icon: {
-        height: "50%",
-        width: "100%",
-        opacity: 0.99,
-        top: -20,
-    },
-
-    flex3: {
-        //backgroundColor: "green",
-        flex: 0.25,
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-
-    hotList: {
-        borderRadius: 20,
-        backgroundColor: "rgba(149, 16, 183, 0.48)",
-        fontSize: 14,
-        fontWeight: "800",
-        color: "#000",
-        top: "10%",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-
-    container2: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-        width: "100%",
-        justifyContent: "center",
-        justifyContent: "space-evenly",
-        top: "5%",
-    },
-
-    productContainer: {
-        backgroundColor: "#fffdfd",
-        width: "40%",
-        borderRadius: 40,
-        borderColor: "white",
-        padding: "5%",
-        margin: "5%",
-    },
-    image: {
-        width: "100%",
-        height: 100,
-        marginBottom: "5%",
-    },
-
-    name: {
-        fontWeight: "bold",
+    tabText: {
         fontSize: 16,
-        textAlign: "center",
+        fontWeight: "700",
+        width: '100%'
     },
-    price: {
-        fontSize: 14,
-        textAlign: "center",
+    storeDescriptionTitle: {
+        fontSize: 20,
+        fontWeight: '600',
+        paddingHorizontal: 20,
+        paddingTop: 15,
+        textDecorationLine: 'underline',
+    },  
+    storeDescription: {
+        paddingHorizontal: 20,
+        paddingTop: 10,
+        paddingBottom: 20,
+        fontSize: 15,
+        lineHeight: 24,
+        color: "#333",
     },
-
-    description: {
-        color: "purple",
-        textAlign: "center",
+    storeImage: {
+        width: "100%",
+        height: 200,
+        resizeMode: "cover",
     },
+    hotListTitle: {
+        fontSize: 18,
+        fontWeight: "700",
+        textAlign: "center",
+        marginVertical: 20,
+    },
+    productsContainer: {
+        display: 'flex',
+        paddingHorizontal: 10,
+        paddingBottom: 20,
+        width: '100%'
+    },
+    row: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+    },
+    column:{
+        width: '100%',
+        margin: 2,
+    }
 });
 
-export default Shop;
+const mapStateToProps = (state) => {
+    return {
+        user: state.generalState.user,
+    };
+};
+
+export default connect(mapStateToProps)(ShopScreen);

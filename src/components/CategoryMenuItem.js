@@ -4,15 +4,6 @@ import {Text, StyleSheet, TouchableOpacity, Image, View} from 'react-native';
 import {Colors, Fonts, Images} from '../contants';
 
 const CategoryMenuItem = ({name, logo, activeCategory, setActiveCategory, special, backgroundColor}) => {
-  // Applying conditional styles based on active state and special prop
-  // const containerStyle = [
-  //   styles.category(),
-  //   special && styles.specialCategory, // Apply special styles for marked categories
-  // ];
-  // const iconStyle = styles.categoryIcon(activeCategory === name);
-  // const textStyle = styles.categoryText(activeCategory === name);
-  // const backgroundColor = Colors[name] || 'transparent';
-  // const backgroundColor = Colors(name)
 
   return (
     <TouchableOpacity
@@ -29,7 +20,6 @@ const CategoryMenuItem = ({name, logo, activeCategory, setActiveCategory, specia
   );
 };
 
-// Adjusting or adding to the existing styles
 const styles = StyleSheet.create({
   categoryContainer: {
     flexDirection: 'row',

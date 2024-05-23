@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity, Text, View, Image } from "react-native";
 
-export default function ProductCard ({ product, onPress}) {
+export default function ProductCard ({ product , onPress}) {
 
     return (
         <TouchableOpacity style={styles.card} onPress={onPress}>

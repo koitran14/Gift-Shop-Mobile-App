@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Animated, Image, StyleSheet, Text, View } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import { Animated, Image, StyleSheet, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Colors, Images, Fonts } from '../contants';
+import { Images, Fonts } from '../contants';
 import { Display } from '../utils';
 
 const SplashScreen = ({ navigation }) => {
@@ -51,9 +50,9 @@ const styles = StyleSheet.create({
     width: Display.setWidth(80),
   },
   titleText: {
-    color: Colors.DEFAULT_WHITE,
+    color: 'black',
     fontSize: 28,
-    fontFamily: Fonts.POPPINS_THIN, // Ensure font is loaded or use a fallback
+    fontFamily: Fonts.POPPINS_REGULAR, // Ensure font is loaded or use a fallback
   },
 });
 

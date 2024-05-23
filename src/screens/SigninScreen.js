@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { GeneralAction } from '../actions';
 import { AuthenticationService } from '../services';
 
-const SigninScreen = ({navigation, setToken}) => {
+const SigninScreen = ({navigation, setToken, setUser}) => {
   const [isPasswordShow, setIsPasswordShow] =  useState(false);
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -27,6 +27,8 @@ const SigninScreen = ({navigation, setToken}) => {
       setIsLoading(false);
       if (response.AccessToken) {
         setToken(`${response.AccessToken}`);
+        setUser(response.user);
+        console.log(response)
         navigation.navigate('HomeScreen')
       }
       console.log("Token from login: " + response.AccessToken)
@@ -393,7 +395,8 @@ logIn: {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setToken: token => dispatch(GeneralAction.setToken(token))
+    setToken: token => dispatch(GeneralAction.setToken(token)),
+    setUser: user => dispatch(GeneralAction.setUser(user))
   }
 }
 
