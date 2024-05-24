@@ -19,7 +19,7 @@ const CartItem = ({ cart, onAdd, onRemove, isSelected, handleSelection }) => {
             </View>
             <View style={styles.detailsContainer}>
                 <Text style={styles.name}>{shortenName(cart.product.productName)}</Text>
-                <Text style={styles.price}>{cart.product.price}</Text>
+                <Text style={styles.price}>${cart.product.price}</Text>
                 <View style={styles.quantityContainer}>
                     <TouchableOpacity onPress={() => onRemove(cart)}>
                         <Ionicons name="remove-circle-outline" size={24} color={'grey'} />

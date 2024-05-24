@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
-import axios from 'axios';
 
 const CartItem = ({ userId, productId, initialQuantity }) => {
   const [quantity, setQuantity] = useState(initialQuantity);

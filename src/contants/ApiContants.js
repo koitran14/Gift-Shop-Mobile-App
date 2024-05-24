@@ -16,6 +16,7 @@ const BACKEND_API = {
   GET_ALL_CATEGORIES: `${BACKEND_BASE_URL}/category`,
   GET_ALL_SPECIALDAYS: `${BACKEND_BASE_URL}/specialDay`,
   GET_STORE_BY_PRODUCT_ID: `${BACKEND_BASE_URL}/store/`,
+  GET_FOLLOWING_STORE: `${BACKEND_BASE_URL}/store/getFollowing`,
   ADD_FOLLOWER: `${BACKEND_BASE_URL}/store/addFollower/`,
   REMOVE_FOLLOWER: `${BACKEND_BASE_URL}/store/removeFollower/`,
   GET_ALL_CART: `${BACKEND_BASE_URL}/cart`,
@@ -26,6 +27,8 @@ const BACKEND_API = {
   GET_ALL_PAYMENTS: `${BACKEND_BASE_URL}/payment`,
   GET_ALL_VOUCHERS: `${BACKEND_BASE_URL}/voucher`,
   CREATE_ORDER: `${BACKEND_BASE_URL}/order/create`,
+  GET_ORDERS_BY_USER: `${BACKEND_BASE_URL}/order/user`,
+  GET_ORDER_QUANTITY_BY_PRODUCTID: `${BACKEND_BASE_URL}/order/quantity`,
 };
 
 const STATIC_IMAGE = {

@@ -10,5 +10,6 @@ import FeedbackCard from "./ProductScreen/FeedbackCard";
 import NoResult from "./NoResult";
 import CartItem from "./CartItem";
 import VoucherCard from "./VoucherCard";
+import OrderedCard from "./OrderedCard";
 
-export { WelcomeCard, Separator, ToggleButton, FlagItem, CategoryMenuItem, RestaurantMediumCard, RestaurantCard, ProductCard, FeedbackCard, NoResult, CartItem, VoucherCard};
+export { WelcomeCard, Separator, ToggleButton, FlagItem, CategoryMenuItem, RestaurantMediumCard, RestaurantCard, ProductCard, FeedbackCard, NoResult, CartItem, VoucherCard, OrderedCard};

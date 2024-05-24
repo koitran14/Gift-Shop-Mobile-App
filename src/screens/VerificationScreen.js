@@ -36,7 +36,6 @@ const VerificationScreen = ({
 
   const submit = () => {
     if (validOtp) {
-      console.log("Valid OTP.")
       navigation.navigate('Signin');
     } else {
       Alert.alert('Wrong OTP! It must be 1-2-3-4.')

@@ -18,10 +18,8 @@ const register = async (user) => {
             ApiContants.BACKEND_API.REGISTER, 
             requestBody
         );
-        console.log(registerResponse?.data);
         return registerResponse?.data;
     } catch (error) {
-        console.log(error);
         return {
             status: false,
             message: error
@@ -57,7 +55,6 @@ const checkUserExist = async(type, value) => {
         )
         return userCheckResponse?.data;
     } catch (error) {
-        console.log(error);
         return {status: false, message: 'Oops! Something went wrong'};    
     }
 }

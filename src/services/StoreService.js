@@ -39,4 +39,17 @@ const unfollowStore = async(storeId, user) => {
     }
 }
 
-export default {getStoreByProductId, followStore, unfollowStore};
+
+const getFollowingStores = async(userId) => {
+    try {
+       const followingStores = await axios.get(ApiContants.BACKEND_API.GET_FOLLOWING_STORE + `/${userId}`);
+       return followingStores.data;
+   } catch (error) {
+       return {
+           status: false,
+           message: `Store not found`,
+       };
+   }
+}
+
+export default {getStoreByProductId, getFollowingStores, followStore, unfollowStore};

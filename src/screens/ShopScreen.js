@@ -99,7 +99,8 @@ const ShopScreen = ({ route, navigation, user }) => {
         >
             <Image style={styles.bannerImage} source={Images.FLOWERBANNER} />
 
-            <View style={{
+            <View style={{ display: 'flex', flexDirection: 'column'}}>
+                <View style={{
                     display: 'flex',
                     flexDirection: 'row',
                     gap: 12,
@@ -140,7 +141,7 @@ const ShopScreen = ({ route, navigation, user }) => {
                             />
                         </TouchableOpacity>
                     </View>
-            </View>
+                </View>
 
                 <View style={styles.storeInfo}>
                     {store && store.storeAvatar ? (
@@ -162,6 +163,7 @@ const ShopScreen = ({ route, navigation, user }) => {
                             </Text>
                         </View>
                         <Text style={styles.storeRating}>
+                            {' '}
                             4.9/5.0 | {store.followers.length}
                             {store.followers.length > 1 ? ' followers': ' follower'}
                         </Text>
@@ -174,6 +176,7 @@ const ShopScreen = ({ route, navigation, user }) => {
                         )}
                     </TouchableOpacity>
                 </View>
+            </View>
 
                 <TabView
                     navigationState={{ index, routes }}
@@ -217,11 +220,11 @@ const styles = StyleSheet.create({
     },
     storeInfo: {
         alignItems: "center",
-        paddingHorizontal: 20,
         paddingVertical: 10,
+        paddingHorizontal: 10,
         display: 'flex',
         flexDirection: 'row',
-        gap: 15,
+        gap: 10,
         marginBottom: 10,
     },
     storeLogo: {
@@ -259,7 +262,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 5,
         textAlign: "center",
-        marginBottom: 5,
     },
     storeStatus: {
         fontSize: 14,
@@ -270,7 +272,9 @@ const styles = StyleSheet.create({
     storeRating: {
         fontSize: 14,
         color: "black",
-        fontWeight: '500'
+        fontWeight: '500',
+        alignItems: 'center',
+        marginTop: 5
     },
     tabContainer: {
         flexDirection: "row",

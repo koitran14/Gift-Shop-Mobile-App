@@ -28,10 +28,8 @@ const SigninScreen = ({navigation, setToken, setUser}) => {
       if (response.AccessToken) {
         setToken(`${response.AccessToken}`);
         setUser(response.user);
-        console.log(response)
         navigation.navigate('HomeScreen')
       }
-      console.log("Token from login: " + response.AccessToken)
       if (!response?.status){
         setErrorMessage(response?.message);
       }

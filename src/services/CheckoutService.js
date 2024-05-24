@@ -38,4 +38,6 @@ const order = async(order) => {
     }
 }
 
-export default {getAllPayments, getAllVouchers, order};
+
+
+export default {getAllPayments, getAllVouchers,order};

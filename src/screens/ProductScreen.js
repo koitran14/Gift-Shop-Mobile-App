@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import { Colors, Fonts, Images } from "../contants"
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -11,12 +10,15 @@ import { StoreService } from "../services"
 import { FeedbackCard } from "../components";
 import { connect } from "react-redux";
 import { Toast } from "toastify-react-native";
+import OrderService from "../services/OrderService";
+import { StoreCard } from "../components/StoreCard";
 
 const ProductScreen = ({ route, navigation, user }) => {
     const { product } = route.params;
     const [ searchText, setSearchText ] = useState(""); 
     const [ store, setStore ] = useState();
     const [ avgRating, setAvgRating] = useState(0);
+    const [ haveSold, setHaveSold] = useState(0);
 
     useEffect(() => {
         setAvgRating(ProductService.averageRating(product.feedBacks))
@@ -26,7 +28,16 @@ const ProductScreen = ({ route, navigation, user }) => {
                 setStore(store)
             }
         }
+
+        const getHaveSold = async() => {
+            if (product) {
+                const quantity = await OrderService.getOrderQuantityByProductId(product._id);
+                setHaveSold(quantity)
+            }
+        }
+
         getStoreByProductId();
+        getHaveSold();
     },[])
 
     const handleSearchSubmit = () => {
@@ -160,13 +171,13 @@ const ProductScreen = ({ route, navigation, user }) => {
                                     </Text>
                                     <Text
                                         style={{ 
-                                            fontSize: 14,
-                                            fontWeight: '300',
+                                            fontSize: 16,
+                                            fontWeight: '500',
                                             height: 'fit',
                                             marginLeft: 12,
                                         }}
                                     >
-                                        Have sold
+                                        Have sold: {haveSold}
                                     </Text>
                                 </View>
                                 <View style={{
@@ -185,55 +196,7 @@ const ProductScreen = ({ route, navigation, user }) => {
                                 </View>
                             </View>
                         </View>
-                        <View style={{
-                                display: 'flex',
-                                flexDirection:'row',
-                                backgroundColor: 'white',
-                                borderRadius: 10,
-                                padding: 15,
-                                alignItems: 'center',
-                                justifyContent: 'space-between'
-                        }}>
-                            <View style={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                gap: 15,
-                                alignItems: 'center',
-                            }}>
-                                {store?.storeAvatar ? (
-                                    <Image style={styles.storeLogo} source={{ uri: store.storeAvatar }} />
-                                ):(
-                                    <Image style={styles.storeLogo} source={Images.SUB} />
-                                )}
-                                <View style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                }}>
-                                    <Text style={{ fontWeight: '500', fontSize: 16, color: 'red', width: '80%' }}>
-                                        {store?.storeName ? store?.storeName : 'Unknown'}
-                                    </Text>
-                                    <Text style={{ fontWeight: '400', fontSize: 12, color: 'grey' }}>
-                                        Online 2 minutes ago
-                                    </Text>
-                                    <View style={{ display: 'flex', flexDirection: 'row', gap: 5, alignItems: 'center'}}>
-                                        <Ionicons
-                                            name="globe"
-                                            size={20}
-                                            color={Colors.DEFAULT_GREY}
-                                        />
-                                        <Text style={{ fontWeight: '400', fontSize: 12, color: 'grey' }}>
-                                            {store?.storeLocation}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </View> 
-                            <TouchableOpacity 
-                                style={{ padding: 15, backgroundColor: 'pink', borderColor: 'red', borderRadius: 50}}
-                                onPress={visitStore}
-                            >
-                                <Text style={{ fontWeight: '500' }}>Visit Store</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <StoreCard store={store} navigation={navigation}/>
                         <View style={{ display: 'flex', flexDirection: 'column', gap: 10, backgroundColor: 'white',  borderRadius: 10, padding: 10}}>
                             <Text style={{ fontSize: 16, fontWeight: '500', paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: 'lightgrey' }}>PRODUCT INFORMATION:</Text>
                             <Text>{product.productDescription}</Text>

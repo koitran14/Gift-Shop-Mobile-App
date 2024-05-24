@@ -57,7 +57,6 @@ const HomeScreen = ({ navigation, user }) => {
 
         const getSpecialDays = async() => {
             const specialDays = await SpecialDayService.getAllSpecialDay();
-            console.log(specialDays)
             setSpecialDays(specialDays);
         }
 

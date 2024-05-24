@@ -50,7 +50,6 @@ const CartScreen = ({navigation, user}) => {
     
     const handleAddToCart = async(cart) => {
         await CartService.updateQuantity(cart, cart.quantity + 1)
-        console.log(cart.quantity)
     };
 
     const handleRemoveFromCart = async(cart) => {
@@ -67,7 +66,6 @@ const CartScreen = ({navigation, user}) => {
                 { cancelable: true }
             )
         )
-        console.log(cart.quantity)
     };
 
     const checkSelected = (cart) => {
@@ -257,7 +255,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
     },
     totalAmount: {
-        alignContent: 'left', 
         color: Colors.DEFAULT_BLACK,
         fontWeight: '400',
         fontSize: 20,
@@ -267,7 +264,6 @@ const styles = StyleSheet.create({
         marginLeft: '5%',
     },
     totalPrice: {
-        alignContent: 'left', 
         color: Colors.DEFAULT_BLACK,
         fontSize: 20,
         lineHeight: 16 * 1.4,

@@ -1,97 +1,80 @@
-import React, { useState, useEffect } from "react";
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from "react-native"
+import { useEffect, useState } from "react";
+import { CheckoutService } from "../../services";
+import {Images } from "../../contants";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { Colors, Fonts, Images } from "../contants";
-import {
-    View,
-    Text,
-    StyleSheet,
-    Image,
-    useWindowDimensions,
-} from "react-native";
-import { ProfileRoute } from "./ProfileTabs/TabProfile";
-import { OrderingRoute } from "./ProfileTabs/TabOrdering";
-import { FollowingRoute } from "./ProfileTabs/TabFollowing";
-import { TabView, TabBar } from 'react-native-tab-view';
-import { connect } from 'react-redux'
 
-const ProfileScreen = ({ navigation, user }) => {
-    const [index, setIndex] = React.useState(0);
+export const ProfileRoute = ({ route, navigation }) => {    
+    const { user } = route;
+    const [payments, setPayments] = useState([]);
 
-    const [routes] = useState([
-        { key: 'person', title: 'Profile', user: user, icon: 'person-outline' },
-        { key: 'heart', title: 'Following', user: user,  icon: 'heart-outline' },
-        { key: 'cube', title: 'Ordering', user: user, icon: 'cube-outline' },
-    ]);
-
-    const renderScene = ({route, navigation}) => {
-        switch (route.key) {
-            case 'person': return <ProfileRoute route={route} navigation={navigation}/>
-            case 'heart': return <FollowingRoute route={route} navigation={navigation}/>
-            case 'cube': return <OrderingRoute route={route} navigation={navigation}/>
-            default: return null;;
+    useEffect(() => {
+        const getPayments = async() => {
+            const payments = await CheckoutService.getAllPayments();
+            setPayments(payments);
         }
-    };
+        getPayments();
+    },[])
 
-    const renderTabBar = props => (
-        <TabBar
-            {...props}
-            indicatorStyle={{ backgroundColor: 'purple' }}
-            style={{ backgroundColor: 'white', paddingVertical: 5, }}
-            renderIcon={({ route, focused }) => (
-                <View>
-                    <Ionicons name={route.icon} size={30} color={focused ? 'purple' : 'gray'} />
-                </View>
-            )}
-            renderLabel={() => {}}
-        />
-    );
+    const socialLinks = [
+        { platform: "Facebook", linked: false, image: Images.FACEBOOK },
+        { platform: "Google", linked: true, image: Images.GOOGLE }
+    ]
 
     return (
-        <LinearGradient
-            colors={['rgba(231, 192, 248, 0.7)', 'rgba(188, 204, 243, 0.7)']}
-            start={{ x: 0.5, y: 0 }}
-            end={{ x: 0.5, y: 1 }}
-            style={{ flex: 1, paddingTop: 40 }}
-        >
-            <View style={styles.header}>
-                <Ionicons name="chevron-back-outline" size={30} onPress={() => navigation.goBack()} />
-                <Text style={styles.headerTitle}>Profile</Text>
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+        {/* User Info */}
+            <View style={styles.userInfo}>
+                <Text style={styles.infoLabel}><Text style={{ fontWeight: 'bold' }}>Name: </Text>{user.username}</Text>
+                <Text style={styles.infoLabel}><Text style={{ fontWeight: 'bold' }}>Email: </Text>{user.email}</Text>
+                <Text style={styles.infoLabel}><Text style={{ fontWeight: 'bold' }}>Password: </Text>*********</Text>
+
             </View>
 
-            <View style={styles.profileDetails}>
-                <Image source={Images.SUB} style={styles.avatar} />
-                <View>
-                    <Text style={styles.name}>{user.username}</Text>
-                    <Text style={styles.details}>{user.email}</Text>
+            {/* Actions */}
+            <TouchableOpacity style={styles.actionButton} onPress={() => { }}>
+                <Text style={styles.actionText}>Change Password</Text>
+            </TouchableOpacity>
+
+            {/* Payment Methods */}
+            <Text style={styles.sectionTitle}>Saved Payment Methods</Text>
+            {payments?.map((payment, index) => (
+                <View key={index} style={styles.card}>
+                    {payment.thumbnail ? (
+                        <Image source={{ uri: payment.thumbnail }} style={styles.cardImage} />
+                    ): (
+                        <Image source={Images.MONEY} style={styles.cardImage} />
+                    )}
+                    <View style={styles.cardContent}>
+                        <Text style={styles.cardTitle}>{payment.paymentTitle}</Text>
+                        <Text style={styles.cardNumber}>*********</Text>
+                    </View>
+                    <Ionicons name="pencil" size={20} onPress={() => { }} style={styles.editIcon} />
                 </View>
-            </View>
+            ))}
 
-            <TabView
-                navigationState={{ index, routes }}
-                renderScene={renderScene}
-                onIndexChange={setIndex}
-                initialLayout={{ width: styles.scene.width }}
-                renderTabBar={renderTabBar}
-            />
-        </LinearGradient>
-    );
-};
+            <TouchableOpacity style={styles.addButton} onPress={() => { /* handle add card */ }}>
+                <Ionicons name="add-circle-outline" size={24} color="white" style={{ marginRight: 8 }} />
+                <Text style={styles.addButtonText}>Add</Text>
+            </TouchableOpacity>
+
+            {/* Social Links */}
+            <Text style={styles.sectionTitle}>Link Social Account</Text>
+            {socialLinks.map((link, index) => (
+                <View key={index} style={styles.socialLinkItem}>
+                    <Image source={link.image} style={styles.socialIcon} />
+                    <Text>{link.platform}: {link.linked ? `Signed in as ${user.username}` : 'Not signed in'}</Text>
+                </View>
+            ))}
+        </ScrollView>
+    )
+}
 
 const styles = StyleSheet.create({
-    icon: (selected) => ({
-        backgroundColor: selected ? 'rgba(138, 43, 226, 0.2)' : 'transparent',
-        padding: 10,
-        borderRadius: 10,
-    }),
-    scene: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
     contentContainer: {
         paddingHorizontal: 20,
+        paddingTop: 30,
+        paddingBottom: 20,
     },
     header: {
         flexDirection: 'row',
@@ -111,7 +94,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         padding: 20,
         marginHorizontal: 20,
-        marginBottom: 20,
+        marginTop: 10,
         borderWidth: 1,
         borderColor: '#CCC',
         shadowColor: '#000',
@@ -134,7 +117,6 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 24,
         fontWeight: "bold",
-        color: 'red'
     },
     details: {
         color: "gray",
@@ -167,7 +149,7 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
     },
     actionButton: {
-        backgroundColor: "#87CEEB",
+        backgroundColor: "#52b2bf",
         paddingVertical: 10,
         paddingHorizontal: 30,
         borderRadius: 10,
@@ -187,7 +169,7 @@ const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 18,
         fontWeight: "bold",
-        marginTop: 20,
+        marginVertical: 20,
     },
     card: {
         flexDirection: "row",
@@ -264,12 +246,4 @@ const styles = StyleSheet.create({
         marginRight: 10,
         resizeMode: 'contain',
     },
-});
-
-const mapStateToProps = (state) => {
-    return {
-        user: state.generalState.user,
-    };
-};
-
-export default connect(mapStateToProps)(ProfileScreen);
+})

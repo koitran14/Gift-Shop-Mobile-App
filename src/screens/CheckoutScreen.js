@@ -73,7 +73,8 @@ const CheckoutScreen = ({navigation, route, user}) => {
             const request = await CheckoutService.order({
                 paymentMethod: selectedPayment,
                 voucher: selectedVoucher,
-                orderDetails: items ? items : []
+                orderDetails: items ? items : [],
+                orderDate: new Date()
             });
             Toast.success("Ordered.")
             navigation.goBack();
@@ -138,7 +139,6 @@ const CheckoutScreen = ({navigation, route, user}) => {
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-
                 }}>
                     <Ionicons
                         name="chevron-back-outline"
@@ -161,15 +161,11 @@ const CheckoutScreen = ({navigation, route, user}) => {
                     ))}
                 </View>
                 <TouchableOpacity>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, gap: 10 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 5, gap: 10 }}>
                         <Image source={Images.USER} resizeMode="contain" style={styles.map}/>
-                        <View>
-                            <Text>Username</Text>
-                            <Text>Email</Text>
-                        </View>
-                        <View>
-                            <Text>{user.username}</Text>
-                            <Text>{user.email}</Text>
+                        <View style={{ display: 'flex', gap: 2}}>
+                            <Text style={{ fontWeight: '400', fontSize: 16}}>Username: {user.username}</Text>
+                            <Text style={{ fontWeight: '400', fontSize: 16}}>Email: {user.email}</Text>
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -459,7 +455,7 @@ const styles = StyleSheet.create({
     },
     username: {
         fontSize: 16,
-        fontWeight: 'bold',
+        fontWeight: '500',
         marginBottom: 5,
         marginVertical: -20,
         marginLeft: 5,
