@@ -18,12 +18,12 @@ The Gift Shop Mobile App is an innovative platform designed for seamless and sec
 | Name                                                                 | Role           |
 |----------------------------------------------------------------------|----------------|
 | [Trần Ngọc Đăng Khôi](https://github.com/koitran14)                  | Project Owner  |
-| [Nguyễn Trần Hoàng Hạ](https://github.com/nguyentranhoangha)         | Team Member    |
-| [Nguyễn Hoàng Gia Ân](https://github.com/nguyenhoanggiaan)           | Team Member    |
-| [Trần Thế Phong](https://github.com/tranthephong)                    | Team Member    |
-| [Phạm Nguyễn Đăng Khôi](https://github.com/phamnguyendangkhoi)       | Team Member    |
-| [Võ Minh Khang](https://github.com/vominhkhang)                      | Team Member    |
-| [Nguyễn Trọng Nguyên](https://github.com/nguyentrongnguyen)          | Team Member    |
+| [Nguyễn Trần Hoàng Hạ](https://github.com/hahoang03)         | Team Member    |
+| [Nguyễn Hoàng Gia Ân](https://github.com/annguyen0512)           | Team Member    |
+| [Trần Thế Phong](https://github.com/ChaoZiK)                    | Team Member    |
+| [Phạm Nguyễn Đăng Khôi](https://github.com/dangkhoi3107)       | Team Member    |
+| [Võ Minh Khang](https://github.com/leaser019)                      | Team Member    |
+| [Nguyễn Trọng Nguyên](https://github.com/JetBlack219)          | Team Member    |
 
 ## ✨ Features
 ### Functional Requirements
