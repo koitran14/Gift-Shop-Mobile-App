@@ -1,6 +1,8 @@
 # GIFT SHOP MOBILE APP
 #### _Software Engineer Project_
 
+![](/GIFT SHOP MOBILE APP.png)
+
 
 #
 
