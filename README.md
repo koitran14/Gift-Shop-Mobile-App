@@ -15,8 +15,6 @@ The Gift Shop Mobile App is an innovative platform designed for seamless and sec
 
 ## 🧑‍🤝‍🧑 Team
 
-## 🧑‍🤝‍🧑 Team
-
 | Name                                                                 | Role           |
 |----------------------------------------------------------------------|----------------|
 | [Trần Ngọc Đăng Khôi](https://github.com/koitran14)                  | Project Owner  |
