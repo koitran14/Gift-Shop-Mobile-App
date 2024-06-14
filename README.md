@@ -1,4 +1,8 @@
-# 🎁 Gift Shop Mobile App
+# GIFT SHOP MOBILE APP
+#### _Software Engineer Project_
+
+
+#
 
 ## 📜 Overview
 The Gift Shop Mobile App is an innovative platform designed for seamless and secure browsing, customization, ordering, and purchasing of gifts. It offers a user-friendly interface with a focus on customer satisfaction.
