@@ -1,8 +1,5 @@
-<div color="pink">
-   
-   # GIFT SHOP MOBILE APP
 
-</div>
+# GIFT SHOP MOBILE APP
 _Software Engineer Project_
 
 
