@@ -1,7 +1,6 @@
 # GIFT SHOP MOBILE APP
 _Software Engineer Project_
 
-#
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/koitran14/WhiteBoard-Platform)
 ![GitHub contributors](https://img.shields.io/github/contributors/koitran14/WhiteBoard-Platform)
