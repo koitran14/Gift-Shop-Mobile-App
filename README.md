@@ -1,3 +1,5 @@
+<div align="center">
+
 # GIFT SHOP MOBILE APP
 _Software Engineer Project_
 
@@ -9,6 +11,8 @@ _Software Engineer Project_
 ![GitHub issues](https://img.shields.io/github/issues/koitran14/Gift-Shop-Mobile-App)
 
 ![](/thumbnail.png)
+
+</div>
 
 
 ## 📜 Overview
