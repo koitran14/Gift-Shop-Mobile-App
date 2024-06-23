@@ -2,11 +2,11 @@
 _Software Engineer Project_
 
 
-![GitHub repo size](https://img.shields.io/github/repo-size/koitran14/WhiteBoard-Platform)
-![GitHub contributors](https://img.shields.io/github/contributors/koitran14/WhiteBoard-Platform)
-![GitHub stars](https://img.shields.io/github/stars/koitran14/WhiteBoard-Platform?style=social)
-![GitHub forks](https://img.shields.io/github/forks/koitran14/WhiteBoard-Platform?style=social)
-![GitHub issues](https://img.shields.io/github/issues/koitran14/WhiteBoard-Platform)
+![GitHub repo size](https://img.shields.io/github/repo-size/koitran14/Gift-Shop-Mobile-App)
+![GitHub contributors](https://img.shields.io/github/contributors/koitran14/Gift-Shop-Mobile-App)
+![GitHub stars](https://img.shields.io/github/stars/koitran14/Gift-Shop-Mobile-App?style=social)
+![GitHub forks](https://img.shields.io/github/forks/koitran14/Gift-Shop-Mobile-App?style=social)
+![GitHub issues](https://img.shields.io/github/issues/koitran14/Gift-Shop-Mobile-App)
 
 ![](/thumbnail.png)
 
