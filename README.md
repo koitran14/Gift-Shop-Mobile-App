@@ -1,6 +1,8 @@
-<div align="center">
+<div color="pink">
+   
+   # GIFT SHOP MOBILE APP
 
-# GIFT SHOP MOBILE APP
+</div>
 _Software Engineer Project_
 
 
@@ -11,9 +13,6 @@ _Software Engineer Project_
 ![GitHub issues](https://img.shields.io/github/issues/koitran14/Gift-Shop-Mobile-App)
 
 ![](/thumbnail.png)
-
-</div>
-
 
 ## 📜 Overview
 The Gift Shop Mobile App is an innovative platform designed for seamless and secure browsing, customization, ordering, and purchasing of gifts. It offers a user-friendly interface with a focus on customer satisfaction.
