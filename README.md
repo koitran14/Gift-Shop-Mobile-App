@@ -149,7 +149,7 @@ The project follows Agile methodology with Scrum. Development is divided into mu
 - **Tasks:** Profile Screen, Cart Screen, Shop Profile integration.
 
 ## 🚀 Future Improvements
-- Further personalization of user experiences.
+- Additional customization of the user interface.
 - Simplification of the checkout process to maintain competitiveness.
 
 ## 🙏 Acknowledgements
